@@ -1,0 +1,24 @@
+.notification{
+    margin-top: 100px;
+    .card{
+        background-color: $primary;
+        color: $secondary;
+        .success{
+            color: $success;
+            background-color: $secondary;
+            border: none;
+        }
+        .fail{
+            color: $error;
+            background-color: $secondary;
+            border: none;
+        }
+        .btn-link{
+            text-decoration: none;
+            color: $secondary;
+            &:hover{
+                color: $success;
+            }
+        }
+    }
+}

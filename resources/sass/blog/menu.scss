@@ -1,0 +1,30 @@
+
+.create{
+    margin: 0.5em;
+    padding: 0.5em;
+    height: 100%;
+    border-radius: 0.25em;
+    background-color: $primary;
+    color: $secondary;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .user{
+        .btn{
+            @extend %template-btn
+        }
+    }
+    .guest {
+        p{
+            margin: 0;
+        }
+        a {
+            text-decoration: none;
+            color: $secondary;
+            font-style: oblique;
+            &:hover {
+                color: $hover;
+            }
+        }
+    }
+}

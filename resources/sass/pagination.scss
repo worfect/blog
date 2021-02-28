@@ -1,0 +1,81 @@
+.pagination {
+    display: flex;
+    align-items: center;
+    @include list-unstyled();
+    @include border-radius();
+}
+
+.page-link {
+    position: relative;
+    display: block;
+    padding: $pagination-padding-y $pagination-padding-x;
+    margin-left: 0.75em;
+    color: $primary;
+    text-decoration: none;
+    background-color: $secondary;
+    border: none;
+
+    &.last{
+        background: none;
+        color: $secondary;
+        &:hover{
+            background: none;
+            color: $hover;
+            border: none;
+        }
+    }
+
+    &:hover {
+        z-index: 2;
+        color: $pagination-hover-color;
+        text-decoration: none;
+        background-color: $hover;
+        border: none;
+    }
+
+    &:focus {
+        z-index: 3;
+        box-shadow: $pagination-focus-box-shadow;
+        outline: none;
+    }
+}
+
+.page-item {
+    &:first-child {
+        .page-link {
+            margin-left: 0;
+            @include border-left-radius($border-radius);
+        }
+    }
+    &:last-child {
+        .page-link {
+            @include border-right-radius($border-radius);
+        }
+    }
+
+    &.active .page-link {
+        z-index: 3;
+        color: $secondary;
+        background-color: $primary;
+    }
+
+    &.disabled .page-link {
+        pointer-events: none;
+        // Opinionated: remove the "hand" cursor set previously for .page-link
+        cursor: auto;
+        background-color: $secondary;
+    }
+}
+
+
+//
+// Sizing
+//
+
+.pagination-lg {
+    @include pagination-size($pagination-padding-y-lg, $pagination-padding-x-lg, $font-size-lg, $line-height-lg, $border-radius-lg);
+}
+
+.pagination-sm {
+    @include pagination-size($pagination-padding-y-sm, $pagination-padding-x-sm, $font-size-sm, $line-height-sm, $border-radius-sm);
+}

@@ -1,0 +1,10 @@
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
+/docker
+/.idea
+/config/services.php
+docker-compose.yml
+.env

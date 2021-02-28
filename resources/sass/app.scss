@@ -1,0 +1,82 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// FontAwesome
+@import '../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome';
+
+// Variable
+@import 'variables';
+
+// Bootstrap
+@import '../../node_modules/bootstrap/scss/bootstrap';
+
+// Jquery-ui
+@import '~jquery-ui/themes/base/all.css';
+
+
+@import "auth";
+@import "pagination";
+@import "slick";
+@import "summer";
+
+
+@import "templates";
+
+@import "layouts/header";
+@import "layouts/logo";
+@import "layouts/search";
+@import "menus/user-menu";
+@import "menus/navigation-menu";
+@import "layouts/resetPass";
+@import "layouts/notification";
+
+@import "layouts/register";
+@import "layouts/login";
+@import "layouts/footer";
+@import "layouts/social";
+
+
+@import "home/home";
+@import "home/banner";
+@import "home/blog";
+@import "home/gallery";
+@import "home/news";
+@import "home/portfolio";
+
+@import "blog/index";
+@import "blog/show";
+@import "blog/menu";
+@import "blog/gallery";
+@import "blog/news";
+@import "blog/blog";
+
+@import "gallery/gallery";
+@import "gallery/index";
+@import "gallery/show";
+@import "gallery/menu";
+@import "gallery/create";
+
+@import "search/index";
+@import "search/menu";
+@import "search/result";
+
+
+
+@import "notifications/warning";
+
+
+body{
+    background-color: $background;
+}
+
+.container{
+    position:relative;
+    max-width: 1400px;
+    margin-bottom: 150px;
+}
+
+
+
+
+
+

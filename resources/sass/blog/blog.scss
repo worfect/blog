@@ -1,0 +1,123 @@
+
+.main-blog{
+    margin-right: 0.5em;
+    height: 100%;
+    border-radius: 0.25em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .main-blog-item{
+        padding: 1em;
+        margin: 0 0.5em 1.5em 0.5em;
+        background-color: $primary;
+        border-radius: 0.25em;
+        .categories{
+            margin:  0 1em 1em 1em;
+            display: flex;
+            align-items: center;
+            .category{
+                margin-right: 0.75em;
+                a{
+                    text-decoration: none;
+                    color: $secondary;
+                    &:hover{
+                        color: $hover;
+                    }
+                }
+                color: $secondary;
+            }
+        }
+        .image{
+            position: relative;
+            border: 0.15em solid $secondary;
+            border-radius: 0.25em;
+            max-height: 300px;
+            overflow: hidden;
+            img{
+                width: 100%;
+            }
+            .title{
+                position: absolute;
+                top: 30px;
+                left: 0;
+                width: auto;
+                div{
+                    display: inline-block;
+                    color: $primary;
+                    background-color: $secondary;
+                    opacity: 0.8;
+                    padding: 0 5px;
+                    p{
+                        margin: 0;
+                        font-size: 300%;
+                    }
+                }
+            }
+        }
+
+
+        .info{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            color: $secondary;
+            margin: 0.5em 0 0.5em 0;
+            padding: 0.5em;
+            .user{
+                a{
+                    text-decoration: none;
+                    color: $secondary;
+                    &:hover{
+                        color: $hover;
+                    }
+                    .icon{
+                        margin-right: 0.25em;
+                    }
+                }
+            }
+            .views{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                .icon{
+                    margin-right: 0.25em;
+                }
+            }
+            .comments{
+                align-items: center;
+                color: $secondary;
+                a{
+                    text-decoration: none;
+                    color: $secondary;
+                    &:hover{
+                        color: $hover;
+                    }
+                    .icon{
+                        margin-right: 0.25em;
+                    }
+                }
+            }
+            .date{
+                .icon{
+                    margin-right: 0.25em;
+                }
+            }
+        }
+        .excerpt{
+            display: flex;
+            flex-direction: column;
+            color: $secondary;
+            margin: 0.5em 0 0.5em 0;
+            padding: 0.5em;
+        }
+        .menu{
+            .btn{
+                @extend %template-btn;
+            }
+        }
+    }
+    .pagination{
+        justify-content: center;
+    }
+}

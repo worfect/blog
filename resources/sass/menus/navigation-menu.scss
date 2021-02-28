@@ -1,0 +1,45 @@
+.navbar {
+    background-color: $primary;
+    height: 3.75rem;
+    align-items: stretch;
+    padding: 0 1rem;
+
+    a {
+        text-decoration: none;
+    }
+
+    .nav-item {
+        margin-top: 1rem;
+        width: 100px;
+        text-align: center;
+    }
+
+    .nav-link {
+        display: block;
+        padding: 0.5rem 1rem;
+        color: $secondary;
+        cursor: pointer;
+    }
+    .nav-link:hover {
+        color: $hover;
+        text-decoration: none;
+    }
+
+    .active {
+        color: $hover;
+    }
+
+    .dropdown-menu {
+        position: relative;
+        top: 0.2rem;
+        background-color: $primary;
+        border-radius: 0 0 0.25rem 0.25rem;
+        border: none;
+
+        .nav-item {
+            margin-top: 0.5rem;
+            width: auto;
+            text-align: justify;
+        }
+    }
+}

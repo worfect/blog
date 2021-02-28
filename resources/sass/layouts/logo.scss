@@ -1,0 +1,12 @@
+.logo {
+    padding-top: 0.3125rem;
+    padding-bottom: 0.3125rem;
+    font-size: 2rem;
+    color: $secondary;
+    line-height: inherit;
+
+    &:hover, &:focus {
+        color: $hover;
+        text-decoration: none;
+    }
+}

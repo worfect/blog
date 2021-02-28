@@ -1,0 +1,52 @@
+.show-gallery-home{
+    border-radius: 0.25em;
+    margin: 0.5em;
+    border: 0.15em solid $secondary;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 100%;
+    .group-gallery{
+        display: flex;
+        justify-content: space-around;
+        margin: 0.5em 0.25em 0.25em 0.25em;
+        .gallery-card {
+            border-radius: 0.25em;
+            background-color: $secondary;
+            color: $primary;
+            max-width: 225px;
+            .card-img-overlay {
+                opacity: 0;
+                background-color: $secondary;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                align-items: center;
+
+                .card-text {
+                    color: $primary;
+                    text-align: center;
+                }
+
+                .icon {
+                    color: $primary;
+                }
+
+                &:hover {
+                    opacity: 0.9;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+    a{
+        margin-right: 0.5em;
+        align-self: flex-end;
+        text-decoration: none;
+        color: $secondary;
+        &:hover{
+            color: $hover;
+        }
+    }
+}
+

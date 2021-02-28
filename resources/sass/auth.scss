@@ -1,0 +1,14 @@
+.auth-group{
+    margin-top: 100px;
+ .card{
+     background-color: $primary;
+     color: $secondary;
+     .btn-link{
+         text-decoration: none;
+         color: $secondary;
+         &:hover{
+             color: $hover;
+         }
+     }
+ }
+}

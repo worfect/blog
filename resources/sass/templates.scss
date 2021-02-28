@@ -1,0 +1,19 @@
+%template-btn{
+     color: $secondary;
+     border-color: $secondary;
+     background-color: $primary;
+     &:hover{
+         background-color: $hover;
+     }
+ }
+
+%template-item{
+    color: $secondary;
+    border-radius: 0.25em;
+    transition: 0.35s;
+    text-align: center;
+    &:hover {
+        background-color: $hover;
+        cursor: pointer;
+    }
+}

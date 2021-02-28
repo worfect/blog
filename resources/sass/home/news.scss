@@ -1,0 +1,96 @@
+.news-home{
+    display: flex;
+    height: 100%;
+    min-width: 0;
+    flex-direction: column;
+    justify-content: space-between;
+    .show-news {
+        .show-news-item{
+            position: relative;
+            border: 0.15em solid $secondary;
+            border-radius: 0.25em;
+            margin: 0.5em 0.5em 0.25em 0.5em;
+            max-height: 400px;
+            overflow: hidden;
+            &:hover{
+                border: 0.15em solid $hover;
+            }
+            img{
+                width: 100%;
+            }
+            .title{
+                position: absolute;
+                top: 30px;
+                left: 0;
+                width: auto;
+                div{
+                    display: inline-block;
+                    color: $primary;
+                    background-color: $secondary;
+                    opacity: 0.8;
+                    padding: 0 5px;
+                    p{
+                        margin: 0;
+                        font-size: 300%;
+                    }
+                }
+            }
+            .excerpt{
+                position: absolute;
+                top: 300px;
+                left: 0;
+                width: auto;
+                div{
+                    padding: 0 5px;
+                    display: inline-block;
+                    color: $primary;
+                    background-color: $secondary;
+                    opacity: 0.8;
+                    p{
+                        margin: 0;
+                        font-size: 120%;
+                    }
+                }
+            }
+        }
+    }
+    .nav-news{
+        position: relative;
+        padding: 0 50px;
+        max-height: 180px;
+        margin: 0.25em 0.5em 0.5em 0.5em;
+
+        .active-slider{
+            border: 0.15em solid $secondary;
+            border-radius: 0.25em;
+        }
+        .nav-news-item{
+            position: relative;
+            max-width: 300px;
+            margin-left: 0.5em;
+            margin-right: 0.5em;
+            img{
+                width: 100%;
+            }
+            .title{
+                position: absolute;
+                top: 30px;
+                left: 0;
+                width: auto;
+                div{
+                    display: inline-block;
+                    color: $primary;
+                    background-color: $secondary;
+                    opacity: 0.8;
+                    padding: 0 5px;
+                    p{
+                        margin: 0;
+                        font-size: 100%;
+                    }
+                }
+
+            }
+        }
+    }
+
+}

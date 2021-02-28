@@ -1,0 +1,66 @@
+.user-menu{
+    align-self: center;
+    background-color: $primary;
+    .btn{
+        @extend %template-btn;
+    }
+    .menu-profile{
+        width: auto;
+        top: 130%;
+        left: -40%;
+        form{
+            text-align: center;
+        }
+    }
+    .menu-auth{
+        width: 300px;
+        top: 130%;
+        left: -180%;
+    }
+    .dropdown-menu{
+        border: thin $secondary solid;
+        background-color: $primary;
+        color: $secondary;
+        .switch-user-menu{
+            .dropdown-item{
+                @extend %template-item;
+            }
+        }
+        .form-control{
+            background-color: $secondary;
+        }
+        .dropdown-divider{
+            border-top: 1px solid $secondary;
+        }
+        #forms {
+            #signup{
+                display: none;
+            }
+
+            #request-pass{
+                display: none;
+            }
+        }
+        #switch-menu-auth{
+            .dropdown-item{
+                @extend %template-item;
+            }
+            #tosignin{
+                display: none;
+                &:hover{
+                    display: block;
+                }
+            }
+        }
+        #social{
+            margin: 0.1em;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            align-content: center;
+            .dropdown-item{
+                @extend %template-item;
+            }
+        }
+    }
+}
