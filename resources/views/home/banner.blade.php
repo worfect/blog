@@ -1,5 +1,6 @@
 <div class="banner-home">
-    @foreach($items as $item)
+    @foreach($banner as $item)
         <img src="{{ $item->img }}">
     @endforeach
 </div>
+

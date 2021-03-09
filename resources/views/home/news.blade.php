@@ -1,6 +1,6 @@
 <div class="news-home">
     <div class="show-news">
-        @foreach($items as $item)
+        @foreach($news as $item)
             <a href="{{ route('news.show', $item->id) }}">
                 <div class="show-news-item">
                     <img src="{{ $item->image }}" alt="" />
@@ -23,7 +23,7 @@
         @endforeach
     </div>
     <div class="nav-news">
-        @foreach($items as $item)
+        @foreach($news as $item)
             <div class="nav-news-item">
                 <img src="{{ $item->image }}" alt="" />
                 <div class="title">

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Site;
 
-
 use App\Models\News;
 use App\Models\Blog;
 use App\Models\Gallery;
@@ -28,21 +27,13 @@ class HomePage extends BasePage
 
     public function index()
     {
-        $this->template = 'home.home';
-        notice('hi');
         foreach ($this->models as $name => $model){
             $config = config('site_settings.home.' . $name);
 
-            $this->setBuilder($model, $config);
+            $this->setBuilder($model,$config);
 
-            $this->setCollection($config);
-            if($this->collection == false or $this->collection->isEmpty()){
-                $this->addNotFoundMessage();
-            }else{
-                $this->parentFolder = 'home';
-                $this->addTemplateInData($this->collection, $model->name);
-            }
+            $this->addCollection($name, $config);
         }
-        return $this->renderOutput();
+        return $this->renderOutput('home.home');
     }
 }

@@ -19,7 +19,6 @@ class RegisterController extends BasePage
     public function __construct(Request $request, User $user)
     {
         parent::__construct($request);
-        $this->template = 'auth.register';
 
         $this->middleware('guest');
         $this->user = $user;
@@ -27,7 +26,7 @@ class RegisterController extends BasePage
 
     public function showRegistrationForm()
     {
-        return $this->renderOutput();
+        return $this->renderOutput('auth.register');
     }
 
     public function register(UserRegistrationRequest $request)

@@ -17,43 +17,30 @@ class GalleryPage extends BasePage
         parent::__construct($request);
 
         $this->models = [
-            'gallery' => $gallery,
+            'gallery' => $gallery
         ];
     }
 
     public function index()
     {
-        $this->template = 'gallery.index';
-
         foreach ($this->models as $name => $model){
             $config = config('site_settings.gallery.' . $name);
 
             $this->setBuilder($model, $config);
-
             if($name == 'gallery' and $this->params) {
                 $this->builder = (new FilterController($this->builder, $this->params))->getBuilder();
             }
 
-            $this->setCollection($config);
-            if($this->collection == false or $this->collection->isEmpty()){
-                $this->addNotFoundMessage();
-            }else{
-                $this->parentFolder = 'gallery';
-                $this->addTemplateInData($this->collection, $model->name);
-            }
+            $this->addCollection($name, $config);
         }
-        return $this->renderOutput();
+        return $this->renderOutput('gallery.gallery');
     }
 
     public function show()
     {
-        $id = $this->params['id'];
-        $this->collection = $this->getById($this->models['gallery'], $id);
-
-        $this->parentFolder = 'gallery';
-        $this->template = 'gallery.show';
-
-        return $this->getTemplate($this->collection, 'show');
+        $this->setBuilder($this->models['gallery'], $this->params['id']);
+        $this->addCollection('gallery');
+        return $this->renderOutput('gallery.show');
     }
 
     public function create()

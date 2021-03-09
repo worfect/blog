@@ -3,83 +3,55 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Arr;
-
 
 
 abstract class BasePage extends Controller
 {
     protected $models = [];
+    protected $collections = [];
     protected $params;
     protected $builder;
-    protected $collection;
-
-    protected $template;
-    protected $parentFolder;
-    protected $data = [];
-
 
     public function __construct(Request $request)
     {
         $this->params = $request->all();
     }
 
-    protected function renderOutput()
-    {
-        return view($this->template)->with($this->data);
+    protected function renderOutput($template){
+       return view($template, $this->collections)->render();
     }
 
-    /**
-     *
-     * @param $key
-     * @param $data
-     * @return void
-     */
-    protected function insertData($key, $data)
+    protected function addCollection($name, $config = false)
     {
-        $this->data = Arr::add($this->data, $key, $data);
+        $this->collections[$name] = $this->getResultBuilder($config);
     }
 
-    protected function getTemplate($items, $name){
-       return view($this->parentFolder . '.' . $name, compact("items"))->render();
-    }
 
-    protected function addTemplateInData($items, $name)
-    {
-        $template = $this->getTemplate($items, $name);
-        $this->insertData($name, $template);
-    }
 
-    public function setCollection($config)
+
+    protected function setBuilder(Model $model, $config)
     {
-        if($this->builder == false) {
-            $this->collection = false;
+        if(is_numeric($config)){
+            $this->builder = $model->with($model->relations)
+                                    ->where('id', $config);
         }else{
-            if($config['paginate'] == true ){
-                $this->collection = $this->builder->paginate($config['amount'])->appends(request()->query());
-            }else{
-                $this->collection =  $this->builder->take($config['amount'])->get();
-            }
+            $this->builder = $model->with($model->relations)
+                                    ->select($config['select']);
         }
     }
 
-    /**
-     *
-     * @param $model
-     * @param $id
-     * @return Response
-     */
-    protected function getById($model, $id)
+    protected function getResultBuilder($config = false)
     {
-        $builder = $model->with($model->relations);
-        return $builder->where('id', $id)->get();
-    }
-
-    protected function setBuilder($model, $config)
-    {
-        $model ?
-            $this->builder = $model->with($model->relations)->select($config['select']) : $this->builder = false;
+        if($config == false){
+            return $this->builder->get();
+        }elseif($config['paginate'] == true ){
+            return $this->builder->paginate($config['amount'])
+                                    ->appends(request()->query());
+        }else{
+            return $this->builder->take($config['amount'])
+                                    ->get();
+        }
     }
 }

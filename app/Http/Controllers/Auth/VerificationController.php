@@ -31,8 +31,6 @@ class VerificationController extends BasePage
     {
         parent::__construct($request);
 
-        $this->template = 'auth.verify';
-
         $this->middleware('auth');
         $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
@@ -49,7 +47,7 @@ class VerificationController extends BasePage
     {
         return $request->user()->hasVerifiedEmail()
             ? redirect($this->redirectTo . '/' . $request->user()->id)
-            : $this->renderOutput();
+            : $this->renderOutput('auth.verify');
     }
 
     /**

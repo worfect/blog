@@ -17,14 +17,13 @@ class LoginController extends BasePage
     public function __construct(Request $request)
     {
         parent::__construct($request);
-        $this->template = 'auth.login';
 
         $this->middleware('guest')->except('logout');
     }
 
     public function showLoginForm()
     {
-        return $this->renderOutput();
+        return $this->renderOutput('auth.login');
     }
 
 

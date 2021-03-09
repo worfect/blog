@@ -8,25 +8,35 @@
 @section('content')
     <div class="content-home">
         <div class="header">
-            {!! $banner !!}
+            @isset($banner)
+                @include('home.banner')
+            @endisset
         </div>
 
         <section>
             <article class="col-15">
-                {!! $news !!}
+                @isset($news)
+                    @include('home.news')
+                @endisset
             </article>
 
             <aside>
-                {!! $blog !!}
+                @isset($blog)
+                    @include('home.blog')
+                @endisset
             </aside>
         </section>
 
         <div class="footer">
             <div class="left-side  col-9">
-                {!! $gallery !!}
+                @isset($gallery)
+                    @include('home.gallery')
+                @endisset
             </div>
             <div class="right-side">
-                {!! $portfolio !!}
+                @isset($portfolio)
+                    @include('home.portfolio')
+                @endisset
             </div>
         </div>
     </div>

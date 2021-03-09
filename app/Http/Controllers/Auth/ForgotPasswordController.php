@@ -27,8 +27,7 @@ class ForgotPasswordController extends BasePage
 
     public function showLinkRequestForm()
     {
-        $this->template = 'auth.passwords.email';
-        return $this->renderOutput();
+        return $this->renderOutput('auth.passwords.email');
     }
 
 
@@ -108,7 +107,7 @@ class ForgotPasswordController extends BasePage
         $this->template = 'layouts.notifications.success';
         $message = 'Reset link has been sent to email.';
         $this->insertData('message', $message);
-        return $this->renderOutput();
+        return $this->renderOutput('auth.passwords.email');
     }
 
 

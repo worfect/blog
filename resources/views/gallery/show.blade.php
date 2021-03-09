@@ -1,4 +1,4 @@
-@foreach($items as $item)
+@foreach($gallery as $item)
 <div class="modal fade gallery-show gallery-modal" id="gallery-modal-{{ $item->id }}" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
@@ -24,7 +24,7 @@
                                     {{ $item->created_at->format('d/m/Y')}}
                                     <a href="" class="card-link">{{ $item->user->screen_name }}</a>
                                 </div>
-                                @if(Auth::user()->id == $item->user->id)
+                                @if(Auth::user() and Auth::user()->id == $item->user->id)
                                 <i class="fas fa-edit"></i>
                                 @endif
                                 <div class="rating">
@@ -45,7 +45,7 @@
                                 <div class="card">
                                     <div class="card-header">
                                         <div class="author">
-                                            {{ $item->created_at->format('d/m/Y')}}
+                                            {{ $comment->created_at->format('d/m/Y')}}
                                             <a href="" class="card-link">{{ $comment->user->screen_name }}</a>
                                         </div>
                                         <div class="rating">

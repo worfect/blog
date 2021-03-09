@@ -1,5 +1,5 @@
 <div class="gallery">
-    @foreach($items as $item)
+    @foreach($gallery as $item)
         <div class="gallery-item">
             <a href="{{ route('blog.show', $item->id ) }}"> <div class="title">
                     <h4>{{ $item->title }}</h4>

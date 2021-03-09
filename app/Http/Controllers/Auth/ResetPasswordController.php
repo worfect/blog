@@ -29,9 +29,9 @@ class ResetPasswordController extends BasePage
     public function showResetForm(Request $request, $token = null)
     {
         $this->template = 'auth.passwords.reset';
-        $this->insertData('token', $token);
-        $this->insertData('email', $request->email);
-        return $this->renderOutput();
+//        $this->insertData('token', $token);
+//        $this->insertData('email', $request->email);
+        return $this->renderOutput('auth.passwords.reset');
     }
 
     /**

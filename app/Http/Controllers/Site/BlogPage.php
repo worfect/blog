@@ -24,28 +24,12 @@ class BlogPage extends BasePage
 
     public function index()
     {
-        $this->template = 'blog.index';
-
         foreach ($this->models as $name => $model){
             $config = config('site_settings.blog.' . $name);
-
             $this->setBuilder($model, $config);
-
-            if($name == 'blog' and $this->params) {
-                $this->builder = (new FilterController($this->builder, $this->params))->getBuilder();
-            }
-
-            $this->setCollection($config);
-            if($this->collection == false or $this->collection->isEmpty()){
-                $this->addNotFoundMessage();
-            }else{
-                $this->parentFolder = 'blog';
-                $this->addTemplateInData($this->collection, $model->name);
-            }
+            $this->addCollection($name, $config);
         }
-
-        return $this->renderOutput();
-
+        return $this->renderOutput('blog.blog');
     }
 
     /**
