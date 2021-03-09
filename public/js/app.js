@@ -42024,13 +42024,11 @@ __webpack_require__(/*! ./slick */ "./resources/js/slick.js");
 
 __webpack_require__(/*! ./gallery */ "./resources/js/gallery.js");
 
-__webpack_require__(/*! ./summer */ "./resources/js/summer.js");
-
 __webpack_require__(/*! ./menus */ "./resources/js/menus.js");
 
 __webpack_require__(/*! ./forms */ "./resources/js/forms.js");
 
-jquery__WEBPACK_IMPORTED_MODULE_0___default()('#flash-overlay-modal').modal();
+jquery__WEBPACK_IMPORTED_MODULE_0___default()('#notice-overlay-modal').modal();
 
 /***/ }),
 
@@ -42114,44 +42112,57 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 
 
+var notice = __webpack_require__(/*! ./vendor/notice/messages */ "./resources/js/vendor/notice/messages.js");
+
 function cleaningInvalid(form) {
   form.find('.invalid-feedback').remove();
   form.find('.is-invalid').removeClass('is-invalid');
 }
 
-function addingContentViaAjaxForm(url, form) {
-  var formData = new FormData(form.get(0));
-  jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
-    url: url,
-    method: 'POST',
-    dataType: 'JSON',
-    processData: false,
-    contentType: false,
-    data: formData,
-    success: function success(data) {
-      cleaningInvalid(form);
-    },
-    error: function error(data) {
-      cleaningInvalid(form);
-      var errors = data.responseJSON.errors;
-      jquery__WEBPACK_IMPORTED_MODULE_0___default.a.each(errors, function (name, message) {
-        var span = document.createElement('span');
-        var strong = document.createElement('strong');
-        var field = jquery__WEBPACK_IMPORTED_MODULE_0___default()('[name = ' + name + ']');
-        strong.innerHTML = message;
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()(span).attr({
-          "class": "invalid-feedback",
-          "role": "alert"
-        }).html(strong);
-        field.addClass("is-invalid").after(span);
-      });
+function AjaxForm(url, form, location) {
+  ajaxPromise(url, form).then(function (data) {
+    if (location) {
+      notice.showNoticeMessages(data, location);
     }
+  })["catch"](function (data) {
+    var errors = data.responseJSON.errors;
+    jquery__WEBPACK_IMPORTED_MODULE_0___default.a.each(errors, function (name, message) {
+      var span = document.createElement('span');
+      var strong = document.createElement('strong');
+      var field = jquery__WEBPACK_IMPORTED_MODULE_0___default()('[name = ' + name + ']');
+      strong.innerHTML = message;
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()(span).attr({
+        "class": "invalid-feedback",
+        "role": "alert"
+      }).html(strong);
+      field.addClass("is-invalid").after(span);
+    });
   });
 }
 
-jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", "#store-gallery-item", function () {
-  addingContentViaAjaxForm('gallery', jquery__WEBPACK_IMPORTED_MODULE_0___default()(this));
-  return false;
+function ajaxPromise(url, form) {
+  var formData = new FormData(form.get(0));
+  return new Promise(function (resolve, reject) {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
+      url: url,
+      method: 'POST',
+      dataType: 'JSON',
+      processData: false,
+      contentType: false,
+      data: formData
+    }).done(function (data) {
+      cleaningInvalid(form);
+      resolve(data);
+    }).fail(function (data) {
+      cleaningInvalid(form);
+      reject(data);
+    });
+  });
+}
+
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", "#store-gallery-item", function (e) {
+  e.preventDefault();
+  AjaxForm('gallery', jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), "#store-gallery-item");
 });
 
 /***/ }),
@@ -42168,6 +42179,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 
+
+var notice = __webpack_require__(/*! ./vendor/notice/messages */ "./resources/js/vendor/notice/messages.js");
 
 function removeGalleryModal() {
   if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.gallery-modal').length) {
@@ -42200,8 +42213,12 @@ function createGalleryItemModal() {
     url: "gallery/create",
     dataType: "html",
     success: function success(data) {
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()(".container").append(data);
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.gallery-modal').modal('show');
+      if (data.indexOf('notice-message') != -1) {
+        notice.showNoticeHtml(data, 'header');
+      } else {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()(".container").append(data);
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('.gallery-modal').modal('show');
+      }
     }
   });
 }
@@ -42367,14 +42384,75 @@ $(document).ready(function () {
 
 /***/ }),
 
-/***/ "./resources/js/summer.js":
-/*!********************************!*\
-  !*** ./resources/js/summer.js ***!
-  \********************************/
+/***/ "./resources/js/vendor/notice/messages.js":
+/*!************************************************!*\
+  !*** ./resources/js/vendor/notice/messages.js ***!
+  \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
+module.exports = {
+  showNoticeMessages: function showNoticeMessages(data, location) {
+    $('.notice-messages').remove();
+    $.each(data, function (k, message) {
+      if (message.overlay) {
+        $(location).after(doModal(message));
+        $('#notice-overlay-modal').modal('show');
+      } else {
+        $(location).after(doMessage(message));
+        $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
+      }
+    });
+    $(".notice-message").wrapAll("<div class='notice-messages'></div>");
+  },
+  showNoticeHtml: function showNoticeHtml(data, location) {
+    $('.notice-messages').remove();
+    $(location).after(data);
+    $('#notice-overlay-modal').modal('show');
+    $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
+    $(".notice-message").wrapAll("<div class='notice-messages'></div>");
+  }
+};
 
+var doModal = function doModal(message) {
+  var html = '<div id="notice-overlay-modal" class="notice-message modal">';
+  html += '<div class="modal-dialog">';
+  html += '<div class="modal-content">';
+  html += '<div class="modal-header">';
+  html += '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+  html += '<h4 class="modal-title">' + message.title + '</h4>';
+  html += '</div>';
+  html += '<div class="modal-body"> ';
+  html += '<div class="alert alert-' + message.level + '"  role="alert">';
+  html += message.message;
+  html += '</div>';
+  html += '</div>';
+  html += '<div class="modal-footer">';
+  html += '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>';
+  html += '</div>';
+  html += '</div>';
+  html += '</div>';
+  html += '</div>';
+  return html;
+};
+
+var doMessage = function doMessage(message) {
+  var important = '';
+
+  if (message.important) {
+    important = 'alert-important';
+  }
+
+  var html = '<div class="notice-message alert alert-' + message.level + ' ' + important + '"  role="alert">';
+
+  if (message.important) {
+    html += '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>';
+  }
+
+  html += message.message;
+  html += '</div>';
+  return html;
+};
 
 /***/ }),
 

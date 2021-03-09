@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Site;
 use App\Http\Controllers\FilterController;
 use App\Http\Requests\StoreImageRequest;
 use App\Models\Category;
-use App\Models\Photo;
+use App\Models\Gallery;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class GalleryPage extends BasePage
 {
-    public function __construct(Request $request, Photo $gallery)
+    public function __construct(Request $request, Gallery $gallery)
     {
         parent::__construct($request);
 
@@ -56,27 +58,44 @@ class GalleryPage extends BasePage
 
     public function create()
     {
-        $this->collection = (new Category())->get('name');
+        if(Auth::user()){
+            $this->collection = (new Category())
+                ->select('name', 'id')
+                ->orderBy('name')
+                ->get();
 
-        $this->parentFolder = 'gallery';
-        $this->template = 'gallery.create';
-        return $this->getTemplate($this->collection, 'create');
+            $this->parentFolder = 'gallery';
+            $this->template = 'gallery.create';
+            return $this->getTemplate($this->collection, 'create');
+        }
+        return notice()->warning("Log in to add an image")->html();
     }
 
     /**
-     * Store a newly created resource in storage.
+     *
      *
      * @param StoreImageRequest $request
-
+     * @return mixed
      */
     public function store(StoreImageRequest $request)
     {
-        flash('Added')->success()->overlay();
+        $url = str_replace('public/', '', $request->image->store('public/images'));
 
-        return response()->json([
-            'name' => 'Abigail',
-            'state' => 'CA',
-        ]);
+        $post = new Gallery;
+        $post->image = asset("storage/". $url);
+        $post->title = $request->title;
+        $post->text = $request->text;
+        $post->user_id = Auth::id();
+
+        $post->categories()->attach($request->get('categories'));
+
+        if (Storage::disk('public')->missing($url)) {
+            return notice()->danger("Something went wrong. Image not loaded")->json();
+        }
+
+        $post->save();
+
+        return notice()->success("Image added")->json();
     }
 
 

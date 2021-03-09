@@ -8,17 +8,13 @@ $.ajaxSetup({
     }
 });
 
-
 require('./bootstrap');
 require('@fortawesome/fontawesome-free/js/all');
 require('./filters');
 require('./search');
 require('./slick');
 require('./gallery');
-require('./summer');
 require('./menus')
 require('./forms')
 
-
-
-$('#flash-overlay-modal').modal();
+$('#notice-overlay-modal').modal();

@@ -34,12 +34,12 @@ Route::group(['middleware'=>'generate.menus'], function(){
     Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
 
     /**
-     * Photo.
+     * Gallery.
      */
     Route::get('gallery', 'Site\GalleryPage@index')->name('gallery.index');
     Route::get('gallery/show', 'Site\GalleryPage@show')->middleware('only.ajax');
     Route::get('gallery/create', 'Site\GalleryPage@create')->middleware('only.ajax');
-    Route::post('gallery', 'Site\GalleryPage@store')->name('gallery.store');
+    Route::post('gallery', 'Site\GalleryPage@store');
 
     Route::resources([
         'blog' => 'Site\BlogPage',
@@ -51,7 +51,6 @@ Route::group(['middleware'=>'generate.menus'], function(){
 
     Route::get('profile/{id}', 'Site\ProfilePage@index')->name('profile');
 
-    Route::get('quicksearch', 'SearchController@quickSearch');
 
     Route::get('/', 'Site\HomePage@index')->name('home');
 });

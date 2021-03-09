@@ -20554,7 +20554,7 @@ footer .duplicate-navigate .footer-item {
 }
 
 .gallery-show .modal-xl {
-  max-width: 1440px;
+  max-width: 1600px;
 }
 
 .gallery-show .modal-content {
@@ -20603,22 +20603,30 @@ footer .duplicate-navigate .footer-item {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding: 0 !important;
 }
 
 .gallery-show .modal-content .modal-body .data .info {
   flex-shrink: 1;
 }
 
-.gallery-show .modal-content .modal-body .data .comments {
+.gallery-show .modal-content .modal-body .data .info .card .card-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.gallery-show .modal-content .modal-body .data .show-comments {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-}
-
-.gallery-show .modal-content .modal-body .data .comments .show-comments {
   max-height: 500px;
   overflow-y: auto;
+}
+
+.gallery-show .modal-content .modal-body .data .show-comments .card .card-header {
+  display: flex;
+  justify-content: space-between;
 }
 
 .search-result {

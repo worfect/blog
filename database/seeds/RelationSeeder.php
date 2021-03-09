@@ -13,8 +13,8 @@ class RelationSeeder extends Seeder
      */
     public function run()
     {
-        $categoriesSections = ['App\Models\Blog', 'App\Models\News', 'App\Models\Photo'];
-        $commentsSections = ['App\Models\Blog', 'App\Models\News', 'App\Models\Photo'];
+        $categoriesSections = ['App\Models\Blog', 'App\Models\News', 'App\Models\Gallery'];
+        $commentsSections = ['App\Models\Blog', 'App\Models\News', 'App\Models\Gallery'];
 
         for($i = 100; $i > 0; $i--)
         {

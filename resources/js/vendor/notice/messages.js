@@ -1,26 +1,30 @@
-function showHtml(data){
-    $('.notice-messages').remove();
-    $('.btn-notice').after(data)
-    $('#notice-overlay-modal').modal('show')
-    $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
-    $(".notice-message").wrapAll("<div class='notice-messages'></div>");
-}
+module.exports =
+    {
+        showNoticeMessages: function (data, location){
+            $('.notice-messages').remove();
+            $.each(data, function(k, message){
+                if(message.overlay){
+                    $(location).after(doModal(message))
+                    $('#notice-overlay-modal').modal('show')
+                } else{
+                    $(location).after(doMessage(message))
+                    $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
+                }
+            });
+            $(".notice-message").wrapAll("<div class='notice-messages'></div>");
+        },
 
-function showMessages(data){
-    $('.notice-messages').remove();
-    $.each(data, function(k, message){
-        if(message.overlay){
-            $('.btn-notice').after(doModal(message))
+        showNoticeHtml: function(data, location){
+            $('.notice-messages').remove();
+            $(location).after(data)
             $('#notice-overlay-modal').modal('show')
-        } else{
-            $('.btn-notice').after(doMessage(message))
             $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
+            $(".notice-message").wrapAll("<div class='notice-messages'></div>");
         }
-    });
-    $(".notice-message").wrapAll("<div class='notice-messages'></div>");
-}
+    };
 
-function doModal(message){
+let doModal = function (message)
+{
     let html = '<div id="notice-overlay-modal" class="notice-message modal">';
     html += '<div class="modal-dialog">';
     html += '<div class="modal-content">';
@@ -40,10 +44,10 @@ function doModal(message){
     html += '</div>';
     html += '</div>';
     return html;
-}
+};
 
-
-function doMessage(message){
+let doMessage = function (message)
+{
     let important = '';
     if (message.important){
         important = 'alert-important';
@@ -55,4 +59,4 @@ function doMessage(message){
     html += message.message;
     html += '</div>';
     return html;
-}
+};

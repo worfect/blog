@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Site;
 
 use App\Models\News;
 use App\Models\Blog;
-use App\Models\Photo;
+use App\Models\Gallery;
 use App\Models\Portfolio;
 use App\Models\Layouts\Banner;
 use Illuminate\Http\Request;
@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 class HomePage extends BasePage
 {
     public function __construct(Request $request, Banner $banner, News $news, Blog $blog,
-                                Portfolio $portfolio, Photo $gallery)
+                                Portfolio $portfolio, Gallery $gallery)
     {
         parent::__construct($request);
 

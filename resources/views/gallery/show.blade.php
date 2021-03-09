@@ -13,59 +13,59 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="image col-18">
+                <div class="image col-17">
                     <img class="card-img" src="{{ $item->image }}" alt="{{ $item->title }}">
                 </div>
-                <div class="data">
-                    <div class="info">
+                <div class="data col-7">
+                    <div class="info" >
                         <div class="card">
+                            <div class="card-header">
+                                <div class="author">
+                                    {{ $item->created_at->format('d/m/Y')}}
+                                    <a href="" class="card-link">{{ $item->user->screen_name }}</a>
+                                </div>
+                                @if(Auth::user()->id == $item->user->id)
+                                <i class="fas fa-edit"></i>
+                                @endif
+                                <div class="rating">
+                                    <i class="fas fa-minus-square"></i>
+                                    {{ $item->rating }}
+                                    <i class="fas fa-plus-square"></i>
+                                </div>
+                            </div>
                             <div class="card-body">
-                                <h4 class="card-title"></h4>
-                                <h6 class="card-subtitle mb-2 text-muted">{{ $item->title }}</h6>
-                                <p class="card-text">
-                                    {{ $item->published_at }}
-                                    {{ $item->content_html }}
-                                </p>
-                                <a href="#!" class="card-link">Card link</a>
-                                <a href="#!" class="card-link">Another link</a>
+                                <h5 class="card-title">{{ $item->title }}</h5>
+                                <p class="card-text">{{ $item->text }}</p>
                             </div>
                         </div>
                     </div>
-                    <div class="comments">
-                        <div class="show-comments">
-                            @foreach($item->comments as $comment)
-                                <div class="comment">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <p class="card-text"> {{ $comment->content_html }} </p>
+                    <div class="show-comments">
+                        @foreach($item->comments as $comment)
+                            <div class="comment">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="author">
+                                            {{ $item->created_at->format('d/m/Y')}}
+                                            <a href="" class="card-link">{{ $comment->user->screen_name }}</a>
                                         </div>
-                                        <div class="card-footer">
-                                            <div class="date">
-                                                {{ $comment->created_at }}
-                                            </div>
-                                            <div class="user">
-                                                {{ $comment->user->screen_name }}
-                                            </div>
+                                        <div class="rating">
+                                            <i class="fas fa-minus-square"></i>
+                                            {{ $comment->rating }}
+                                            <i class="fas fa-plus-square"></i>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
-                        </div>
-                        <div class="add-comment">
-                            <form>
-                                <div class="form-group row">
-                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
-                                    <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="" placeholder="Email">
+                                    <div class="card-body">
+                                        <p class="card-text">{{ $comment->text }}</p>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-10 offset-sm-2">
-                                        <button type="submit" class="btn btn-primary">Sign in</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="add-comment">
+                        <form>
+                            <textarea class="form-control" id=""></textarea>
+                            <button type="submit" class="btn btn-primary">Send comment</button>
+                        </form>
                     </div>
                 </div>
             </div>

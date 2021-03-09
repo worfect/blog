@@ -7,7 +7,7 @@ use App\Http\Controllers\SearchController;
 
 use App\Models\News;
 use App\Models\Blog;
-use App\Models\Photo;
+use App\Models\Gallery;
 
 use Illuminate\Http\Request;
 
@@ -15,7 +15,7 @@ class SearchPage extends BasePage
 {
     protected $models = [];
 
-    public function __construct(Request $request, News $news, Blog $blog, Photo $gallery)
+    public function __construct(Request $request, News $news, Blog $blog, Gallery $gallery)
     {
         parent::__construct($request);
 

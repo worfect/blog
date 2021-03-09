@@ -13,16 +13,12 @@
                     @csrf
                     <div class="form-group">
                         <label for="title">Enter the title</label>
-                        <input class="form-control" id="title" name="title" type="text" >
+                        <input class="form-control" id="title" name="title" type="text" value="{{ $item->getattribute('title') }}">
                     </div>
 
                     <div class="form-group">
                         <label for="text">Enter a description</label>
-                        <textarea class="form-control" id="text" name="text" rows="2"></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <input class="form-file-input" name="image"  id="image" type="file">
+                        <textarea class="form-control" id="text" name="text" rows="2" alue="{{ $item->getattribute('text') }}"></textarea>
                     </div>
 
                     <div class="down">
@@ -30,7 +26,7 @@
                             Select categories <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" id="dropdown-gallery-categories">
-                            @foreach($items as $item)
+                            @foreach($categories as $item)
                                 <li class="dropdown-input"><label><input type="checkbox" name="categories[]" value="{{ $item->getattribute('id') }}">{{ $item->getattribute('name') }}</label></li>
                             @endforeach
                         </ul>

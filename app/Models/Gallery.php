@@ -3,13 +3,14 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
-class Photo extends Model
+class Gallery extends Model
 {
     public $relations = ['user', 'comments', 'categories'];
     public $name = 'gallery';
+
 
     public function comments()
     {

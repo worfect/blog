@@ -5,14 +5,14 @@ namespace App\Http\Controllers\Site;
 
 use App\Models\News;
 use App\Models\Blog;
-use App\Models\Photo;
+use App\Models\Gallery;
 use Illuminate\Http\Request;
 
 class NewsPage extends BasePage
 {
 
 
-    public function __construct(Request $request, News $news, Blog $blog, Photo $gallery)
+    public function __construct(Request $request, News $news, Blog $blog, Gallery $gallery)
     {
         parent::__construct($request);
 

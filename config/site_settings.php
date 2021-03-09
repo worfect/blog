@@ -51,7 +51,7 @@ return [
     'gallery' => [
         'gallery' => [
             'select' => '*',
-            'amount' => 12,
+            'amount' => 4,
             'paginate' => true,
         ],
     ],

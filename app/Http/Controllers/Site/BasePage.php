@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
-use Illuminate\Support\MessageBag;
+
 
 
 abstract class BasePage extends Controller
@@ -58,7 +58,7 @@ abstract class BasePage extends Controller
             $this->collection = false;
         }else{
             if($config['paginate'] == true ){
-                $this->collection = $this->builder->paginate($config['amount']);
+                $this->collection = $this->builder->paginate($config['amount'])->appends(request()->query());
             }else{
                 $this->collection =  $this->builder->take($config['amount'])->get();
             }

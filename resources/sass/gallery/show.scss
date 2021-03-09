@@ -1,7 +1,7 @@
 
 .gallery-show{
     .modal-xl {
-        max-width: 1440px;
+        max-width: 1600px;
     }
     .modal-content{
         max-height: 900px;
@@ -38,31 +38,64 @@
                 align-self: center;
             }
             .data{
-
-
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
+                padding: 0 !important;
                 .info{
                     flex-shrink: 1;
+                    .card{
+                        .card-header{
+                            display: flex;
+                            justify-content: space-between;
+                            .author{
+
+                            }
+                            .rating{
+
+                            }
+                        }
+                        .card-body{
+                            .card-title{
+
+                            }
+                            .card-text{
+
+                            }
+                        }
+                    }
+
                 }
-                .comments{
+                .show-comments{
                     flex-grow: 1;
                     display: flex;
                     flex-direction: column;
                     justify-content: space-between;
-                    .show-comments{
-                        max-height:500px;
-                        overflow-y: auto;
-                    }
-                    .add-comment{
+                    max-height:500px;
+                    overflow-y: auto;
+                    .card{
+                        .card-header{
+                            display: flex;
+                            justify-content: space-between;
+                            .author{
 
+                            }
+                            .rating{
+
+                            }
+                        }
+                        .card-body{
+                            .card-text{
+
+                            }
+                        }
                     }
+
+                }
+                .add-comment{
+
                 }
             }
-        }
-        .modal-footer{
-
         }
     }
 }

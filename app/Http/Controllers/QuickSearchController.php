@@ -4,7 +4,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
-use App\Models\Photo;
+use App\Models\Gallery;
 use App\Models\News;
 use Illuminate\Http\Request;
 
@@ -51,7 +51,7 @@ class QuickSearchController extends Controller
     {
         $section = $this->checkParams('section');
         if($section == 'gallery'){
-            $this->model = new Photo;
+            $this->model = new Gallery;
         }
         if($section == 'blog'){
             $this->model = new Blog;

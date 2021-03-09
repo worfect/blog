@@ -2,12 +2,11 @@
 
 /** @var Factory $factory */
 
-use \App\Models\Photo;
+use \App\Models\Gallery;
 use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factory;
-use Illuminate\Support\Str;
 
-$factory->define(Photo::class, function (Faker $faker) {
+$factory->define(Gallery::class, function (Faker $faker) {
 
     $title = $faker->text(rand(20, 50));
     $text = $faker->realText(rand(500, 1000));

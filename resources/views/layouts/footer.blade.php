@@ -1,6 +1,6 @@
 <footer class="row fixed-bottom">
     <div class="copyright">
-        <h6>© 2020 Copyright:
+        <h6>© 2021 Copyright:
             <a href="https://www.blog-test.com/"> BestBlog </a></h6>
     </div>
     <div class="duplicate-navigate flex col-sm-2">

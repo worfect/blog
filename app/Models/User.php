@@ -54,7 +54,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function socialRegisterUser(array $data)
     {
         $user = new User;
-        $id = User::latest()->first()->id;
+        $id = User::orderBy('id', 'desc')->first()->id;
 
         $user->login = 'id_' . ++$id;
         $user->screen_name = $user->login;

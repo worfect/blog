@@ -16,9 +16,10 @@ class StoreImageRequest extends FormRequest
 
     public function rules()
     {
+
         return [
-            'title' => 'nullable|bail|string|between:3,50|alpha_dash',
-            'text' => 'nullable|bail|string|min:3|alpha_dash',
+            'title' => 'nullable|bail|string|max:50',
+            'text' => 'nullable|bail|string',
             'image' => 'required|image|max:10240',
             'categories' => 'nullable|array',
         ];
