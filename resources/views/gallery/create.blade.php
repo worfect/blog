@@ -9,7 +9,7 @@
             </div>
 
             <div class="modal-body">
-                <form id="store-gallery-item" enctype="multipart/form-data" method="post">
+                <form class="edit-gallery-item" id="store-gallery-item" enctype="multipart/form-data" method="post">
                     @csrf
                     <div class="form-group">
                         <label for="title">Enter the title</label>
@@ -30,8 +30,10 @@
                             Select categories <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" id="dropdown-gallery-categories">
-                            @foreach($items as $item)
-                                <li class="dropdown-input"><label><input type="checkbox" name="categories[]" value="{{ $item->getattribute('id') }}">{{ $item->getattribute('name') }}</label></li>
+                            @foreach($categories as $item)
+                                <li class="dropdown-input"><label><input type="checkbox" name="categories[]"
+                                                                         value="{{ $item->getattribute('id') }}">
+                                                                        {{ $item->getattribute('name') }}</label></li>
                             @endforeach
                         </ul>
 

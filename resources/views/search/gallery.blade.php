@@ -1,5 +1,5 @@
 <div class="search-gallery-result">
-    @foreach($items as $item)
+    @foreach($gallery as $item)
         <div class="card gallery-card" id="gallery-card-{{ $item->id }}">
             <img class="card-img" src="{{ $item->image }}" alt="{{ $item->title }}">
             <div class="" >

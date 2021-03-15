@@ -28,11 +28,10 @@ class HomePage extends BasePage
     public function index()
     {
         foreach ($this->models as $name => $model){
-            $config = config('site_settings.home.' . $name);
+            $this->config = config('site_settings.home.' . $name);
+            $this->setBuilder($model);
 
-            $this->setBuilder($model,$config);
-
-            $this->addCollection($name, $config);
+            $this->addCollection($name);
         }
         return $this->renderOutput('home.home');
     }

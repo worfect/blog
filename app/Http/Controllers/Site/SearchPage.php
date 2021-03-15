@@ -13,13 +13,9 @@ use Illuminate\Http\Request;
 
 class SearchPage extends BasePage
 {
-    protected $models = [];
-
-    public function __construct(Request $request, News $news, Blog $blog, Gallery $gallery)
+    public function __construct(News $news, Blog $blog, Gallery $gallery)
     {
-        parent::__construct($request);
-
-        $this->template = 'search.index';
+        parent::__construct();
 
         $this->models = [
             'blog' => $blog,
@@ -28,35 +24,28 @@ class SearchPage extends BasePage
         ];
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $this->template = 'search.index';
+        if($request->query()){
+            $this->selectModel($request->query('section'));
 
-        if($this->params){
-            $resultExist = true;
-            $this->selectModel($this->params['section']);
             foreach ($this->models as $name => $model){
-                $config = config('site_settings.search.' . $name);
+                $this->config = config('site_settings.search.' . $name);
+                $this->setBuilder($model);
 
-                $this->setBuilder($model, $config);
-
-                $this->builder = (new FilterController($this->builder, $this->params))->getBuilder();
-                $this->builder = (new SearchController($this->builder, $this->params))->getBuilder();
-
-                $this->setCollection($config);
-                if($this->collection == false or $this->collection->isEmpty()){
-                    $resultExist = false;
-                }else{
-                    $this->parentFolder = 'search';
-                    $this->addTemplateInData($this->collection, $model->name);
+                $this->builder = (new FilterController($this->builder, $request->query()))->getBuilder();
+                $this->builder = (new SearchController($this->builder, $request->query()))->getBuilder();
+                if($this->builder){
+                    $this->addCollection($name);
                 }
             }
-            if ($resultExist == false){
+
+            if($this->collections === []){
                 notice()->warning('Nothing found')->session();
             }
         }
 
-        return $this->renderOutput();
+        return $this->renderOutput('search.search');
     }
 
     protected function selectModel ($name)

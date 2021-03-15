@@ -1,5 +1,5 @@
 <div class="search-blog-result">
-    @foreach($items as $item)
+    @foreach($blog as $item)
         <div class="blog-item">
             <a href="{{ route('blog.show', $item->id ) }}"> <div class="title">
                     <h4>{{ $item->title }}</h4>

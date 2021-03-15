@@ -25,9 +25,10 @@ class BlogPage extends BasePage
     public function index()
     {
         foreach ($this->models as $name => $model){
-            $config = config('site_settings.blog.' . $name);
-            $this->setBuilder($model, $config);
-            $this->addCollection($name, $config);
+            $this->config = config('site_settings.blog.' . $name);
+            $this->setBuilder($model);
+
+            $this->addCollection($name);
         }
         return $this->renderOutput('blog.blog');
     }

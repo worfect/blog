@@ -14,9 +14,15 @@
         <section>
             <div class="search-result-page col-24">
                 @include('notice::show')
-                {!! $gallery ?? '' !!}
-                {!! $blog ?? '' !!}
-                {!! $news ?? '' !!}
+                @isset($blog)
+                    @include('search.blog')
+                @endisset
+                @isset($gallery)
+                    @include('search.gallery')
+                @endisset
+                @isset($news)
+                    @include('search.news')
+                @endisset
             </div>
         </section>
     </div>

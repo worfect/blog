@@ -1,44 +1,72 @@
-
-.main-gallery{
-
-    margin-top: 1em;
-    display: flex;
-    flex-direction: column;
-    .pagination{
-        justify-content: center;
+.content-gallery{
+    .header{
+        margin-top: 0.5em;
+        display: flex;
+        justify-content: space-around;
+        align-items: stretch;
     }
-    .main-gallery-items{
+    section{
+        margin-top: 0.5em;
+    }
+    .main-gallery{
+
         margin-top: 1em;
         display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        align-items: baseline;
-        .gallery-card{
-            border-radius: 0.25em;
-            background-color: $secondary;
-            color: $primary;
-            margin-bottom: 1em;
-            max-width: 300px;
-            .card-img-overlay{
-                opacity: 0;
+        flex-direction: column;
+        .pagination{
+            justify-content: center;
+        }
+        .main-gallery-items{
+            margin-top: 1em;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            align-items: baseline;
+            .gallery-card{
+                border-radius: 0.25em;
                 background-color: $secondary;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-around;
-                align-items: center;
-                .card-text{
-                    color: $primary;
-                    text-align: center;
-                }
-                .icon{
-                    color: $primary;
-                }
-                &:hover{
-                    opacity: 0.9;
-                    cursor: pointer;
+                color: $primary;
+                margin-bottom: 1em;
+                max-width: 300px;
+                .card-img-overlay{
+                    opacity: 0;
+                    background-color: $secondary;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-around;
+                    align-items: center;
+                    .card-text{
+                        color: $primary;
+                        text-align: center;
+                    }
+                    .icon{
+                        color: $primary;
+                    }
+                    .card-text-deleted{
+                        display: none;
+                    }
+                    .icon-deleted{
+                        display: none;
+                    }
+                    &:hover{
+                        opacity: 0.9;
+                        cursor: pointer;
+                    }
                 }
             }
         }
-    }
-}
+        .deleted{
+            .card-img-overlay{
+                opacity: 0.5 !important;
+                background-color: $error !important;
+                &:hover{
+                    opacity: 0.9 !important;
+                    cursor: pointer !important;
+                }
+            }
 
+        }
+    }
+
+
+}

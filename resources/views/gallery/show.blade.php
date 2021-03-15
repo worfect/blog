@@ -24,9 +24,13 @@
                                     {{ $item->created_at->format('d/m/Y')}}
                                     <a href="" class="card-link">{{ $item->user->screen_name }}</a>
                                 </div>
-                                @if(Auth::user() and Auth::user()->id == $item->user->id)
-                                <i class="fas fa-edit"></i>
-                                @endif
+                                @can('update',  App\Models\Gallery::find($item->id))
+                                    <button class="btn gallery-edit-btn" id="{{ $item->id }}"><i class="fas fa-edit"></i></button>
+                                @endcan
+                                @can('delete', App\Models\Gallery::find($item->id))
+                                        <button id="{{ $item->id }}" class="btn gallery-delete-btn"><i class="fas fa-trash-alt"></i></button>
+                                @endcan
+
                                 <div class="rating">
                                     <i class="fas fa-minus-square"></i>
                                     {{ $item->rating }}

@@ -42162,7 +42162,11 @@ function ajaxPromise(url, form) {
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", "#store-gallery-item", function (e) {
   e.preventDefault();
-  AjaxForm('gallery', jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), "#store-gallery-item");
+  AjaxForm('gallery', jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), ".edit-gallery-item");
+});
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", "#update-gallery-item", function (e) {
+  e.preventDefault();
+  AjaxForm('gallery/update', jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), ".edit-gallery-item");
 });
 
 /***/ }),
@@ -42185,6 +42189,7 @@ var notice = __webpack_require__(/*! ./vendor/notice/messages */ "./resources/js
 function removeGalleryModal() {
   if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.gallery-modal').length) {
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('.gallery-modal').remove();
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.modal-backdrop').remove();
   }
 }
 
@@ -42223,9 +42228,58 @@ function createGalleryItemModal() {
   });
 }
 
+function editGalleryItemModal() {
+  var id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).prop("id");
+  id = parseInt(id.match(/\d+/));
+  removeGalleryModal();
+  jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
+    type: "GET",
+    url: "gallery/edit",
+    data: {
+      id: id
+    },
+    dataType: "html",
+    success: function success(data) {
+      if (data.indexOf('notice-message') != -1) {
+        notice.showNoticeHtml(data, 'header');
+      } else {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()(".container").append(data);
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('.gallery-modal').modal('show');
+      }
+    }
+  });
+}
+
+function deleteGalleryItemModal() {
+  var id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).prop("id");
+  id = parseInt(id.match(/\d+/));
+  removeGalleryModal();
+  jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
+    type: "GET",
+    url: "gallery/delete",
+    data: {
+      id: id
+    },
+    dataType: "html",
+    success: function success(data) {
+      if (data.indexOf('notice-message') != -1) {
+        notice.showNoticeHtml(data, 'header');
+      } else {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id).addClass("deleted");
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id + ' .card-text-deleted').show();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id + ' .icon-deleted').show();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id + ' .card-text').hide();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id + ' .icon').hide();
+      }
+    }
+  });
+}
+
 jquery__WEBPACK_IMPORTED_MODULE_0___default()('.gallery-card').on("click", showGalleryItemModal);
 jquery__WEBPACK_IMPORTED_MODULE_0___default()('.search-result').on("click", ".gallery-card", showGalleryItemModal);
 jquery__WEBPACK_IMPORTED_MODULE_0___default()('.create-gallery-item').on("click", createGalleryItemModal);
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", ".gallery-edit-btn", editGalleryItemModal);
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", ".gallery-delete-btn", deleteGalleryItemModal);
 
 /***/ }),
 

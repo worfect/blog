@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    public $relations = ['blog', 'comments', 'categories'];
+    public $relations = ['blog', 'news', 'gallery'];
     public $name = 'category';
 
     public function blog()

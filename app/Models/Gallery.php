@@ -4,10 +4,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Gallery extends Model
 {
+
+    Use SoftDeletes;
+
     public $relations = ['user', 'comments', 'categories'];
     public $name = 'gallery';
 

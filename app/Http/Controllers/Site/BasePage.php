@@ -4,54 +4,53 @@ namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 
 
 abstract class BasePage extends Controller
 {
     protected $models = [];
     protected $collections = [];
-    protected $params;
+    protected $config;
     protected $builder;
 
-    public function __construct(Request $request)
+    public function __construct()
     {
-        $this->params = $request->all();
+
     }
 
     protected function renderOutput($template){
        return view($template, $this->collections)->render();
     }
 
-    protected function addCollection($name, $config = false)
+
+
+    protected function addCollection($name)
     {
-        $this->collections[$name] = $this->getResultBuilder($config);
+        if($this->config == false){
+            $collection = $this->builder->get();
+        }elseif($this->config['paginate'] == true ){
+            $collection = $this->builder->paginate($this->config['amount'])
+                ->appends(request()->query());
+        }else{
+            $collection = $this->builder->take($this->config['amount'])
+                ->get();
+        }
+        return $this->collections[$name] = $collection;
     }
 
-
-
-
-    protected function setBuilder(Model $model, $config)
+    protected function setBuilder(Model $model)
     {
-        if(is_numeric($config)){
+        if($this->config == false){
+            $this->builder = $model->with($model->relations);
+        } else{
             $this->builder = $model->with($model->relations)
-                                    ->where('id', $config);
-        }else{
-            $this->builder = $model->with($model->relations)
-                                    ->select($config['select']);
+                                    ->select($this->config['select']);
         }
+        return $this->builder;
     }
 
-    protected function getResultBuilder($config = false)
-    {
-        if($config == false){
-            return $this->builder->get();
-        }elseif($config['paginate'] == true ){
-            return $this->builder->paginate($config['amount'])
-                                    ->appends(request()->query());
-        }else{
-            return $this->builder->take($config['amount'])
-                                    ->get();
-        }
+    protected function setBuilderById(Model $model, $id){
+        return $this->builder = $model->with($model->relations)
+            ->where('id', $id);
     }
 }

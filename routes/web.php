@@ -39,7 +39,14 @@ Route::group(['middleware'=>'generate.menus'], function(){
     Route::get('gallery', 'Site\GalleryPage@index')->name('gallery.index');
     Route::get('gallery/show', 'Site\GalleryPage@show')->middleware('only.ajax');
     Route::get('gallery/create', 'Site\GalleryPage@create')->middleware('only.ajax');
+    Route::get('gallery/edit', 'Site\GalleryPage@edit')->middleware('only.ajax');
+    Route::get('gallery/delete', 'Site\GalleryPage@destroy')->middleware('only.ajax');
+    Route::post('gallery/update', 'Site\GalleryPage@update')->middleware('only.ajax');
     Route::post('gallery', 'Site\GalleryPage@store');
+
+
+
+
 
     Route::resources([
         'blog' => 'Site\BlogPage',

@@ -64,6 +64,11 @@ function ajaxPromise(url, form){
 $(document).on( "submit", "#store-gallery-item", function(e){
     e.preventDefault();
 
-    AjaxForm('gallery', $(this), "#store-gallery-item")
+    AjaxForm('gallery', $(this), ".edit-gallery-item")
 });
 
+$(document).on( "submit", "#update-gallery-item", function(e){
+    e.preventDefault();
+
+    AjaxForm('gallery/update', $(this), ".edit-gallery-item")
+});

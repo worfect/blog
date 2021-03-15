@@ -19460,7 +19460,7 @@ a.text-dark:focus {
 }
 
 .search-menu .search-form button,
-.gallery-create .modal-content .modal-body #store-gallery-item .down .btn,
+.gallery-create .modal-content .modal-body .edit-gallery-item .down .btn,
 .add-img .user .btn,
 .filter .form-inline .btn,
 .main-blog .main-blog-item .menu .btn,
@@ -19476,7 +19476,7 @@ a.text-dark:focus {
 }
 
 .search-menu .search-form button:hover,
-.gallery-create .modal-content .modal-body #store-gallery-item .down .btn:hover,
+.gallery-create .modal-content .modal-body .edit-gallery-item .down .btn:hover,
 .add-img .user .btn:hover,
 .filter .form-inline .btn:hover,
 .main-blog .main-blog-item .menu .btn:hover,
@@ -20493,55 +20493,6 @@ footer .duplicate-navigate .footer-item {
   justify-content: center;
 }
 
-.main-gallery {
-  margin-top: 1em;
-  display: flex;
-  flex-direction: column;
-}
-
-.main-gallery .pagination {
-  justify-content: center;
-}
-
-.main-gallery .main-gallery-items {
-  margin-top: 1em;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  align-items: baseline;
-}
-
-.main-gallery .main-gallery-items .gallery-card {
-  border-radius: 0.25em;
-  background-color: #F4DF7D;
-  color: #0A1F38;
-  margin-bottom: 1em;
-  max-width: 300px;
-}
-
-.main-gallery .main-gallery-items .gallery-card .card-img-overlay {
-  opacity: 0;
-  background-color: #F4DF7D;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-}
-
-.main-gallery .main-gallery-items .gallery-card .card-img-overlay .card-text {
-  color: #0A1F38;
-  text-align: center;
-}
-
-.main-gallery .main-gallery-items .gallery-card .card-img-overlay .icon {
-  color: #0A1F38;
-}
-
-.main-gallery .main-gallery-items .gallery-card .card-img-overlay:hover {
-  opacity: 0.9;
-  cursor: pointer;
-}
-
 .content-gallery .header {
   margin-top: 0.5em;
   display: flex;
@@ -20551,6 +20502,73 @@ footer .duplicate-navigate .footer-item {
 
 .content-gallery section {
   margin-top: 0.5em;
+}
+
+.content-gallery .main-gallery {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-gallery .main-gallery .pagination {
+  justify-content: center;
+}
+
+.content-gallery .main-gallery .main-gallery-items {
+  margin-top: 1em;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+
+.content-gallery .main-gallery .main-gallery-items .gallery-card {
+  border-radius: 0.25em;
+  background-color: #F4DF7D;
+  color: #0A1F38;
+  margin-bottom: 1em;
+  max-width: 300px;
+}
+
+.content-gallery .main-gallery .main-gallery-items .gallery-card .card-img-overlay {
+  opacity: 0;
+  background-color: #F4DF7D;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.content-gallery .main-gallery .main-gallery-items .gallery-card .card-img-overlay .card-text {
+  color: #0A1F38;
+  text-align: center;
+}
+
+.content-gallery .main-gallery .main-gallery-items .gallery-card .card-img-overlay .icon {
+  color: #0A1F38;
+}
+
+.content-gallery .main-gallery .main-gallery-items .gallery-card .card-img-overlay .card-text-deleted {
+  display: none;
+}
+
+.content-gallery .main-gallery .main-gallery-items .gallery-card .card-img-overlay .icon-deleted {
+  display: none;
+}
+
+.content-gallery .main-gallery .main-gallery-items .gallery-card .card-img-overlay:hover {
+  opacity: 0.9;
+  cursor: pointer;
+}
+
+.content-gallery .main-gallery .deleted .card-img-overlay {
+  opacity: 0.5 !important;
+  background-color: #ef8354 !important;
+}
+
+.content-gallery .main-gallery .deleted .card-img-overlay:hover {
+  opacity: 0.9 !important;
+  cursor: pointer !important;
 }
 
 .gallery-show .modal-xl {
@@ -20728,45 +20746,53 @@ footer .duplicate-navigate .footer-item {
   background-color: #0A1F38;
 }
 
-.gallery-create .modal-content .modal-body #store-gallery-item {
+.gallery-create .modal-content .modal-body .edit-gallery-item {
   padding: 0.5rem;
 }
 
-.gallery-create .modal-content .modal-body #store-gallery-item .form-file {
+.gallery-create .modal-content .modal-body .edit-gallery-item .form-file {
   margin-top: 0.5rem;
 }
 
-.gallery-create .modal-content .modal-body #store-gallery-item .form-file input {
+.gallery-create .modal-content .modal-body .edit-gallery-item .form-file input {
   background-color: #F4DF7D;
   border-radius: 0.25em;
   width: auto;
 }
 
-.gallery-create .modal-content .modal-body #store-gallery-item .form-group {
+.gallery-create .modal-content .modal-body .edit-gallery-item .form-group {
   margin-top: 0.5rem;
 }
 
-.gallery-create .modal-content .modal-body #store-gallery-item .form-group label {
+.gallery-create .modal-content .modal-body .edit-gallery-item .form-group label {
   color: #F4DF7D;
 }
 
-.gallery-create .modal-content .modal-body #store-gallery-item .form-group input {
+.gallery-create .modal-content .modal-body .edit-gallery-item .form-group input {
   background-color: #F4DF7D;
 }
 
-.gallery-create .modal-content .modal-body #store-gallery-item .form-group textarea {
+.gallery-create .modal-content .modal-body .edit-gallery-item .form-group textarea {
   background-color: #F4DF7D;
 }
 
-.gallery-create .modal-content .modal-body #store-gallery-item .down {
+.gallery-create .modal-content .modal-body .edit-gallery-item .down {
   margin-top: 0.5rem;
   display: flex;
   justify-content: space-around;
 }
 
-.gallery-create .modal-content .modal-body #store-gallery-item .down .dropdown-menu {
+.gallery-create .modal-content .modal-body .edit-gallery-item .down .dropdown-menu {
   background-color: #0A1F38;
   color: #F4DF7D;
+}
+
+.content-search .alert-warning {
+  width: 500px;
+  text-align: center;
+  margin: 2em auto 0 auto;
+  color: #0A1F38;
+  background-color: #ef8354;
 }
 
 .content-search .header {
@@ -21025,14 +21051,6 @@ footer .duplicate-navigate .footer-item {
 
 .search-result-page .search-news-result .news-item .info .user a .icon {
   margin-right: 0.25em;
-}
-
-.alert-warning {
-  width: 500px;
-  text-align: center;
-  margin: 2em auto 0 auto;
-  color: #0A1F38;
-  background-color: #ef8354;
 }
 
 body {

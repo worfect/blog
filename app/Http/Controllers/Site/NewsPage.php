@@ -12,9 +12,9 @@ class NewsPage extends BasePage
 {
 
 
-    public function __construct(Request $request, News $news, Blog $blog, Gallery $gallery)
+    public function __construct(News $news, Blog $blog, Gallery $gallery)
     {
-        parent::__construct($request);
+        parent::__construct();
 
     }
 
