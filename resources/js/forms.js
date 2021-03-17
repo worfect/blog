@@ -18,6 +18,7 @@ function AjaxForm(url, form, location){
             }
         })
         .catch((data) => {
+            console.log(data)
             let errors = data.responseJSON.errors;
 
             $.each( errors, function( name, message ) {
@@ -71,4 +72,10 @@ $(document).on( "submit", "#update-gallery-item", function(e){
     e.preventDefault();
 
     AjaxForm('gallery/update', $(this), ".edit-gallery-item")
+});
+
+$(document).on( "submit", ".add-comment-form", function(e){
+    e.preventDefault();
+
+    AjaxForm('comment/store', $(this), ".add-comment-form")
 });

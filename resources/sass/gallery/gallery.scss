@@ -22,6 +22,17 @@
             justify-content: space-between;
             flex-wrap: wrap;
             align-items: baseline;
+            .gallery-card-deleted{
+                .card-img-overlay {
+                    opacity: 0.5 !important;
+                    background-color: $error !important;
+
+                    &:hover {
+                        opacity: 0.9 !important;
+                        cursor: pointer !important;
+                    }
+                }
+            }
             .gallery-card{
                 border-radius: 0.25em;
                 background-color: $secondary;
@@ -55,18 +66,5 @@
                 }
             }
         }
-        .deleted{
-            .card-img-overlay{
-                opacity: 0.5 !important;
-                background-color: $error !important;
-                &:hover{
-                    opacity: 0.9 !important;
-                    cursor: pointer !important;
-                }
-            }
-
-        }
     }
-
-
 }

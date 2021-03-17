@@ -36,12 +36,17 @@
 </div>
 
 
-<div class="add-img col-5">
+<div class="gallery-user-menu col-5">
     @if(Auth::user())
         <div class="user">
             <button type="button" class="btn create-gallery-item" data-toggle="modal">
                 Add image
             </button>
+            <a href="{{ Route('profile.gallery', ['id' => Auth::id()]) }}">
+                <button type="button" class="btn open-profile-gallery">
+                    My gallery
+                </button>
+            </a>
         </div>
     @endif
     @if(!Auth::user())

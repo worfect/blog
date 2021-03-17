@@ -41,11 +41,19 @@ Route::group(['middleware'=>'generate.menus'], function(){
     Route::get('gallery/create', 'Site\GalleryPage@create')->middleware('only.ajax');
     Route::get('gallery/edit', 'Site\GalleryPage@edit')->middleware('only.ajax');
     Route::get('gallery/delete', 'Site\GalleryPage@destroy')->middleware('only.ajax');
+    Route::get('gallery/restore', 'Site\GalleryPage@restore')->middleware('only.ajax');
     Route::post('gallery/update', 'Site\GalleryPage@update')->middleware('only.ajax');
     Route::post('gallery', 'Site\GalleryPage@store');
 
+    /**
+     * Profile.
+     */
+    Route::get('/profile/{id}/gallery', 'Site\ProfilePage@gallery')->name('profile.gallery');
 
-
+    /**
+     * Comment.
+     */
+    Route::post('comment/store', 'CommentController@store')->middleware('only.ajax');
 
 
     Route::resources([

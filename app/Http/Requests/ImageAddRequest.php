@@ -6,7 +6,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 
-class StoreImageRequest extends FormRequest
+class ImageAddRequest extends FormRequest
 {
 
     public function authorize()

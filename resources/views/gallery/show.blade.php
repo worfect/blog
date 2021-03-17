@@ -66,9 +66,10 @@
                         @endforeach
                     </div>
                     <div class="add-comment">
-                        <form>
-                            <textarea class="form-control" id=""></textarea>
-                            <button type="submit" class="btn btn-primary">Send comment</button>
+                        <form class="add-comment-form">
+                            <input name="id" type="hidden" value="{{ $item->id }}">
+                            <textarea class="form-control" name="text"></textarea>
+                            <button type="submit" class="btn btn-primary send-comment-gallery">Add comment</button>
                         </form>
                     </div>
                 </div>

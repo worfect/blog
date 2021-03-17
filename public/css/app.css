@@ -19461,7 +19461,7 @@ a.text-dark:focus {
 
 .search-menu .search-form button,
 .gallery-create .modal-content .modal-body .edit-gallery-item .down .btn,
-.add-img .user .btn,
+.gallery-user-menu .user .btn,
 .filter .form-inline .btn,
 .main-blog .main-blog-item .menu .btn,
 .create .user .btn,
@@ -19477,7 +19477,7 @@ a.text-dark:focus {
 
 .search-menu .search-form button:hover,
 .gallery-create .modal-content .modal-body .edit-gallery-item .down .btn:hover,
-.add-img .user .btn:hover,
+.gallery-user-menu .user .btn:hover,
 .filter .form-inline .btn:hover,
 .main-blog .main-blog-item .menu .btn:hover,
 .create .user .btn:hover,
@@ -20522,6 +20522,16 @@ footer .duplicate-navigate .footer-item {
   align-items: baseline;
 }
 
+.content-gallery .main-gallery .main-gallery-items .gallery-card-deleted .card-img-overlay {
+  opacity: 0.5 !important;
+  background-color: #ef8354 !important;
+}
+
+.content-gallery .main-gallery .main-gallery-items .gallery-card-deleted .card-img-overlay:hover {
+  opacity: 0.9 !important;
+  cursor: pointer !important;
+}
+
 .content-gallery .main-gallery .main-gallery-items .gallery-card {
   border-radius: 0.25em;
   background-color: #F4DF7D;
@@ -20559,16 +20569,6 @@ footer .duplicate-navigate .footer-item {
 .content-gallery .main-gallery .main-gallery-items .gallery-card .card-img-overlay:hover {
   opacity: 0.9;
   cursor: pointer;
-}
-
-.content-gallery .main-gallery .deleted .card-img-overlay {
-  opacity: 0.5 !important;
-  background-color: #ef8354 !important;
-}
-
-.content-gallery .main-gallery .deleted .card-img-overlay:hover {
-  opacity: 0.9 !important;
-  cursor: pointer !important;
 }
 
 .gallery-show .modal-xl {
@@ -20693,7 +20693,7 @@ footer .duplicate-navigate .footer-item {
   background-color: #F4DF7D;
 }
 
-.add-img {
+.gallery-user-menu {
   margin-left: 0.5em;
   padding: 0.5em;
   width: 100%;
@@ -20705,17 +20705,17 @@ footer .duplicate-navigate .footer-item {
   align-items: center;
 }
 
-.add-img .guest p {
+.gallery-user-menu .guest p {
   margin: 0;
 }
 
-.add-img .guest a {
+.gallery-user-menu .guest a {
   text-decoration: none;
   color: #F4DF7D;
   font-style: oblique;
 }
 
-.add-img .guest a:hover {
+.gallery-user-menu .guest a:hover {
   color: #8BBF85;
 }
 

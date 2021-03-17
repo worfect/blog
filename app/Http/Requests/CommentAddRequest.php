@@ -3,10 +3,9 @@
 
 namespace App\Http\Requests;
 
-
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateImageRequest extends FormRequest
+class CommentAddRequest extends FormRequest
 {
 
     public function authorize()
@@ -17,16 +16,15 @@ class UpdateImageRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'nullable|bail|string|max:50',
-            'text' => 'nullable|bail|string',
-            'categories' => 'nullable|array',
+            'text' => 'required|string|max:500',
         ];
     }
 
     public function messages()
     {
         return [
-            'categories.array'  => 'Invalid format',
+            'text.required'  => 'Add a comment text',
+            'text.max'  => 'Maximum comment size - 500 characters',
         ];
     }
 }

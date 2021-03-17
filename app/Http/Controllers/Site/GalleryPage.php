@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\FilterController;
-use App\Http\Requests\StoreImageRequest;
-use App\Http\Requests\UpdateImageRequest;
+use App\Http\Requests\ImageAddRequest;
+use App\Http\Requests\ImageUpdateRequest;
 use App\Models\Category;
 use App\Models\Gallery;
 
@@ -65,10 +65,10 @@ class GalleryPage extends BasePage
 
     /**
      *
-     * @param StoreImageRequest $request
+     * @param ImageAddRequest $request
      * @return mixed
      */
-    public function store(StoreImageRequest $request)
+    public function store(ImageAddRequest $request)
     {
         try {
             $this->authorize('create', Gallery::class);
@@ -119,9 +119,9 @@ class GalleryPage extends BasePage
     }
 
     /**
-     * @param UpdateImageRequest $request
+     * @param ImageUpdateRequest $request
      */
-    public function update(UpdateImageRequest $request)
+    public function update(ImageUpdateRequest $request)
     {
         $post = Gallery::find($request->get('id'));
         try {
@@ -156,6 +156,28 @@ class GalleryPage extends BasePage
         Gallery::destroy($request->get('id'));
 
         if(!is_null(Gallery::find($request->get('id')))){
+            return notice()->warning("Something went wrong")->html();
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function restore(Request $request)
+    {
+        $post = Gallery::withTrashed()->find($request->get('id'));
+        try {
+            $this->authorize('restore', $post);
+        } catch (AuthorizationException $e) {
+            return notice()->warning("You do not have enough rights to perform this operation")->html();
+        }
+
+        $post->restore();
+
+        if(is_null(Gallery::find($request->get('id')))){
             return notice()->warning("Something went wrong")->html();
         }
 

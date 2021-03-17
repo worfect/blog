@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Gallery;
+use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class GalleryPolicy
+class CommentPolicy
 {
     use HandlesAuthorization;
 
@@ -30,19 +30,19 @@ class GalleryPolicy
      */
     public function viewAny(User $user)
     {
-            //
+        //
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param User $user
-     * @param Gallery $gallery
+     * @param  Comment  $comment
      * @return mixed
      */
-    public function view(User $user, Gallery $gallery)
+    public function view(User $user, Comment $comment)
     {
-            //
+        //
     }
 
     /**
@@ -60,46 +60,46 @@ class GalleryPolicy
      * Determine whether the user can update the model.
      *
      * @param User $user
-     * @param Gallery $gallery
+     * @param  Comment  $comment
      * @return mixed
      */
-    public function update(User $user, Gallery $gallery): bool
+    public function update(User $user, Comment $comment)
     {
-        return $user->id == $gallery->user_id;
+        //
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param User $user
-     * @param  Gallery  $gallery
+     * @param  Comment  $comment
      * @return mixed
      */
-    public function delete(User $user, Gallery $gallery): bool
+    public function delete(User $user, Comment $comment)
     {
-        return $user->id == $gallery->user_id;
+        //
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param User $user
-     * @param  Gallery  $gallery
+     * @param  Comment  $comment
      * @return mixed
      */
-    public function restore(User $user, Gallery $gallery)
+    public function restore(User $user, Comment $comment)
     {
-        return $user->id == $gallery->user_id;
+        //
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      *
      * @param User $user
-     * @param  Gallery  $gallery
+     * @param  Comment  $comment
      * @return mixed
      */
-    public function forceDelete(User $user, Gallery $gallery)
+    public function forceDelete(User $user, Comment $comment)
     {
         //
     }
