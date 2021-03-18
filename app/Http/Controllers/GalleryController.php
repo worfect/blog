@@ -1,54 +1,47 @@
 <?php
 
-namespace App\Http\Controllers\Site;
 
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\GalleryController;
+namespace App\Http\Controllers;
+
+
 use App\Http\Requests\ImageAddRequest;
 use App\Http\Requests\ImageUpdateRequest;
-
+use App\Models\Category;
 use App\Models\Gallery;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class GalleryPage extends BasePage
+class GalleryController extends Controller
 {
-    public function __construct(GalleryController $gallery, CategoryController $category)
+
+    public function __construct(Gallery $gallery)
     {
-        $this->units = [
-            'gallery' => $gallery,
-            'category' => $category,
-        ];
+        $this->model = $gallery;
     }
 
     public function index(Request $request)
     {
-        foreach ($this->units as $name => $controller){
-            $config = config('site_settings.gallery.' . $name);
+        foreach ($this->models as $name => $model){
+            $this->config = config('site_settings.gallery.' . $name);
+            $this->setBuilder($model);
 
             if($name == 'gallery' and $request->query()) {
-                $this->collections[$name] = $controller->collection($config)
-                                                            ->withFilter(request()->query())
-                                                                ->get();
-            }else{
-                $this->collections[$name] = $controller->collection($config)->get();
+                $this->builder = (new FilterController($this->builder, request()->query()))->getBuilder();
             }
+
+            $this->addCollection($name);
         }
         return $this->renderOutput('gallery.gallery');
     }
 
-
-
     public function show(Request $request)
     {
-        $this->collections['gallery'] = $this->units['gallery']->collection()
-                                                                    ->byId($request->get('id'))
-                                                                        ->get();
+        $this->setBuilderById($this->models['gallery'], $request->get('id'));
+        $this->addCollection('gallery');
         return $this->renderOutput('gallery.show');
     }
-
 
     public function create()
     {
@@ -58,11 +51,10 @@ class GalleryPage extends BasePage
             return notice()->warning("Only verified users can add content")->html();
         }
 
-        $this->collections['category'] = $this->units['category']->collection()->builder()
-                                                                                ->select('name', 'id')
-                                                                                ->orderBy('name')
-                                                                                ->get();
-
+        $this->setBuilder(($this->models['category']))->select('name', 'id')
+            ->orderBy('name')
+            ->get();
+        $this->addCollection('categories');
         return $this->renderOutput('gallery.create');
 
     }
@@ -185,4 +177,5 @@ class GalleryPage extends BasePage
             return notice()->warning("Something went wrong")->html();
         }
     }
+
 }

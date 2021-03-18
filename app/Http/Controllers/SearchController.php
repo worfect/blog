@@ -3,14 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 
 class SearchController extends Controller
 {
-
-    protected $params;
-    protected $model;
-    protected $builder;
 
     /**
      * Принимает QueryBuilder и параметры поиска.
@@ -41,7 +36,6 @@ class SearchController extends Controller
         }
     }
 
-
     /**
      * Поиск контента по заголовкам.
      *
@@ -59,35 +53,4 @@ class SearchController extends Controller
 
     }
 
-
-    /**
-     * Возвращает построитель запросов.
-     *
-     * @return Builder
-     */
-    public function getBuilder()
-    {
-        return $this->builder;
-    }
-
-    /**
-     * Возвращает коллекцию.
-     *
-     * @return Collection
-     */
-    public function getCollection()
-    {
-        return $this->builder->get();
-    }
-
-    /**
-     * Проверяет наличие поля в параметрах.
-     *
-     * @param $param
-     * @return string
-     */
-    protected function checkParams($param)
-    {
-        return isset($this->params[$param]) ? $this->params[$param] : false;
-    }
 }

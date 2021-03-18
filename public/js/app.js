@@ -42125,7 +42125,6 @@ function AjaxForm(url, form, location) {
       notice.showNoticeMessages(data, location);
     }
   })["catch"](function (data) {
-    console.log(data);
     var errors = data.responseJSON.errors;
     jquery__WEBPACK_IMPORTED_MODULE_0___default.a.each(errors, function (name, message) {
       var span = document.createElement('span');
@@ -42161,9 +42160,21 @@ function ajaxPromise(url, form) {
   });
 }
 
+function refreshContent(data) {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
+    url: 'refresh',
+    method: 'POST',
+    dataType: 'JSON',
+    processData: false,
+    contentType: false,
+    data: data
+  }).done(function (data) {}).fail(function (data) {});
+}
+
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", "#store-gallery-item", function (e) {
   e.preventDefault();
   AjaxForm('gallery', jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), ".edit-gallery-item");
+  refreshContent();
 });
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", "#update-gallery-item", function (e) {
   e.preventDefault();

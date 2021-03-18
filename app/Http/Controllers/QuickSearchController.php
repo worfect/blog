@@ -10,10 +10,6 @@ use Illuminate\Http\Request;
 
 class QuickSearchController extends Controller
 {
-    protected $params;
-    protected $model;
-
-
     /**
      * За раз поиск производится по одной модели.
      * Возвращает Collection.
@@ -64,14 +60,4 @@ class QuickSearchController extends Controller
         }
     }
 
-    /**
-     * Проверяет наличие поля в параметрах.
-     *
-     * @param $param
-     * @return string
-     */
-    protected function checkParams($param)
-    {
-        return isset($this->params[$param]) ? $this->params[$param] : false;
-    }
 }

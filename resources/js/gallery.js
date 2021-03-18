@@ -120,4 +120,3 @@ $(document).on("click", ".gallery-delete-btn", deleteGalleryItem);
 $(document).on("click", '.gallery-card-deleted', restoreGalleryItem);
 
 
-

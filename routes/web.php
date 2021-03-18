@@ -56,6 +56,12 @@ Route::group(['middleware'=>'generate.menus'], function(){
     Route::post('comment/store', 'CommentController@store')->middleware('only.ajax');
 
 
+    /**
+     * Other.
+     */
+    Route::post('refresh', 'CommentController@store')->middleware('only.ajax');
+
+
     Route::resources([
         'blog' => 'Site\BlogPage',
     ]);

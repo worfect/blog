@@ -14,11 +14,10 @@ function AjaxForm(url, form, location){
     ajaxPromise(url, form)
         .then((data) => {
             if (location){
-                notice.showNoticeMessages(data, location)
+                notice.showNoticeMessages(data, location);
             }
         })
         .catch((data) => {
-            console.log(data)
             let errors = data.responseJSON.errors;
 
             $.each( errors, function( name, message ) {
@@ -53,29 +52,44 @@ function ajaxPromise(url, form){
         })
             .done(function(data){
                 cleaningInvalid(form);
-                resolve(data)
+                resolve(data);
             })
             .fail(function(data){
                 cleaningInvalid(form);
-                reject(data)
+                reject(data);
             })
     })
+}
+
+function refreshContent(data){
+    $.ajax({
+        url: 'refresh',
+        method: 'POST',
+        dataType: 'JSON',
+        processData: false,
+        contentType: false,
+        data: data
+    })
+        .done(function(data){})
+        .fail(function(data){})
 }
 
 $(document).on( "submit", "#store-gallery-item", function(e){
     e.preventDefault();
 
-    AjaxForm('gallery', $(this), ".edit-gallery-item")
+    AjaxForm('gallery', $(this), ".edit-gallery-item");
+    refreshContent();
 });
 
 $(document).on( "submit", "#update-gallery-item", function(e){
     e.preventDefault();
 
-    AjaxForm('gallery/update', $(this), ".edit-gallery-item")
+    AjaxForm('gallery/update', $(this), ".edit-gallery-item");
 });
 
 $(document).on( "submit", ".add-comment-form", function(e){
     e.preventDefault();
 
-    AjaxForm('comment/store', $(this), ".add-comment-form")
+    AjaxForm('comment/store', $(this), ".add-comment-form");
 });
+
