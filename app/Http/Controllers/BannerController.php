@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Layouts\Banner;
 use Illuminate\Http\Request;
 
 class BannerController extends Controller
 {
+    public function __construct(Banner $banner)
+    {
+        $this->model = $banner;
+    }
+
     /**
      * Display a listing of the resource.
      *

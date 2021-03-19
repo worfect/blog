@@ -2,10 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Blog;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
+
+    public function __construct(Blog $blog)
+    {
+        $this->model = $blog;
+    }
+
+
     /**
      * Display a listing of the resource.
      *

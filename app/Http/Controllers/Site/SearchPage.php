@@ -15,7 +15,6 @@ class SearchPage extends BasePage
 {
     public function __construct(News $news, Blog $blog, Gallery $gallery)
     {
-        parent::__construct();
 
         $this->models = [
             'blog' => $blog,

@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ImageAddRequest;
 use App\Http\Requests\ImageUpdateRequest;
-use App\Models\Category;
 use App\Models\Gallery;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
@@ -15,35 +14,43 @@ use Illuminate\Support\Facades\Storage;
 
 class GalleryController extends Controller
 {
-
     public function __construct(Gallery $gallery)
     {
         $this->model = $gallery;
     }
 
-    public function index(Request $request)
+
+    public function index(GalleryController $gallery, CategoryController $category, Request $request)
     {
-        foreach ($this->models as $name => $model){
-            $this->config = config('site_settings.gallery.' . $name);
-            $this->setBuilder($model);
+        $units = [
+            'gallery' => $gallery,
+            'category' => $category,
+        ];
+
+        foreach ($units as $name => $controller){
+            $config = config('site_settings.gallery.' . $name);
 
             if($name == 'gallery' and $request->query()) {
-                $this->builder = (new FilterController($this->builder, request()->query()))->getBuilder();
+                $this->collections[$name] = $controller->collection($config)
+                                                        ->withFilter($request->query())
+                                                        ->get();
+            }else{
+                $this->collections[$name] = $controller->collection($config)->get();
             }
-
-            $this->addCollection($name);
         }
         return $this->renderOutput('gallery.gallery');
     }
 
+
+
     public function show(Request $request)
     {
-        $this->setBuilderById($this->models['gallery'], $request->get('id'));
-        $this->addCollection('gallery');
+        $this->collections['gallery'] = $this->collection()->byId($request->get('id'))->get();
         return $this->renderOutput('gallery.show');
     }
 
-    public function create()
+
+    public function create(CategoryController $category)
     {
         try {
             $this->authorize('create', Gallery::class);
@@ -51,12 +58,11 @@ class GalleryController extends Controller
             return notice()->warning("Only verified users can add content")->html();
         }
 
-        $this->setBuilder(($this->models['category']))->select('name', 'id')
-            ->orderBy('name')
-            ->get();
-        $this->addCollection('categories');
+        $this->collections['categories'] = $category->collection()->builder()
+                                                            ->select('name', 'id')
+                                                            ->orderBy('name')
+                                                            ->get();
         return $this->renderOutput('gallery.create');
-
     }
 
     /**
@@ -74,7 +80,7 @@ class GalleryController extends Controller
 
         $url = str_replace('public/', '', $request->image->store('public/images'));
 
-        $post = new Gallery;
+        $post = $this->model;
         $post->image = asset("storage/". $url);
         $post->title = $request->title;
         $post->text = $request->text;
@@ -94,22 +100,26 @@ class GalleryController extends Controller
 
     /**
      *
+     * @param GalleryController $gallery
+     * @param CategoryController $category
      * @param Request $request
      * @return array|mixed|string
      */
-    public function edit(Request $request)
+    public function edit(GalleryController $gallery, CategoryController $category, Request $request)
     {
         try {
-            $this->authorize('update', Gallery::find($request->get('id')));
+            $this->authorize('update', $this->model::find($request->get('id')));
         } catch (AuthorizationException $e) {
             return notice()->warning("You do not have enough rights to perform this operation")->html();
         }
 
-        $this->setBuilderById($this->models['gallery'], $request->get('id'));
-        $this->addCollection('post');
-
-        $this->setBuilder($this->models['category'])->orderBy('name');
-        $this->addCollection('categories');
+        $this->collections['post'] = $gallery->collection()
+                                                ->byId( $request->get('id'))
+                                                ->get();
+        $this->collections['categories'] = $category->collection()
+                                                    ->builder()
+                                                    ->orderBy('name')
+                                                    ->get();
 
         return $this->renderOutput('gallery.edit');
     }
@@ -119,7 +129,8 @@ class GalleryController extends Controller
      */
     public function update(ImageUpdateRequest $request)
     {
-        $post = Gallery::find($request->get('id'));
+        $post = $this->model::find($request->get('id'));
+
         try {
             $this->authorize('update',  $post);
         } catch (AuthorizationException $e) {
@@ -144,14 +155,14 @@ class GalleryController extends Controller
     public function destroy(Request $request)
     {
         try {
-            $this->authorize('delete', Gallery::find($request->get('id')));
+            $this->authorize('delete', $this->model::find($request->get('id')));
         } catch (AuthorizationException $e) {
             return notice()->warning("You do not have enough rights to perform this operation")->html();
         }
 
-        Gallery::destroy($request->get('id'));
+        $this->model::destroy($request->get('id'));
 
-        if(!is_null(Gallery::find($request->get('id')))){
+        if(!is_null($this->model::find($request->get('id')))){
             return notice()->warning("Something went wrong")->html();
         }
     }
@@ -164,7 +175,7 @@ class GalleryController extends Controller
      */
     public function restore(Request $request)
     {
-        $post = Gallery::withTrashed()->find($request->get('id'));
+        $post = $this->model::withTrashed()->find($request->get('id'));
         try {
             $this->authorize('restore', $post);
         } catch (AuthorizationException $e) {
@@ -173,9 +184,8 @@ class GalleryController extends Controller
 
         $post->restore();
 
-        if(is_null(Gallery::find($request->get('id')))){
+        if(is_null($this->model::find($request->get('id')))){
             return notice()->warning("Something went wrong")->html();
         }
     }
-
 }

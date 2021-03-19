@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\News;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
+    public function __construct(News $news)
+    {
+        $this->model = $news;
+    }
     /**
      * Display a listing of the resource.
      *

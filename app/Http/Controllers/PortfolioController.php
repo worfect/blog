@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Portfolio;
 use Illuminate\Http\Request;
 
 class PortfolioController extends Controller
 {
+    public function __construct(Portfolio $portfolio)
+    {
+        $this->model = $portfolio;
+    }
+
     /**
      * Display a listing of the resource.
      *

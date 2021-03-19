@@ -36,14 +36,14 @@ Route::group(['middleware'=>'generate.menus'], function(){
     /**
      * Gallery.
      */
-    Route::get('gallery', 'Site\GalleryPage@index')->name('gallery.index');
-    Route::get('gallery/show', 'Site\GalleryPage@show')->middleware('only.ajax');
-    Route::get('gallery/create', 'Site\GalleryPage@create')->middleware('only.ajax');
-    Route::get('gallery/edit', 'Site\GalleryPage@edit')->middleware('only.ajax');
-    Route::get('gallery/delete', 'Site\GalleryPage@destroy')->middleware('only.ajax');
-    Route::get('gallery/restore', 'Site\GalleryPage@restore')->middleware('only.ajax');
-    Route::post('gallery/update', 'Site\GalleryPage@update')->middleware('only.ajax');
-    Route::post('gallery', 'Site\GalleryPage@store');
+    Route::get('gallery', 'GalleryController@index')->name('gallery.index');
+    Route::get('gallery/show', 'GalleryController@show')->middleware('only.ajax');
+    Route::get('gallery/create', 'GalleryController@create')->middleware('only.ajax');
+    Route::get('gallery/edit', 'GalleryController@edit')->middleware('only.ajax');
+    Route::get('gallery/delete', 'GalleryController@destroy')->middleware('only.ajax');
+    Route::get('gallery/restore', 'GalleryController@restore')->middleware('only.ajax');
+    Route::post('gallery/update', 'GalleryController@update')->middleware('only.ajax');
+    Route::post('gallery', 'GalleryController@store');
 
     /**
      * Profile.
@@ -73,7 +73,7 @@ Route::group(['middleware'=>'generate.menus'], function(){
     Route::get('profile/{id}', 'Site\ProfilePage@index')->name('profile');
 
 
-    Route::get('/', 'Site\HomePage@index')->name('home');
+    Route::get('/', 'HomeController@index')->name('home');
 });
 
 

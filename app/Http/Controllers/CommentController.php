@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
+    public function __construct(Comment $comment)
+    {
+        $this->model = $comment;
+    }
 
     /**
      * Show the form for creating a new resource.

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -16,8 +17,9 @@ class Controller extends BaseController
     protected $model;
     protected $builder;
     protected $config = null;
+    protected $collections = [];
 
-    public function collection($config = null)
+    public function collection($config = null): Controller
     {
         $this->config = $config;
         $this->builder = $this->model->with($this->model->relations);
@@ -27,20 +29,26 @@ class Controller extends BaseController
         }else{
             $this->builder;
         }
+
+        return $this;
     }
 
-    public function byId($id){
+    public function byId($id): Controller
+    {
         $this->builder->where('id', $id);
+        return $this;
     }
 
-    public function withSearch($query)
+    public function withSearch($query): Controller
     {
         $this->builder = (new SearchController($this->builder, $query))->builder();
+        return $this;
     }
 
-    public function withFilter($query)
+    public function withFilter($query): Controller
     {
         $this->builder = (new FilterController($this->builder, $query))->builder();
+        return $this;
     }
 
     public function get()
@@ -66,6 +74,9 @@ class Controller extends BaseController
         return $this->builder;
     }
 
+
+
+
     /**
      * Проверяет наличие поля в параметрах.
      *
@@ -77,5 +88,15 @@ class Controller extends BaseController
         return isset($this->params[$param]) ? $this->params[$param] : false;
     }
 
+
+
+    protected function renderOutput($template){
+        return view($template, $this->collections)->render();
+    }
+
+    public function refreshContent()
+    {
+
+    }
 
 }
