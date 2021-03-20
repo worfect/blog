@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 
 class QuickSearchController extends Controller
 {
+
+    protected $params;
+
     /**
      * За раз поиск производится по одной модели.
      * Возвращает Collection.

@@ -2,40 +2,24 @@
 
 namespace App\Http\Controllers;
 
-
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 
 class FilterController extends Controller
 {
 
-    /**
-     * Принимает QueryBuilder и параметры фильтрации.
-     * За раз фильтрация производится по одной модели.
-     * Возвращает QueryBuilder.
-     *
-     * @param $builder
-     * @param $params
-     */
-    public function __construct(Builder $builder, array $params)
+    protected $params;
+
+    protected function filter($builder, $query)
     {
-        $this->params = $params;
         $this->builder = $builder;
+        $this->params = $query;
 
-        $this->initializationFilter();
-    }
-
-    /**
-     * Вызов необходимого метода в зависимости от объекта фильтрации.
-     *
-     * @return void
-     */
-    protected function initializationFilter()
-    {
         $section = $this->checkParams('section');
         if($section == 'gallery' or 'news' or 'blog') {
             $this->contentFilter();
         }
+
+        return $this->builder;
     }
 
     /**
@@ -70,10 +54,7 @@ class FilterController extends Controller
                 $this->builder->orderBy('rating', 'desc');
                 break;
             case 'comments':
-
                 $this->builder->withCount('comments')->orderBy('comments_count', 'desc');
-
-
                 break;
         }
        $this->selectionByDate();
@@ -101,6 +82,17 @@ class FilterController extends Controller
                 $this->builder->where('updated_at', '>', Carbon::now()->subYear());
                 break;
         }
+    }
+
+    /**
+     * Проверяет наличие поля в параметрах.
+     *
+     * @param $param
+     * @return string
+     */
+    protected function checkParams($param)
+    {
+        return isset($this->params[$param]) ? $this->params[$param] : false;
     }
 
 }

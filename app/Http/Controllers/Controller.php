@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -13,7 +12,6 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    protected $params;
     protected $model;
     protected $builder;
     protected $config = null;
@@ -41,13 +39,13 @@ class Controller extends BaseController
 
     public function withSearch($query): Controller
     {
-        $this->builder = (new SearchController($this->builder, $query))->builder();
+        $this->builder = (new SearchController())->search($this->builder, $query);
         return $this;
     }
 
     public function withFilter($query): Controller
     {
-        $this->builder = (new FilterController($this->builder, $query))->builder();
+        $this->builder = (new FilterController())->filter($this->builder, $query);
         return $this;
     }
 
@@ -73,21 +71,6 @@ class Controller extends BaseController
     {
         return $this->builder;
     }
-
-
-
-
-    /**
-     * Проверяет наличие поля в параметрах.
-     *
-     * @param $param
-     * @return string
-     */
-    protected function checkParams($param)
-    {
-        return isset($this->params[$param]) ? $this->params[$param] : false;
-    }
-
 
 
     protected function renderOutput($template){

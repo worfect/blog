@@ -19,7 +19,6 @@ class GalleryController extends Controller
         $this->model = $gallery;
     }
 
-
     public function index(GalleryController $gallery, CategoryController $category, Request $request)
     {
         $units = [

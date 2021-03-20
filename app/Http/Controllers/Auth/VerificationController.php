@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Site\BasePage;
+use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\Events\Verified;
@@ -14,7 +14,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 
 
-class VerificationController extends BasePage
+class VerificationController extends Controller
 {
 
     use VerifiesEmails;
@@ -25,11 +25,9 @@ class VerificationController extends BasePage
     /**
      * Create a new controller instance.
      *
-     * @param Request $request
      */
-    public function __construct(Request $request)
+    public function __construct()
     {
-        parent::__construct($request);
 
         $this->middleware('auth');
         $this->middleware('signed')->only('verify');

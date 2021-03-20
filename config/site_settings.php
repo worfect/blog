@@ -60,17 +60,17 @@ return [
         'news' => [
             'select' => '*',
             'amount' => 10,
-            'paginate' => true,
+            'paginate' => false,
         ],
         'blog' => [
             'select' => '*',
             'amount' => 10,
-            'paginate' => true,
+            'paginate' => false,
         ],
         'gallery' => [
             'select' => '*',
             'amount' => 10,
-            'paginate' => true,
+            'paginate' => false,
         ],
     ],
 

@@ -2,22 +2,20 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Site\BasePage;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\UserLoginRequest;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
 
-class LoginController extends BasePage
+class LoginController extends Controller
 {
 
     use AuthenticatesUsers;
 
 
-    public function __construct(Request $request)
+    public function __construct()
     {
-        parent::__construct($request);
-
         $this->middleware('guest')->except('logout');
     }
 

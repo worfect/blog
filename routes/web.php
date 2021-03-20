@@ -4,13 +4,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware'=>'generate.menus'], function(){
     /**
-     * Search.
-     */
-    Route::get('search', 'Site\SearchPage@index')->name('search');
-    Route::get('qsearch', 'QuickSearchController@search');
-
-
-    /**
      * Register the typical authentication routes for an application.
      */
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
@@ -48,6 +41,7 @@ Route::group(['middleware'=>'generate.menus'], function(){
     /**
      * Profile.
      */
+    Route::get('profile/{id}', 'Site\ProfilePage@index')->name('profile');
     Route::get('/profile/{id}/gallery', 'Site\ProfilePage@gallery')->name('profile.gallery');
 
     /**
@@ -55,6 +49,16 @@ Route::group(['middleware'=>'generate.menus'], function(){
      */
     Route::post('comment/store', 'CommentController@store')->middleware('only.ajax');
 
+    /**
+     * Search.
+     */
+    Route::get('search', 'SearchController@index')->name('search');
+    Route::get('qsearch', 'SearchController@quickSearch')->middleware('only.ajax');
+
+    /**
+     * Home.
+     */
+    Route::get('/', 'HomeController@index')->name('home');
 
     /**
      * Other.
@@ -70,10 +74,6 @@ Route::group(['middleware'=>'generate.menus'], function(){
     Route::resource('news', 'Site\NewsPage');
 
 
-    Route::get('profile/{id}', 'Site\ProfilePage@index')->name('profile');
-
-
-    Route::get('/', 'HomeController@index')->name('home');
 });
 
 
