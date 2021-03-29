@@ -32,10 +32,10 @@ class FilterController extends Controller
         $method = $this->checkParams('method');
         switch ($method){
             case 'new':
-                $this->builder->orderBy('updated_at', 'desc');
+                $this->builder->orderBy('created_at', 'desc');
                 break;
             case 'old':
-                $this->builder->orderBy('updated_at', 'asc');
+                $this->builder->orderBy('created_at', 'asc');
                 break;
             case 'best':
                 $this->selectionByCriterion();

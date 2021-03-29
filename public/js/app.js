@@ -42119,23 +42119,29 @@ function cleaningInvalid(form) {
   form.find('.is-invalid').removeClass('is-invalid');
 }
 
-function AjaxForm(url, form, location) {
-  ajaxPromise(url, form).then(function (data) {
-    if (location) {
-      notice.showNoticeMessages(data, location);
-    }
-  })["catch"](function (data) {
-    var errors = data.responseJSON.errors;
-    jquery__WEBPACK_IMPORTED_MODULE_0___default.a.each(errors, function (name, message) {
-      var span = document.createElement('span');
-      var strong = document.createElement('strong');
-      var field = jquery__WEBPACK_IMPORTED_MODULE_0___default()('[name = ' + name + ']');
-      strong.innerHTML = message;
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()(span).attr({
-        "class": "invalid-feedback",
-        "role": "alert"
-      }).html(strong);
-      field.addClass("is-invalid").after(span);
+function ajaxForm(url, form, location) {
+  return new Promise(function (resolve, reject) {
+    ajaxPromise(url, form).then(function (data) {
+      if (location) {
+        console.log('notice');
+        notice.showNoticeMessages(data, location);
+        console.log(location);
+        console.log(data);
+        resolve();
+      }
+    })["catch"](function (data) {
+      var errors = data.responseJSON.errors;
+      jquery__WEBPACK_IMPORTED_MODULE_0___default.a.each(errors, function (name, message) {
+        var span = document.createElement('span');
+        var strong = document.createElement('strong');
+        var field = jquery__WEBPACK_IMPORTED_MODULE_0___default()('[name = ' + name + ']');
+        strong.innerHTML = message;
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()(span).attr({
+          "class": "invalid-feedback",
+          "role": "alert"
+        }).html(strong);
+        field.addClass("is-invalid").after(span);
+      });
     });
   });
 }
@@ -42160,29 +42166,38 @@ function ajaxPromise(url, form) {
   });
 }
 
-function refreshContent(data) {
-  jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
-    url: 'refresh',
-    method: 'POST',
-    dataType: 'JSON',
-    processData: false,
-    contentType: false,
-    data: data
-  }).done(function (data) {}).fail(function (data) {});
+function refreshContent(url, form, location) {
+  var formData = new FormData(form.get(0));
+  ajaxForm('comment/store', form, ".add-gallery-comment-form").then(function (data) {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
+      url: url + "/refresh",
+      method: 'POST',
+      dataType: 'HTML',
+      processData: false,
+      contentType: false,
+      data: formData
+    }).done(function (data) {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()(location).empty();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()(location).append(data);
+    }).fail(function (data) {});
+  });
+}
+
+function sendGalleryComment(form) {
+  refreshContent('comment', form, '.show-gallery-comments');
 }
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", "#store-gallery-item", function (e) {
   e.preventDefault();
-  AjaxForm('gallery', jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), ".edit-gallery-item");
-  refreshContent();
+  ajaxForm('gallery', jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), ".edit-gallery-item");
 });
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", "#update-gallery-item", function (e) {
   e.preventDefault();
-  AjaxForm('gallery/update', jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), ".edit-gallery-item");
+  ajaxForm('gallery/update', jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), ".edit-gallery-item");
 });
-jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", ".add-comment-form", function (e) {
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", ".add-gallery-comment-form", function (e) {
   e.preventDefault();
-  AjaxForm('comment/store', jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), ".add-comment-form");
+  sendGalleryComment(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this));
 });
 
 /***/ }),

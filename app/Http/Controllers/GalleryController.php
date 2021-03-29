@@ -6,8 +6,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ImageAddRequest;
 use App\Http\Requests\ImageUpdateRequest;
+use App\Models\Comment;
 use App\Models\Gallery;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -42,9 +44,19 @@ class GalleryController extends Controller
 
 
 
-    public function show(Request $request)
+    public function show(CommentController $comment, Request $request)
     {
-        $this->collections['gallery'] = $this->collection()->byId($request->get('id'))->get();
+
+        $this->collections['gallery'] = $this->collection()
+                                                ->byId($request->get('id'))
+                                                ->get();
+        $this->collections['comments'] = $comment->collection()
+                                                        ->builder()
+                                                        ->whereHas('gallery', function (Builder $query) use ($request) {
+                                                            $query->where('id', $request->get('id'));
+                                                        })
+                                                        ->get();
+
         return $this->renderOutput('gallery.show');
     }
 
@@ -187,4 +199,10 @@ class GalleryController extends Controller
             return notice()->warning("Something went wrong")->html();
         }
     }
+
+    public function refresh(Request $request)
+    {
+
+    }
+
 }

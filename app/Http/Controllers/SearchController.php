@@ -24,7 +24,6 @@ class SearchController extends Controller
         }
 
         return $this->builder;
-
     }
 
     public function index(NewsController $news, BlogController $blog,
@@ -49,7 +48,7 @@ class SearchController extends Controller
                 notice()->warning('Nothing found')->session();
             }
         }
-        return $this->renderOutput('search.search');
+        return $this->renderOutput('search.index');
     }
 
 
@@ -79,11 +78,6 @@ class SearchController extends Controller
     {
         return isset($this->params[$param]) ? $this->params[$param] : false;
     }
-
-
-
-
-
 
 
 

@@ -43,30 +43,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="show-comments">
-                        @foreach($item->comments as $comment)
-                            <div class="comment">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <div class="author">
-                                            {{ $comment->created_at->format('d/m/Y')}}
-                                            <a href="" class="card-link">{{ $comment->user->screen_name }}</a>
-                                        </div>
-                                        <div class="rating">
-                                            <i class="fas fa-minus-square"></i>
-                                            {{ $comment->rating }}
-                                            <i class="fas fa-plus-square"></i>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <p class="card-text">{{ $comment->text }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
+                    <div class="show-gallery-comments">
+                        @include('gallery.comments')
                     </div>
-                    <div class="add-comment">
-                        <form class="add-comment-form">
+                    <div class="add-gallery-comment">
+                        <form class="add-gallery-comment-form">
+                            <input name="type" type="hidden" value="gallery">
                             <input name="id" type="hidden" value="{{ $item->id }}">
                             <textarea class="form-control" name="text"></textarea>
                             <button type="submit" class="btn btn-primary send-comment-gallery">Add comment</button>

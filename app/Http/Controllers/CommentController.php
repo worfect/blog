@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CommentAddRequest;
 use App\Models\Comment;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -93,5 +94,16 @@ class CommentController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function refresh(CommentController $comment, Request $request)
+    {
+        $this->collections['comments'] = $comment->collection()
+                                                    ->builder()
+                                                    ->whereHas($request->get("type"), function (Builder $query) use ($request) {
+                                                        $query->where('id', '=', $request->get('id'));
+                                                    })
+                                                    ->get();
+        return $this->renderOutput($request->get("type") . ".comments");
     }
 }

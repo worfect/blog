@@ -10,31 +10,36 @@ function cleaningInvalid(form){
         .removeClass('is-invalid')
 }
 
-function AjaxForm(url, form, location){
-    ajaxPromise(url, form)
-        .then((data) => {
-            if (location){
-                notice.showNoticeMessages(data, location);
-            }
-        })
-        .catch((data) => {
-            let errors = data.responseJSON.errors;
+function ajaxForm(url, form, location){
+    return new Promise((resolve, reject) => {
+        ajaxPromise(url, form)
+            .then((data) => {
+                if (location){
+                    console.log('notice');
+                    notice.showNoticeMessages(data, location);
+                    console.log(location);
+                    console.log(data);
+                    resolve();
+                }
+            })
+            .catch((data) => {
+                let errors = data.responseJSON.errors;
 
-            $.each( errors, function( name, message ) {
+                $.each( errors, function( name, message ) {
+                    let span = document.createElement('span');
+                    let strong = document.createElement('strong');
+                    let field = $('[name = '+ name +']');
 
-                let span = document.createElement('span');
-                let strong = document.createElement('strong');
-                let field = $('[name = '+ name +']');
+                    strong.innerHTML = message;
 
-                strong.innerHTML = message;
+                    $(span).attr({"class":"invalid-feedback", "role":"alert"})
+                        .html(strong);
 
-                $(span).attr({"class":"invalid-feedback", "role":"alert"})
-                    .html(strong);
-
-                field.addClass("is-invalid")
-                    .after(span);
-            });
-        })
+                    field.addClass("is-invalid")
+                        .after(span);
+                });
+            })
+    })
 
 }
 
@@ -61,35 +66,48 @@ function ajaxPromise(url, form){
     })
 }
 
-function refreshContent(data){
-    $.ajax({
-        url: 'refresh',
-        method: 'POST',
-        dataType: 'JSON',
-        processData: false,
-        contentType: false,
-        data: data
-    })
-        .done(function(data){})
-        .fail(function(data){})
+function refreshContent(url, form, location){
+    let formData = new FormData(form.get(0))
+
+    ajaxForm('comment/store', form, ".add-gallery-comment-form")
+        .then((data) => {
+        $.ajax({
+            url: url + "/refresh",
+            method: 'POST',
+            dataType: 'HTML',
+            processData: false,
+            contentType: false,
+            data: formData
+        })
+            .done(function(data){
+                $(location).empty();
+                $(location).append(data);
+            })
+            .fail(function(data){
+
+            })
+        }
+    )
 }
+
+function sendGalleryComment(form){
+    refreshContent('comment', form, '.show-gallery-comments');
+}
+
+
+
 
 $(document).on( "submit", "#store-gallery-item", function(e){
     e.preventDefault();
-
-    AjaxForm('gallery', $(this), ".edit-gallery-item");
-    refreshContent();
+    ajaxForm('gallery', $(this), ".edit-gallery-item");
 });
 
 $(document).on( "submit", "#update-gallery-item", function(e){
     e.preventDefault();
-
-    AjaxForm('gallery/update', $(this), ".edit-gallery-item");
+    ajaxForm('gallery/update', $(this), ".edit-gallery-item");
 });
 
-$(document).on( "submit", ".add-comment-form", function(e){
+$(document).on( "submit", ".add-gallery-comment-form", function(e){
     e.preventDefault();
-
-    AjaxForm('comment/store', $(this), ".add-comment-form");
+    sendGalleryComment($(this))
 });
-

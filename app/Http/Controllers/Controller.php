@@ -12,7 +12,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    protected $model;
+    public $model;
     protected $builder;
     protected $config = null;
     protected $collections = [];
@@ -62,24 +62,13 @@ class Controller extends BaseController
         }
     }
 
-    /**
-     * Возвращает построитель запросов.
-     *
-     * @return Builder
-     */
+
     public function builder(): Builder
     {
         return $this->builder;
     }
 
-
     protected function renderOutput($template){
         return view($template, $this->collections)->render();
     }
-
-    public function refreshContent()
-    {
-
-    }
-
 }

@@ -25,7 +25,7 @@ return [
         ],
         'banner' => [
             'select' => '*',
-            'amount' => 2,
+            'amount' => 3,
             'paginate' => false,
         ],
     ],
