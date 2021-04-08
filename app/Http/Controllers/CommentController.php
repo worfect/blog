@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CommentAddRequest;
 use App\Models\Comment;
+
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
-class CommentController extends Controller
+class CommentController extends ContentController
 {
     public function __construct(Comment $comment)
     {
@@ -40,13 +42,17 @@ class CommentController extends Controller
             return notice()->warning("Only verified users can add comments")->json();
         }
 
+
+        $ModelName = 'App\\Models\\' . Str::studly($request->get('type'));
+        $currentModel = new $ModelName;
+
         $comment = new Comment;
         $comment->text = $request->text;
         $comment->user_id = Auth::id();
+        $comment->commentable_type = get_class($currentModel);
+        $comment->commentable_id = $request->id;
 
         $comment->save();
-
-        $comment->gallery()->attach($request->id);
 
         return notice()->success("Comment added")->json();
     }
@@ -98,12 +104,15 @@ class CommentController extends Controller
 
     public function refresh(CommentController $comment, Request $request)
     {
-        $this->collections['comments'] = $comment->collection()
-                                                    ->builder()
-                                                    ->whereHas($request->get("type"), function (Builder $query) use ($request) {
-                                                        $query->where('id', '=', $request->get('id'));
-                                                    })
-                                                    ->get();
-        return $this->renderOutput($request->get("type") . ".comments");
+        $ModelName = 'App\\Models\\' . Str::studly($request->get('type'));
+        if(class_exists($ModelName)) {
+            $this->collections['comments'] = $comment->collection()
+                                                        ->builder()
+                                                        ->whereHasMorph('commentable',  $ModelName, function (Builder $query) use ($request) {
+                                                            $query->where('id', '=', $request->get('id'));
+                                                        })
+                                                        ->get();
+            return $this->renderOutput($request->get("type") . ".comments");
+        }
     }
 }

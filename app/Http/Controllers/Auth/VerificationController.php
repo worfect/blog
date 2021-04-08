@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ContentController;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\Events\Verified;
@@ -14,7 +14,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 
 
-class VerificationController extends Controller
+class VerificationController extends ContentController
 {
 
     use VerifiesEmails;

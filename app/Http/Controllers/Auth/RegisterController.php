@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
-
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ContentController;
 use App\Http\Requests\UserRegistrationRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Http\Request;
 
-class RegisterController extends Controller
+
+class RegisterController extends ContentController
 {
     use RegistersUsers;
 

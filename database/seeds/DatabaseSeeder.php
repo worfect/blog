@@ -20,9 +20,11 @@ class DatabaseSeeder extends Seeder
         factory(\App\Models\Portfolio::class, 8)->create();
 
         factory(\App\Models\Category::class, 20)->create();
-        factory(\App\Models\Comment::class, 150)->create();
+        factory(\App\Models\Comment::class, 100)->create();
+        factory(\App\Models\Attitude::class, 100)->create();
 
         factory(\App\Models\Layouts\Banner::class, 2)->create();
+
 
         $this->call(RelationSeeder::class);
     }

@@ -12,7 +12,6 @@ $factory->define(User::class, function (Faker $faker) {
    $active = $faker->boolean;
 
     return [
-
         'login' => $login,
         'screen_name' => $login,
         'email' => $faker->unique()->safeEmail,
@@ -22,6 +21,5 @@ $factory->define(User::class, function (Faker $faker) {
         'verify_token' => $active ? null : Str::uuid(),
         'role' => $active ? $faker->randomElement([User::ROLE_USER, User::ROLE_ADMIN, User::ROLE_MODERATOR]) : User::ROLE_USER,
         'status' => $active ? User::STATUS_ACTIVE : User::STATUS_WAIT,
-
     ];
 });

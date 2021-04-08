@@ -26,7 +26,7 @@ $('.quick-search-form')
                         result.empty();
                         $.each(data, function(k, v){
                             let div = document.createElement('DIV');
-                            $(div).attr({"class":"search-result-item gallery-card", "id":"gallery-card-" + v.id});
+                            $(div).attr({"class":"search-result-item gallery-card-search-result", "id":"gallery-card-" + v.id});
                             div.innerHTML = v.title;
                             $(div).appendTo(result);
                             result.css("display", "flex");

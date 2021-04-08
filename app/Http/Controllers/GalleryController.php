@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ImageAddRequest;
 use App\Http\Requests\ImageUpdateRequest;
-use App\Models\Comment;
 use App\Models\Gallery;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Builder;
@@ -14,7 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class GalleryController extends Controller
+class GalleryController extends ContentController
 {
     public function __construct(Gallery $gallery)
     {
@@ -46,13 +45,14 @@ class GalleryController extends Controller
 
     public function show(CommentController $comment, Request $request)
     {
+        $this->viewCount($request->get('id'));
 
         $this->collections['gallery'] = $this->collection()
                                                 ->byId($request->get('id'))
                                                 ->get();
         $this->collections['comments'] = $comment->collection()
                                                         ->builder()
-                                                        ->whereHas('gallery', function (Builder $query) use ($request) {
+                                                        ->whereHasMorph('commentable', [Gallery::class], function (Builder $query) use ($request) {
                                                             $query->where('id', $request->get('id'));
                                                         })
                                                         ->get();
@@ -200,9 +200,14 @@ class GalleryController extends Controller
         }
     }
 
-    public function refresh(Request $request)
+    public function refresh(GalleryController $gallery, Request $request)
     {
-
+        $config = config('site_settings.gallery.gallery');
+        $this->collections['gallery'] = $gallery->collection($config)
+                                                    ->builder()
+                                                    ->orderBy('created_at', 'desc')
+                                                    ->paginate($config['amount'])
+                                                    ->appends(request()->query());
+        return $this->renderOutput('gallery.content');
     }
-
 }

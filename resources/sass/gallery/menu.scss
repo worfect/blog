@@ -1,74 +1,81 @@
-.search-result{
-    position: absolute;
+.menu-gallery{
+    margin-top: 0.5em;
     display: flex;
-    flex-direction: column;
+    justify-content: space-around;
+    align-items: stretch;
+    .search-result{
+        position: absolute;
+        display: flex;
+        flex-direction: column;
 
-    .search-result-item{
-        z-index: 10;
-        background-color: $secondary;
-        text-decoration: none;
-        &:hover {
-            background-color: $hover;
-            cursor: pointer;
-        }
-    }
-}
-
-.search-section{
-    display: flex;
-    align-items: center;
-    .search-query {
-        color: $primary;
-        background-color: $secondary;
-        border: 1px solid $primary;
-        border-radius: 0.25em;
-    }
-}
-.filter{
-    border-radius: 0.25em;
-    background-color: $primary;
-    color: $secondary;
-    .form-inline{
-        margin: 0.5em;
-        justify-content: space-between;
-        align-items: center;
-        .selector-group{
-            select{
-                margin-right: 1em;
-                background-color: $secondary;
-            }
-        }
-        .btn{
-            @extend %template-btn;
-        }
-    }
-}
-.gallery-user-menu{
-    margin-left: 0.5em;
-    padding: 0.5em;
-    width: 100%;
-    border-radius: 0.25em;
-    background-color: $primary;
-    color: $secondary;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .user{
-        .btn{
-            @extend %template-btn;
-        }
-    }
-    .guest {
-        p{
-            margin: 0;
-        }
-        a {
+        .search-result-item{
+            z-index: 10;
+            background-color: $secondary;
             text-decoration: none;
-            color: $secondary;
-            font-style: oblique;
             &:hover {
-                color: $hover;
+                background-color: $hover;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .search-section{
+        display: flex;
+        align-items: center;
+        .search-query {
+            color: $primary;
+            background-color: $secondary;
+            border: 1px solid $primary;
+            border-radius: 0.25em;
+        }
+    }
+    .filter{
+        border-radius: 0.25em;
+        background-color: $primary;
+        color: $secondary;
+        .form-inline{
+            margin: 0.5em;
+            justify-content: space-between;
+            align-items: center;
+            .selector-group{
+                select{
+                    margin-right: 1em;
+                    background-color: $secondary;
+                }
+            }
+            .btn{
+                @extend %template-btn;
+            }
+        }
+    }
+    .gallery-user-menu{
+        margin-left: 0.5em;
+        padding: 0.5em;
+        width: 100%;
+        border-radius: 0.25em;
+        background-color: $primary;
+        color: $secondary;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .user{
+            .btn{
+                @extend %template-btn;
+            }
+        }
+        .guest {
+            p{
+                margin: 0;
+            }
+            a {
+                text-decoration: none;
+                color: $secondary;
+                font-style: oblique;
+                &:hover {
+                    color: $hover;
+                }
             }
         }
     }
 }
+

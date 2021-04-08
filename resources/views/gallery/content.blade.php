@@ -4,7 +4,7 @@
             {{ $gallery->links() }}
             <div class="main-gallery-items">
                 @foreach($gallery as $item)
-                    <div class="card gallery-card" id="gallery-card-{{ $item->id }}">
+                    <div class="card gallery-card content-item" id="gallery-card-{{ $item->id }}">
                         <img class="card-img" src="{{ $item->image }}" alt="{{ $item->title }}">
                         <div class="card-img-overlay">
                             <p class="card-text">{{ $item->title }}</p>

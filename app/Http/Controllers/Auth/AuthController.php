@@ -4,9 +4,10 @@
 namespace App\Http\Controllers\Auth;
 
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ContentController;
 
-class AuthController extends Controller
+
+class AuthController extends ContentController
 {
 
 }

@@ -6,26 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
-    public $relations = ['blog', 'gallery', 'news', 'user'];
+    public $relations = ['commentable', 'user', 'attitude'];
     public $name = 'comment';
 
-    public function blog()
+    public function commentable()
     {
-        return $this->morphedByMany('App\Models\Blog', 'commentable');
+        return $this->morphTo();
     }
-    public function gallery()
-    {
-        return $this->morphedByMany('App\Models\Gallery', 'commentable');
-    }
-    public function news()
-    {
-        return $this->morphedByMany('App\Models\News', 'commentable');
-    }
+
     public function user()
     {
         return $this->belongsTo("App\Models\User");
     }
-    public function commentable(){
 
+    public function attitude()
+    {
+        return $this->morphMany('App\Models\Attitude', 'attitudeable');
     }
+
 }

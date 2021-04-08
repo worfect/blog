@@ -19,7 +19,6 @@ $factory->define(News::class, function (Faker $faker) {
         'text' => $text,
         'user_id' => $userId,
         'image' => $faker->imageUrl($width = 800, $height = 600),
-        'rating' => rand(1, 100),
         'views' => rand(1, 1000)
     ];
 });

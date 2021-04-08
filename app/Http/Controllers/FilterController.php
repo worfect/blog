@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Carbon;
 
-class FilterController extends Controller
+class FilterController extends ContentController
 {
-
     protected $params;
 
     protected function filter($builder, $query)

@@ -1,6 +1,6 @@
 import $ from "jquery";
 
-const notice = require('./vendor/notice/messages')
+import Form from './Form.js';
 
 function removeGalleryModal(){
     if($('.gallery-modal').length){
@@ -112,11 +112,34 @@ function restoreGalleryItem() {
     });
 }
 
-$('.gallery-card').on("click", showGalleryItemModal);
-$('.search-result').on("click", ".gallery-card", showGalleryItemModal);
-$('.create-gallery-item').on("click", createGalleryItemModal);
+$(document).on( "submit", "#store-gallery-item", function(e){
+    e.preventDefault();
+    let form = new Form($(this), 'gallery');
+    form.withNotice('.edit-gallery-item')
+        .withRefresh('.content-gallery')
+        .submitForm();
+});
+
+$(document).on( "submit", "#update-gallery-item", function(e){
+    e.preventDefault();
+    let form = new Form($(this), 'gallery/update');
+    form.withNotice('.edit-gallery-item')
+        .submitForm();
+});
+
+$(document).on( "submit", ".add-gallery-comment-form", function(e){
+    e.preventDefault();
+    let form = new Form($(this), 'comment');
+    form.withNotice('.add-gallery-comment')
+        .withRefresh('.show-gallery-comments')
+        .submitForm();
+});
+
+
+$(document).on("click", ".gallery-card-search-result", showGalleryItemModal);
+$(document).on("click", ".create-gallery-item", createGalleryItemModal);
+$(document).on("click", ".gallery-card", showGalleryItemModal);
 $(document).on("click", ".gallery-edit-btn", editGalleryItemModal);
 $(document).on("click", ".gallery-delete-btn", deleteGalleryItem);
 $(document).on("click", '.gallery-card-deleted', restoreGalleryItem);
-
 

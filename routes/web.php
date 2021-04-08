@@ -36,7 +36,7 @@ Route::group(['middleware'=>'generate.menus'], function(){
     Route::get('gallery/delete', 'GalleryController@destroy')->middleware('only.ajax');
     Route::get('gallery/restore', 'GalleryController@restore')->middleware('only.ajax');
     Route::post('gallery/update', 'GalleryController@update')->middleware('only.ajax');
-    Route::get('gallery/refresh', 'GalleryController@refresh')->middleware('only.ajax');
+    Route::post('gallery/refresh', 'GalleryController@refresh')->middleware('only.ajax');
     Route::post('gallery', 'GalleryController@store');
 
     /**
@@ -48,7 +48,7 @@ Route::group(['middleware'=>'generate.menus'], function(){
     /**
      * Comment.
      */
-    Route::post('comment/store', 'CommentController@store')->middleware('only.ajax');
+    Route::post('comment', 'CommentController@store')->middleware('only.ajax');
     Route::post('comment/refresh', 'CommentController@refresh')->middleware('only.ajax');
 
     /**
@@ -62,10 +62,7 @@ Route::group(['middleware'=>'generate.menus'], function(){
      */
     Route::get('/', 'HomeController@index')->name('home');
 
-    /**
-     * Other.
-     */
-    Route::post('refresh', 'Controller@refreshContent')->middleware('only.ajax');
+    Route::post('rating', 'RatingController@index')->middleware('only.ajax');
 
 
     Route::resources([
@@ -74,8 +71,6 @@ Route::group(['middleware'=>'generate.menus'], function(){
 
     Route::resource('portfolio', 'Site\PortfolioPage');
     Route::resource('news', 'Site\NewsPage');
-
-
 });
 
 

@@ -30,11 +30,8 @@
                                 @can('delete', App\Models\Gallery::find($item->id))
                                         <button id="{{ $item->id }}" class="btn gallery-delete-btn"><i class="fas fa-trash-alt"></i></button>
                                 @endcan
-
-                                <div class="rating">
-                                    <i class="fas fa-minus-square"></i>
-                                    {{ $item->rating }}
-                                    <i class="fas fa-plus-square"></i>
+                                <div class="gallery-rating-panel">
+                                    @include('layouts.rating')
                                 </div>
                             </div>
                             <div class="card-body">
@@ -48,7 +45,7 @@
                     </div>
                     <div class="add-gallery-comment">
                         <form class="add-gallery-comment-form">
-                            <input name="type" type="hidden" value="gallery">
+                            <input name="type" type="hidden" value="{{ $item->name }}">
                             <input name="id" type="hidden" value="{{ $item->id }}">
                             <textarea class="form-control" name="text"></textarea>
                             <button type="submit" class="btn btn-primary send-comment-gallery">Add comment</button>
