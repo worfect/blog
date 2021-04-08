@@ -14,7 +14,6 @@ class RelationSeeder extends Seeder
     public function run()
     {
         $categoriesSections = ['App\Models\Blog', 'App\Models\News', 'App\Models\Gallery'];
-        $commentsSections = ['App\Models\Blog', 'App\Models\News', 'App\Models\Gallery'];
 
         for($i = 100; $i > 0; $i--)
         {
@@ -22,15 +21,6 @@ class RelationSeeder extends Seeder
                 'category_id' => rand(1, 20),
                 'categoryable_id' => rand(1, 20),
                 'categoryable_type' => $categoriesSections[array_rand($categoriesSections)]
-            ]);
-        }
-
-        for($i = 100; $i > 0; $i--)
-        {
-            DB::table('commentables')->insert([
-                'comment_id' => rand(1, 20),
-                'commentable_id' => rand(1, 20),
-                'commentable_type' => $commentsSections[array_rand($commentsSections)]
             ]);
         }
     }

@@ -19461,8 +19461,8 @@ a.text-dark:focus {
 
 .search-menu .search-form button,
 .gallery-create .modal-content .modal-body .edit-gallery-item .down .btn,
-.gallery-user-menu .user .btn,
-.filter .form-inline .btn,
+.menu-gallery .gallery-user-menu .user .btn,
+.menu-gallery .filter .form-inline .btn,
 .main-blog .main-blog-item .menu .btn,
 .create .user .btn,
 .login .btn,
@@ -19477,8 +19477,8 @@ a.text-dark:focus {
 
 .search-menu .search-form button:hover,
 .gallery-create .modal-content .modal-body .edit-gallery-item .down .btn:hover,
-.gallery-user-menu .user .btn:hover,
-.filter .form-inline .btn:hover,
+.menu-gallery .gallery-user-menu .user .btn:hover,
+.menu-gallery .filter .form-inline .btn:hover,
 .main-blog .main-blog-item .menu .btn:hover,
 .create .user .btn:hover,
 .login .btn:hover,
@@ -20493,13 +20493,6 @@ footer .duplicate-navigate .footer-item {
   justify-content: center;
 }
 
-.content-gallery .header {
-  margin-top: 0.5em;
-  display: flex;
-  justify-content: space-around;
-  align-items: stretch;
-}
-
 .content-gallery section {
   margin-top: 0.5em;
 }
@@ -20633,67 +20626,91 @@ footer .duplicate-navigate .footer-item {
   justify-content: space-between;
 }
 
-.gallery-show .modal-content .modal-body .data .show-comments {
+.gallery-show .modal-content .modal-body .data .info .card .card-header .gallery-rating-panel .rating-panel {
+  display: flex;
+  justify-content: center;
+}
+
+.gallery-show .modal-content .modal-body .data .info .card .card-header .gallery-rating-panel .rating-panel .active {
+  background-color: #F4DF7D;
+}
+
+.gallery-show .modal-content .modal-body .data .show-gallery-comments {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   max-height: 500px;
   overflow-y: auto;
 }
 
-.gallery-show .modal-content .modal-body .data .show-comments .card .card-header {
+.gallery-show .modal-content .modal-body .data .show-gallery-comments .comment .card .card-header {
   display: flex;
   justify-content: space-between;
 }
 
-.search-result {
+.gallery-show .modal-content .modal-body .data .show-gallery-comments .comment .card .card-header .comment-rating-panel .rating-panel {
+  display: flex;
+  justify-content: center;
+}
+
+.gallery-show .modal-content .modal-body .data .show-gallery-comments .comment .card .card-header .comment-rating-panel .rating-panel .active {
+  background-color: #F4DF7D;
+}
+
+.menu-gallery {
+  margin-top: 0.5em;
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch;
+}
+
+.menu-gallery .search-result {
   position: absolute;
   display: flex;
   flex-direction: column;
 }
 
-.search-result .search-result-item {
+.menu-gallery .search-result .search-result-item {
   z-index: 10;
   background-color: #F4DF7D;
   text-decoration: none;
 }
 
-.search-result .search-result-item:hover {
+.menu-gallery .search-result .search-result-item:hover {
   background-color: #8BBF85;
   cursor: pointer;
 }
 
-.search-section {
+.menu-gallery .search-section {
   display: flex;
   align-items: center;
 }
 
-.search-section .search-query {
+.menu-gallery .search-section .search-query {
   color: #0A1F38;
   background-color: #F4DF7D;
   border: 1px solid #0A1F38;
   border-radius: 0.25em;
 }
 
-.filter {
+.menu-gallery .filter {
   border-radius: 0.25em;
   background-color: #0A1F38;
   color: #F4DF7D;
 }
 
-.filter .form-inline {
+.menu-gallery .filter .form-inline {
   margin: 0.5em;
   justify-content: space-between;
   align-items: center;
 }
 
-.filter .form-inline .selector-group select {
+.menu-gallery .filter .form-inline .selector-group select {
   margin-right: 1em;
   background-color: #F4DF7D;
 }
 
-.gallery-user-menu {
+.menu-gallery .gallery-user-menu {
   margin-left: 0.5em;
   padding: 0.5em;
   width: 100%;
@@ -20705,17 +20722,17 @@ footer .duplicate-navigate .footer-item {
   align-items: center;
 }
 
-.gallery-user-menu .guest p {
+.menu-gallery .gallery-user-menu .guest p {
   margin: 0;
 }
 
-.gallery-user-menu .guest a {
+.menu-gallery .gallery-user-menu .guest a {
   text-decoration: none;
   color: #F4DF7D;
   font-style: oblique;
 }
 
-.gallery-user-menu .guest a:hover {
+.menu-gallery .gallery-user-menu .guest a:hover {
   color: #8BBF85;
 }
 

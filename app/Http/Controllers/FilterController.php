@@ -2,43 +2,23 @@
 
 namespace App\Http\Controllers;
 
-
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 
-class FilterController extends Controller
+class FilterController extends ContentController
 {
     protected $params;
-    protected $builder;
 
-    /**
-     * Принимает QueryBuilder и параметры фильтрации.
-     * За раз фильтрация производится по одной модели.
-     * Возвращает QueryBuilder.
-     *
-     * @param $builder
-     * @param $params
-     */
-    public function __construct(Builder $builder, array $params)
+    protected function filter($builder, $query)
     {
-        $this->params = $params;
         $this->builder = $builder;
+        $this->params = $query;
 
-        $this->initializationFilter();
-    }
-
-    /**
-     * Вызов необходимого метода в зависимости от объекта фильтрации.
-     *
-     * @return void
-     */
-    protected function initializationFilter()
-    {
         $section = $this->checkParams('section');
         if($section == 'gallery' or 'news' or 'blog') {
             $this->contentFilter();
         }
+
+        return $this->builder;
     }
 
     /**
@@ -51,10 +31,10 @@ class FilterController extends Controller
         $method = $this->checkParams('method');
         switch ($method){
             case 'new':
-                $this->builder->orderBy('updated_at', 'desc');
+                $this->builder->orderBy('created_at', 'desc');
                 break;
             case 'old':
-                $this->builder->orderBy('updated_at', 'asc');
+                $this->builder->orderBy('created_at', 'asc');
                 break;
             case 'best':
                 $this->selectionByCriterion();
@@ -73,10 +53,7 @@ class FilterController extends Controller
                 $this->builder->orderBy('rating', 'desc');
                 break;
             case 'comments':
-
                 $this->builder->withCount('comments')->orderBy('comments_count', 'desc');
-
-
                 break;
         }
        $this->selectionByDate();
@@ -107,26 +84,6 @@ class FilterController extends Controller
     }
 
     /**
-     * Возвращает построитель запросов.
-     *
-     * @return Builder
-     */
-    public function getBuilder()
-    {
-        return $this->builder;
-    }
-
-    /**
-     * Возвращает коллекцию.
-     *
-     * @return Collection
-     */
-    public function getCollection()
-    {
-        return $this->builder->get();
-    }
-
-    /**
      * Проверяет наличие поля в параметрах.
      *
      * @param $param
@@ -136,4 +93,5 @@ class FilterController extends Controller
     {
         return isset($this->params[$param]) ? $this->params[$param] : false;
     }
+
 }

@@ -10,11 +10,15 @@ $.ajaxSetup({
 
 require('./bootstrap');
 require('@fortawesome/fontawesome-free/js/all');
+require('./Form');
+require('./rating');
 require('./filters');
 require('./search');
 require('./slick');
 require('./gallery');
-require('./menus')
-require('./forms')
+require('./menus');
+
+
+
 
 $('#notice-overlay-modal').modal();

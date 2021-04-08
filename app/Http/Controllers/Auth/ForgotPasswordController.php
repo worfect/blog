@@ -3,25 +3,22 @@
 namespace App\Http\Controllers\Auth;
 
 
-use App\Http\Controllers\Site\BasePage;
+use App\Http\Controllers\ContentController;
 use App\Http\Requests\PasswordRecoveryRequest;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\View\View;
 
-class ForgotPasswordController extends BasePage
+class ForgotPasswordController extends ContentController
 {
     use SendsPasswordResetEmails;
 
-    public function __construct(Request $request)
+    public function __construct()
     {
-        parent::__construct($request);
-
         $this->middleware('guest')->except('logout');
     }
 

@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Site\BasePage;
+
+use App\Http\Controllers\ContentController;
 use App\Http\Requests\PasswordResetEmailRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\PasswordReset;
@@ -14,21 +15,18 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
-class ResetPasswordController extends BasePage
+class ResetPasswordController extends ContentController
 {
     use ResetsPasswords;
 
-    public function __construct(Request $request)
+    public function __construct()
     {
-        parent::__construct($request);
-
         $this->middleware('guest')->except('logout');
     }
 
 
     public function showResetForm(Request $request, $token = null)
     {
-        $this->template = 'auth.passwords.reset';
 //        $this->insertData('token', $token);
 //        $this->insertData('email', $request->email);
         return $this->renderOutput('auth.passwords.reset');

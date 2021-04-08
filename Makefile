@@ -20,7 +20,7 @@ npm-watch:
 	docker exec -it node npm run watch
 
 npm-i:
-	docker exec -it node npm i
+	docker exec -it node npm i $(p)
 
 composer-up:
 	docker exec -it cli composer update

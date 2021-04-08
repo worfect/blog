@@ -2,43 +2,53 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
+use App\Models\Blog;
+use App\Models\Gallery;
+use App\Models\News;
+use Illuminate\Http\Request;
 
-class SearchController extends Controller
+
+class SearchController extends ContentController
 {
 
     protected $params;
-    protected $model;
-    protected $builder;
 
-    /**
-     * Принимает QueryBuilder и параметры поиска.
-     * За раз поиск производится по одной модели.
-     * Возвращает QueryBuilder.
-     *
-     * @param $builder
-     * @param $params
-     */
-    public function __construct(Builder $builder, array $params)
+    protected function search($builder, $query)
     {
-        $this->params = $params;
         $this->builder = $builder;
+        $this->params = $query;
 
-        $this->initializationSearch();
-    }
-
-    /**
-     * Вызов необходимого метода в зависимости от объекта поиска.
-     *
-     * @return void
-     */
-    protected function initializationSearch()
-    {
         $section = $this->checkParams('section');
         if($section == 'gallery' or 'news' or 'blog') {
             $this->contentSearch();
         }
+
+        return $this->builder;
+    }
+
+    public function index(NewsController $news, BlogController $blog,
+                                        GalleryController $gallery, Request $request)
+    {
+        if($request->query()){
+            $units = [
+                'blog' => $blog,
+                'news' => $news,
+                'gallery' => $gallery,
+            ];
+            foreach ($units as $name => $controller){
+                $collection = $controller->collection(config('site_settings.search.' . $name))
+                                                        ->withSearch($request->query())
+                                                        ->withFilter($request->query())
+                                                        ->get();
+                if($collection->isNotEmpty()){
+                    $this->collections[$name] = $collection;
+                }
+            }
+            if($this->collections === []){
+                notice()->warning('Nothing found')->session();
+            }
+        }
+        return $this->renderOutput('search.index');
     }
 
 
@@ -51,33 +61,11 @@ class SearchController extends Controller
     {
         $query = $this->checkParams('search-query');
         if($query == ''){
-            $this->builder = false;
-        }else{
+//            Да, ничего умнее я не придумал
+            $query = '!#%&(@$^*)';
+        }
             $searchTerm = '%' .  $query . '%';
             $this->builder->where('title','like', $searchTerm);
-        }
-
-    }
-
-
-    /**
-     * Возвращает построитель запросов.
-     *
-     * @return Builder
-     */
-    public function getBuilder()
-    {
-        return $this->builder;
-    }
-
-    /**
-     * Возвращает коллекцию.
-     *
-     * @return Collection
-     */
-    public function getCollection()
-    {
-        return $this->builder->get();
     }
 
     /**
@@ -90,4 +78,39 @@ class SearchController extends Controller
     {
         return isset($this->params[$param]) ? $this->params[$param] : false;
     }
+
+
+
+    public function quickSearch()
+    {
+        $controller = $this->getController(request()->get('section'));
+        if ($controller == false){
+            return false;
+        }
+
+        $searchTerm = '%' .  request()->get('query') . '%';
+        return $controller->collection()->builder()
+                                        ->where('title','like', $searchTerm)
+                                        ->get();
+    }
+
+    /**
+     *
+     * @param $section
+     * @return BlogController|GalleryController|NewsController
+     */
+    protected function getController($section)
+    {
+        if($section == 'gallery'){
+            return new GalleryController(new Gallery);
+        }
+        if($section == 'blog'){
+            return  new BlogController(new Blog);
+        }
+        if($section == 'news'){
+            return new NewsController(new News);
+        }
+    }
+
+
 }

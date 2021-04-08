@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class News extends Model
 {
-    public $relations = ['user', 'comments', 'categories'];
+    public $relations = ['user', 'comments', 'categories', 'attitude'];
     public $name = 'news';
 
     public function comments()
     {
-        return $this->morphToMany('App\Models\Comment', 'commentable');
+        return $this->morphMany('App\Models\Comment', 'commentable');
     }
 
     public function categories()
@@ -24,5 +24,10 @@ class News extends Model
     public function user()
     {
         return $this->belongsTo("App\Models\User");
+    }
+
+    public function attitude()
+    {
+        return $this->morphMany('App\Models\Attitude', 'attitudeable');
     }
 }
