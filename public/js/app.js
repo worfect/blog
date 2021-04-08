@@ -41993,6 +41993,142 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./resources/js/Form.js":
+/*!******************************!*\
+  !*** ./resources/js/Form.js ***!
+  \******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Form; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var notice = __webpack_require__(/*! ./vendor/notice/messages */ "./resources/js/vendor/notice/messages.js");
+
+var Form = /*#__PURE__*/function () {
+  function Form(form, url) {
+    _classCallCheck(this, Form);
+
+    this.form = void 0;
+    this.formData = void 0;
+    this.url = void 0;
+    this.refreshSection = void 0;
+    this.noticeSection = void 0;
+    this.form = form;
+    this.url = url;
+    this.formData = new FormData(form.get(0));
+  }
+
+  _createClass(Form, [{
+    key: "_cleanInvalid",
+    value: function _cleanInvalid() {
+      this.form.find('.invalid-feedback').remove();
+      this.form.find('.is-invalid').removeClass('is-invalid');
+    }
+  }, {
+    key: "_ajaxSendForm",
+    value: function _ajaxSendForm() {
+      var _this = this;
+
+      return new Promise(function (resolve, reject) {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
+          url: _this.url,
+          method: 'POST',
+          dataType: 'JSON',
+          processData: false,
+          contentType: false,
+          data: _this.formData
+        }).done(function (data) {
+          resolve(data);
+        }).fail(function (data) {
+          reject(data);
+        });
+      });
+    }
+  }, {
+    key: "_responseProcessing",
+    value: function _responseProcessing() {
+      var _this2 = this;
+
+      this._ajaxSendForm().then(function (data) {
+        _this2._cleanInvalid();
+
+        if (_this2.noticeSection) {
+          notice.showNoticeMessages(data, _this2.noticeSection);
+        }
+
+        if (_this2.refreshSection) {
+          _this2._refreshContent();
+        }
+      })["catch"](function (data) {
+        _this2._cleanInvalid();
+
+        var errors = data.responseJSON.errors;
+        jquery__WEBPACK_IMPORTED_MODULE_0___default.a.each(errors, function (name, message) {
+          var span = document.createElement('span');
+          var strong = document.createElement('strong');
+          var field = jquery__WEBPACK_IMPORTED_MODULE_0___default()('[name = ' + name + ']');
+          strong.innerHTML = message;
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()(span).attr({
+            "class": "invalid-feedback",
+            "role": "alert"
+          }).html(strong);
+          field.addClass("is-invalid").after(span);
+        });
+      });
+    }
+  }, {
+    key: "_refreshContent",
+    value: function _refreshContent() {
+      var refreshSection = this.refreshSection;
+      jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
+        url: this.url + "/refresh",
+        method: 'POST',
+        dataType: 'HTML',
+        processData: false,
+        contentType: false,
+        data: this.formData
+      }).done(function (data) {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()(refreshSection).empty();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()(refreshSection).append(data);
+      }).fail(function (data) {});
+    }
+  }, {
+    key: "submitForm",
+    value: function submitForm() {
+      this._responseProcessing();
+    }
+  }, {
+    key: "withRefresh",
+    value: function withRefresh(section) {
+      this.refreshSection = section;
+      return this;
+    }
+  }, {
+    key: "withNotice",
+    value: function withNotice(section) {
+      this.noticeSection = section;
+      return this;
+    }
+  }]);
+
+  return Form;
+}();
+
+
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -42016,6 +42152,10 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! @fortawesome/fontawesome-free/js/all */ "./node_modules/@fortawesome/fontawesome-free/js/all.js");
 
+__webpack_require__(/*! ./Form */ "./resources/js/Form.js");
+
+__webpack_require__(/*! ./rating */ "./resources/js/rating.js");
+
 __webpack_require__(/*! ./filters */ "./resources/js/filters.js");
 
 __webpack_require__(/*! ./search */ "./resources/js/search.js");
@@ -42025,8 +42165,6 @@ __webpack_require__(/*! ./slick */ "./resources/js/slick.js");
 __webpack_require__(/*! ./gallery */ "./resources/js/gallery.js");
 
 __webpack_require__(/*! ./menus */ "./resources/js/menus.js");
-
-__webpack_require__(/*! ./forms */ "./resources/js/forms.js");
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()('#notice-overlay-modal').modal();
 
@@ -42099,83 +42237,6 @@ function switchSelects() {
 
 /***/ }),
 
-/***/ "./resources/js/forms.js":
-/*!*******************************!*\
-  !*** ./resources/js/forms.js ***!
-  \*******************************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-
-
-var notice = __webpack_require__(/*! ./vendor/notice/messages */ "./resources/js/vendor/notice/messages.js");
-
-function cleaningInvalid(form) {
-  form.find('.invalid-feedback').remove();
-  form.find('.is-invalid').removeClass('is-invalid');
-}
-
-function AjaxForm(url, form, location) {
-  ajaxPromise(url, form).then(function (data) {
-    if (location) {
-      notice.showNoticeMessages(data, location);
-    }
-  })["catch"](function (data) {
-    console.log(data);
-    var errors = data.responseJSON.errors;
-    jquery__WEBPACK_IMPORTED_MODULE_0___default.a.each(errors, function (name, message) {
-      var span = document.createElement('span');
-      var strong = document.createElement('strong');
-      var field = jquery__WEBPACK_IMPORTED_MODULE_0___default()('[name = ' + name + ']');
-      strong.innerHTML = message;
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()(span).attr({
-        "class": "invalid-feedback",
-        "role": "alert"
-      }).html(strong);
-      field.addClass("is-invalid").after(span);
-    });
-  });
-}
-
-function ajaxPromise(url, form) {
-  var formData = new FormData(form.get(0));
-  return new Promise(function (resolve, reject) {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
-      url: url,
-      method: 'POST',
-      dataType: 'JSON',
-      processData: false,
-      contentType: false,
-      data: formData
-    }).done(function (data) {
-      cleaningInvalid(form);
-      resolve(data);
-    }).fail(function (data) {
-      cleaningInvalid(form);
-      reject(data);
-    });
-  });
-}
-
-jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", "#store-gallery-item", function (e) {
-  e.preventDefault();
-  AjaxForm('gallery', jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), ".edit-gallery-item");
-});
-jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", "#update-gallery-item", function (e) {
-  e.preventDefault();
-  AjaxForm('gallery/update', jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), ".edit-gallery-item");
-});
-jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", ".add-comment-form", function (e) {
-  e.preventDefault();
-  AjaxForm('comment/store', jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), ".add-comment-form");
-});
-
-/***/ }),
-
 /***/ "./resources/js/gallery.js":
 /*!*********************************!*\
   !*** ./resources/js/gallery.js ***!
@@ -42187,9 +42248,9 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", ".add-comme
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Form_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Form.js */ "./resources/js/Form.js");
 
 
-var notice = __webpack_require__(/*! ./vendor/notice/messages */ "./resources/js/vendor/notice/messages.js");
 
 function removeGalleryModal() {
   if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.gallery-modal').length) {
@@ -42304,9 +42365,24 @@ function restoreGalleryItem() {
   });
 }
 
-jquery__WEBPACK_IMPORTED_MODULE_0___default()('.gallery-card').on("click", showGalleryItemModal);
-jquery__WEBPACK_IMPORTED_MODULE_0___default()('.search-result').on("click", ".gallery-card", showGalleryItemModal);
-jquery__WEBPACK_IMPORTED_MODULE_0___default()('.create-gallery-item').on("click", createGalleryItemModal);
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", "#store-gallery-item", function (e) {
+  e.preventDefault();
+  var form = new _Form_js__WEBPACK_IMPORTED_MODULE_1__["default"](jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), 'gallery');
+  form.withNotice('.edit-gallery-item').withRefresh('.content-gallery').submitForm();
+});
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", "#update-gallery-item", function (e) {
+  e.preventDefault();
+  var form = new _Form_js__WEBPACK_IMPORTED_MODULE_1__["default"](jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), 'gallery/update');
+  form.withNotice('.edit-gallery-item').submitForm();
+});
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", ".add-gallery-comment-form", function (e) {
+  e.preventDefault();
+  var form = new _Form_js__WEBPACK_IMPORTED_MODULE_1__["default"](jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), 'comment');
+  form.withNotice('.add-gallery-comment').withRefresh('.show-gallery-comments').submitForm();
+});
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", ".gallery-card-search-result", showGalleryItemModal);
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", ".create-gallery-item", createGalleryItemModal);
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", ".gallery-card", showGalleryItemModal);
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", ".gallery-edit-btn", editGalleryItemModal);
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", ".gallery-delete-btn", deleteGalleryItem);
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", '.gallery-card-deleted', restoreGalleryItem);
@@ -42357,6 +42433,42 @@ $('.nav-item').hover(function () {
 
 /***/ }),
 
+/***/ "./resources/js/rating.js":
+/*!********************************!*\
+  !*** ./resources/js/rating.js ***!
+  \********************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", ".rating-panel", function (e) {
+  e.preventDefault();
+  var formData = new FormData(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).get(0));
+  formData.append(e.originalEvent.submitter.name, e.originalEvent.submitter.value);
+  jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
+    url: 'rating',
+    method: 'POST',
+    dataType: 'JSON',
+    processData: false,
+    contentType: false,
+    data: formData
+  }).done(function (data) {
+    if (data.attitude != null) {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()(e.originalEvent.submitter).addClass('active');
+    } else {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()(e.originalEvent.target).find(jquery__WEBPACK_IMPORTED_MODULE_0___default()('[name = attitude]')).removeClass('active');
+    }
+
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(e.originalEvent.target).find(jquery__WEBPACK_IMPORTED_MODULE_0___default()('.current-rating')).empty().append(data.rating);
+  }).fail(function (data) {});
+});
+
+/***/ }),
+
 /***/ "./resources/js/search.js":
 /*!********************************!*\
   !*** ./resources/js/search.js ***!
@@ -42393,7 +42505,7 @@ $('.quick-search-form').ready(function () {
           $.each(data, function (k, v) {
             var div = document.createElement('DIV');
             $(div).attr({
-              "class": "search-result-item gallery-card",
+              "class": "search-result-item gallery-card-search-result",
               "id": "gallery-card-" + v.id
             });
             div.innerHTML = v.title;

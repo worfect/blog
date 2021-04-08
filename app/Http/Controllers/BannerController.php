@@ -1,36 +1,25 @@
 <?php
 
-namespace App\Http\Controllers\Site;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\FilterController;
-use App\Models\News;
-use App\Models\Blog;
-use App\Models\Gallery;
+use App\Models\Layouts\Banner;
 use Illuminate\Http\Request;
 
-class BlogPage extends BasePage
+class BannerController extends ContentController
 {
-
-    public function __construct(Request $request, News $news, Blog $blog, Gallery $gallery)
+    public function __construct(Banner $banner)
     {
-        parent::__construct($request);
-
-        $this->models = [
-            'blog' => $blog,
-            'news' => $news,
-            'gallery' => $gallery,
-        ];
+        $this->model = $banner;
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        foreach ($this->models as $name => $model){
-            $this->config = config('site_settings.blog.' . $name);
-            $this->setBuilder($model);
-
-            $this->addCollection($name);
-        }
-        return $this->renderOutput('blog.blog');
+        //
     }
 
     /**
@@ -40,7 +29,7 @@ class BlogPage extends BasePage
      */
     public function create()
     {
-        $this->template = 'blog.edit';
+        //
     }
 
     /**
@@ -51,7 +40,7 @@ class BlogPage extends BasePage
      */
     public function store(Request $request)
     {
-
+        //
     }
 
     /**
@@ -62,7 +51,7 @@ class BlogPage extends BasePage
      */
     public function show($id)
     {
-        $this->template = 'blog.show';
+        //
     }
 
     /**
@@ -73,7 +62,7 @@ class BlogPage extends BasePage
      */
     public function edit($id)
     {
-        $this->template = 'blog.edit';
+        //
     }
 
     /**
@@ -98,6 +87,4 @@ class BlogPage extends BasePage
     {
         //
     }
-
-
 }

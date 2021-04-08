@@ -2,24 +2,21 @@
 
 namespace App\Http\Controllers\Auth;
 
-
-use App\Http\Controllers\Site\BasePage;
+use App\Http\Controllers\ContentController;
 use App\Http\Requests\UserRegistrationRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Http\Request;
 
-class RegisterController extends BasePage
+
+class RegisterController extends ContentController
 {
     use RegistersUsers;
 
     public $user;
 
-    public function __construct(Request $request, User $user)
+    public function __construct(User $user)
     {
-        parent::__construct($request);
-
         $this->middleware('guest');
         $this->user = $user;
     }

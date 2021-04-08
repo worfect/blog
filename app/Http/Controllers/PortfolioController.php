@@ -1,19 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Site;
+namespace App\Http\Controllers;
 
-
-use App\Models\Layouts\NavigationMenu;
 use App\Models\Portfolio;
 use Illuminate\Http\Request;
 
-class PortfolioPage extends BasePage
+class PortfolioController extends ContentController
 {
-
-    public function __construct(Request $request, Portfolio $portfolio)
+    public function __construct(Portfolio $portfolio)
     {
-        parent::__construct($request);
-
+        $this->model = $portfolio;
     }
 
     /**
@@ -23,7 +19,7 @@ class PortfolioPage extends BasePage
      */
     public function index()
     {
-        $this->template = 'portfolio.list';
+        //
     }
 
     /**
@@ -33,7 +29,7 @@ class PortfolioPage extends BasePage
      */
     public function create()
     {
-        $this->template = 'portfolio.edit';
+        //
     }
 
     /**
@@ -55,7 +51,7 @@ class PortfolioPage extends BasePage
      */
     public function show($id)
     {
-        $this->template = 'portfolio.show';
+        //
     }
 
     /**
@@ -66,7 +62,7 @@ class PortfolioPage extends BasePage
      */
     public function edit($id)
     {
-        $this->template = 'portfolio.edit';
+        //
     }
 
     /**

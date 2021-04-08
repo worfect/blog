@@ -9,12 +9,14 @@ use Illuminate\Database\Eloquent\Factory;
 
 $factory->define(Comment::class, function (Faker $faker) {
 
-    $text = $faker->realText(rand(100, 300));
+    $sections = ['App\Models\Blog', 'App\Models\News', 'App\Models\Gallery'];
+    $text = $faker->realText(rand(10, 50));
     $userId = rand(1, 100);
 
     return [
         'text' => $text,
-        'rating' => rand(1, 100),
         'user_id' => $userId,
+        'commentable_id' => rand(1, 100),
+        'commentable_type' => $sections[array_rand($sections)]
     ];
 });

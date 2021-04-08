@@ -9,10 +9,7 @@
 
     <title>{{ config('app.name', 'Best Blog') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="{{ asset('plugins/slickslider/slick.min.js') }}" defer></script>
-    <script src="{{ asset('plugins/summernote/summernote.min.js') }}" defer></script>
+
 
 
     <!-- Styles -->
@@ -42,6 +39,10 @@
 
 </div>
 
+<!-- Scripts -->
+<script src="{{ asset('js/app.js') }}" defer></script>
+<script src="{{ asset('plugins/slickslider/slick.min.js') }}" defer></script>
+<script src="{{ asset('plugins/summernote/summernote.min.js') }}" defer></script>
 
 </body>
 </html>

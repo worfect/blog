@@ -1,22 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Site;
+namespace App\Http\Controllers;
 
-
-use App\Models\News;
 use App\Models\Blog;
-use App\Models\Gallery;
 use Illuminate\Http\Request;
 
-class NewsPage extends BasePage
+class BlogController extends ContentController
 {
 
-
-    public function __construct(News $news, Blog $blog, Gallery $gallery)
+    public function __construct(Blog $blog)
     {
-        parent::__construct();
-
+        $this->model = $blog;
     }
+
 
     /**
      * Display a listing of the resource.
@@ -25,7 +21,7 @@ class NewsPage extends BasePage
      */
     public function index()
     {
-        $this->template = 'news.list';
+        //
     }
 
     /**
@@ -35,7 +31,7 @@ class NewsPage extends BasePage
      */
     public function create()
     {
-        $this->template = 'news.edit';
+        //
     }
 
     /**
@@ -57,7 +53,7 @@ class NewsPage extends BasePage
      */
     public function show($id)
     {
-        $this->template = 'news.show';
+        //
     }
 
     /**
@@ -68,7 +64,7 @@ class NewsPage extends BasePage
      */
     public function edit($id)
     {
-        $this->template = 'news.edit';
+        //
     }
 
     /**
