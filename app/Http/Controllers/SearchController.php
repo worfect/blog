@@ -8,7 +8,7 @@ use App\Models\News;
 use Illuminate\Http\Request;
 
 
-class SearchController extends ContentController
+class SearchController extends PageController
 {
 
     protected $params;

@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\ContentController;
+use App\Http\Controllers\PageController;
 use App\Http\Requests\UserLoginRequest;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
-
-class LoginController extends ContentController
+class LoginController extends PageController
 {
-
     use AuthenticatesUsers;
 
+    protected $maxAttempts = 10;
 
     public function __construct()
     {
@@ -25,22 +25,26 @@ class LoginController extends ContentController
     }
 
 
-    public function authenticate(UserLoginRequest $request)
+    public function login(UserLoginRequest $request)
     {
+        if (method_exists($this, 'hasTooManyLoginAttempts') &&
+            $this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+
+            return $this->sendLockoutResponse($request);
+        }
+
         $data = $request->validated();
+
         if ($this->attemptLogin($data)) {
             return $this->sendLoginResponse($request);
         }
 
+        $this->incrementLoginAttempts($request);
         return $this->sendFailedLoginResponse($request);
     }
 
-    /**
-     * Attempt to log the user into the application.
-     *
-     * @param $data
-     * @return bool
-     */
+
     protected function attemptLogin($data)
     {
         return $this->guard()->attempt(
@@ -48,9 +52,17 @@ class LoginController extends ContentController
         );
     }
 
-    protected function authenticated(Request $request, $user)
+    protected function sendFailedLoginResponse(Request $request)
     {
-        return redirect('/');
+        throw ValidationException::withMessages([
+            'email' => [trans('auth.failed')],
+            'password' => [trans('auth.failed')]
+        ]);
+    }
+
+    public function redirectTo()
+    {
+        return url()->previous();
     }
 }
 

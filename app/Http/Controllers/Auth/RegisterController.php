@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\ContentController;
+use App\Http\Controllers\PageController;
 use App\Http\Requests\UserRegistrationRequest;
 use App\Models\User;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
-
-class RegisterController extends ContentController
+class RegisterController extends PageController
 {
     use RegistersUsers;
+
+    public $redirectTo = RouteServiceProvider::VERIFY;
 
     public $user;
 
@@ -35,14 +37,7 @@ class RegisterController extends ContentController
 
         $this->guard()->login($user);
 
-        if ($response = $this->registered()) {
-            return $response;
-        }
+        return redirect($this->redirectPath());
     }
 
-
-    protected function registered()
-    {
-        return redirect()->to('email/verify');
-    }
 }

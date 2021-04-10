@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 
-use App\Http\Controllers\ContentController;
+use App\Http\Controllers\PageController;
 use App\Http\Requests\PasswordResetEmailRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\PasswordReset;
@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
-class ResetPasswordController extends ContentController
+class ResetPasswordController extends PageController
 {
     use ResetsPasswords;
 

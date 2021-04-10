@@ -7,7 +7,7 @@ Route::group(['middleware'=>'generate.menus'], function(){
      * Register the typical authentication routes for an application.
      */
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
-    Route::post('login', 'Auth\LoginController@authenticate')->name('login');
+    Route::post('login', 'Auth\LoginController@login')->name('login');
 
     Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
@@ -17,7 +17,7 @@ Route::group(['middleware'=>'generate.menus'], function(){
     Route::get('auth/{provider}', 'Auth\AuthSocialController@redirectToProvider')->name('auth.social');
     Route::get('auth/{provider}/callback', 'Auth\AuthSocialController@handleProviderCallback')->name('auth.social.callback');
 
-    Route::get('email/verify/{token}', 'Auth\VerificationController@myVerify')->name('verification.verify');
+    Route::get('email/verify/{token}', 'Auth\VerificationController@verify')->name('verification.verify');
     Route::get('email/verify', 'Auth\VerificationController@show')->name('verification.notice');
     Route::post('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
 
@@ -61,6 +61,7 @@ Route::group(['middleware'=>'generate.menus'], function(){
      * Home.
      */
     Route::get('/', 'HomeController@index')->name('home');
+    Route::redirect('/home', '/');
 
     Route::post('rating', 'RatingController@index')->middleware('only.ajax');
 

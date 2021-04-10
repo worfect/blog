@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 
-class HomeController extends ContentController
+class HomeController extends PageController
 {
     public function index(BannerController $banner, NewsController $news, BlogController $blog,
                                 PortfolioController $portfolio, GalleryController $gallery)

@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Controllers\Helpers\ProcessingAuthRequests;
+use App\Http\Controllers\Auth\ProcessingAuthRequests;
 use Illuminate\Foundation\Http\FormRequest;
 
 
