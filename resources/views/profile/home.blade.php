@@ -6,11 +6,11 @@
 @endsection
 
 @section('content')
+    @include('notice::show')
     <div class="content row">
         <section class="article col-sm row">
 
             <div class=" header col-sm">
-                {{ $user->login }}
             </div>
 
 

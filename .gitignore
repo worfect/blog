@@ -5,6 +5,5 @@
 /vendor
 /docker
 /.idea
-/config/services.php
 docker-compose.yml
 .env

@@ -9,9 +9,6 @@
 
     <title>{{ config('app.name', 'Best Blog') }}</title>
 
-
-
-
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}" rel="stylesheet">

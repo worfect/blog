@@ -103,7 +103,7 @@ class ProcessingAuthRequests extends Controller
      * @param $uniqueness
      * @return false|string
      */
-    public function determiningAuthMethod($uniqueness)
+    protected function determiningAuthMethod($uniqueness)
     {
         if ($this->verifyEmail($uniqueness)) {
             return 'email';
@@ -122,7 +122,7 @@ class ProcessingAuthRequests extends Controller
      */
     protected function verifyEmail($uniqueness)
     {
-        preg_match('/\A[^@]+@([^@\.]+\.)+[^@\.]+\z/', $uniqueness, $matches);
+        preg_match('/\A[^@]+@([^@\.]+\.)+[^@\.]+\z/', trim($uniqueness), $matches);
         return $matches;
     }
 
@@ -134,7 +134,8 @@ class ProcessingAuthRequests extends Controller
      */
     protected function verifyPhoneNumber($uniqueness)
     {
-        preg_match('/^(( ?(\+ ?7)|( ?8)) ?[- (]?[ -)(]?)([ -]?[ -]?[0-9][ -)(]?[ -)(]?){9}[0-9]$/', $uniqueness, $matches);
+
+        preg_match('/^((7|(\+ ?7)|8) ?[- (]?[ -)(]?)([ -]?[ -]?[0-9][ -)(]?[ -)(]?){9}[0-9]$/', trim($uniqueness), $matches);
         return $matches;
     }
 

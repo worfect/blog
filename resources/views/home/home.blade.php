@@ -6,6 +6,7 @@
 @endsection
 
 @section('content')
+    @include('notice::show')
     <div class="content-home">
         <div class="header">
             @isset($banner)

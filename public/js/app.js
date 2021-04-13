@@ -42167,6 +42167,7 @@ __webpack_require__(/*! ./gallery */ "./resources/js/gallery.js");
 __webpack_require__(/*! ./menus */ "./resources/js/menus.js");
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()('#notice-overlay-modal').modal();
+jquery__WEBPACK_IMPORTED_MODULE_0___default()('div.alert').not('.alert-important').delay(3000).fadeOut(350);
 
 /***/ }),
 

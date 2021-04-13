@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Contracts\MustVerifyPhone;
+use App\Http\Controllers\Services\Sms\SmsRu;
+use App\Http\Controllers\Services\Sms\SmsSender;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -10,7 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\Auth\VerifyMail;
 use Illuminate\Support\Str;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, MustVerifyPhone
 {
     use Notifiable, SoftDeletes;
 
@@ -22,16 +25,15 @@ class User extends Authenticatable implements MustVerifyEmail
     public const ROLE_MODERATOR = 'moderator';
     public const ROLE_ADMIN = 'admin';
 
-
-
-
     protected $fillable = [
         'login', 'password', 'email', 'screen_name', 'verify_token'
     ];
-
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+
+    /*************************************/
 
     public function registerUser(array $data)
     {
@@ -42,7 +44,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $user->email = isset($data['email']) ? $data['email'] : null;
         $user->phone = isset($data['phone']) ? $data['phone'] : null;
         $user->password = bcrypt($data['password']);
-        $user->verify_token = Str::random(32);
+        $user->verify_token = Str::random(5);
         $user->status = self::STATUS_WAIT;
         $user->role = self::ROLE_USER;
 
@@ -70,23 +72,16 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
+    /*************************************/
 
-
-    public function hasVerifiedEmail()
+    public function hasVerifiedEmail(): bool
     {
-        return $this->verified_at;
+        return $this->isVerified();
     }
 
-    public function markEmailAsVerified()
+    public function markEmailAsVerified(): bool
     {
-        $this->status = self::STATUS_ACTIVE;
-        $this->verify_token = null;
-        return $this->save();
-    }
-
-    public function sendEmailVerificationNotification()
-    {
-        Mail::to($this->getEmailForVerification())->send(new VerifyMail($this->login, $this->verify_token));
+        return $this->markAsVerified();
     }
 
     public function getEmailForVerification()
@@ -94,6 +89,36 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->email;
     }
 
+    public function sendEmailVerificationNotification()
+    {
+        Mail::to($this->getEmailForVerification())->send(new VerifyMail($this->login, $this->verify_token));
+    }
+
+    public function hasVerifiedPhone(): bool
+    {
+        return $this->isVerified();
+    }
+
+    public function markPhoneAsVerified(): bool
+    {
+        return $this->markAsVerified();
+    }
+
+    public function getPhoneForVerification()
+    {
+        return $this->phone;
+    }
+
+    public function sendPhoneVerificationNotification()
+    {
+        $sender = new SmsSender(config('services.sms-sender.main'));
+        $result = $sms->send($this->phone, $this->verify_token);
+        dd($result);
+    }
+
+
+
+    /*************************************/
 
     public function isAdministrator(): bool
     {
@@ -106,6 +131,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->status == self::STATUS_ACTIVE;
     }
 
+    public function markAsVerified(): bool
+    {
+        $this->status = self::STATUS_ACTIVE;
+        $this->verify_token = null;
+        return $this->save();
+    }
+
+    /*************************************/
 
     public function blog()
     {
@@ -123,4 +156,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany("App\Models\Comment");
     }
+
+
 }

@@ -37,7 +37,7 @@ class VerificationController extends PageController
      */
     public function show(Request $request)
     {
-        return $request->user()->hasVerifiedEmail()
+        return $request->user()->isVerified()
             ? redirect($this->redirectPath())
             : $this->renderOutput('auth.verify');
     }
@@ -45,14 +45,15 @@ class VerificationController extends PageController
     /**
      * Mark the authenticated user's email address as verified.
      *
+     *
      * @param Request $request
-     * @return bool|Application|RedirectResponse|Redirector
+     * @return Application|Redirector|RedirectResponse
      *
      * @throws AuthorizationException
      */
-    public function verify(Request $request)
+    public function myVerify(Request $request)
     {
-        if ($request->user()->hasVerifiedEmail()) {
+        if ($request->user()->isVerified()) {
             return redirect($this->redirectPath());
         }
 
@@ -65,23 +66,9 @@ class VerificationController extends PageController
             event(new Verified($request->user()));
         }
 
-        if ($response = $this->verified($request)) {
-            return $response;
-        }
 
-        return redirect($this->redirectPath());
-    }
-
-    /**
-     * The user has been verified.
-     *
-     * @param Request $request
-     * @return bool
-     */
-    protected function verified(Request $request)
-    {
         notice('Verification was successful', 'success');
-        return true;
+        return redirect($this->redirectPath());
     }
 
     /**
@@ -92,7 +79,7 @@ class VerificationController extends PageController
      */
     public function resend(Request $request)
     {
-        if ($request->user()->hasVerifiedEmail()) {
+        if ($request->user()->isVerified()) {
             return redirect($this->redirectPath());
         }
 
@@ -102,9 +89,9 @@ class VerificationController extends PageController
         return back();
     }
 
-    public function redirectTo(Request $request)
+    public function redirectTo()
     {
-        return RouteServiceProvider::PROFILE . '/' . $request->user()->id;
+        return RouteServiceProvider::PROFILE . '/' . \request()->user()->id;
     }
 }
 

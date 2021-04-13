@@ -17,7 +17,7 @@ Route::group(['middleware'=>'generate.menus'], function(){
     Route::get('auth/{provider}', 'Auth\AuthSocialController@redirectToProvider')->name('auth.social');
     Route::get('auth/{provider}/callback', 'Auth\AuthSocialController@handleProviderCallback')->name('auth.social.callback');
 
-    Route::get('email/verify/{token}', 'Auth\VerificationController@verify')->name('verification.verify');
+    Route::get('email/verify/{token}', 'Auth\VerificationController@myVerify')->name('verification.verify');
     Route::get('email/verify', 'Auth\VerificationController@show')->name('verification.notice');
     Route::post('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
 
@@ -42,8 +42,8 @@ Route::group(['middleware'=>'generate.menus'], function(){
     /**
      * Profile.
      */
-    Route::get('profile/{id}', 'Site\ProfilePage@index')->name('profile');
-    Route::get('/profile/{id}/gallery', 'Site\ProfilePage@gallery')->name('profile.gallery');
+    Route::get('profile/{id}', 'ProfileController@index')->name('profile');
+    Route::get('/profile/{id}/gallery', 'ProfilePage@gallery')->name('profile.gallery');
 
     /**
      * Comment.
