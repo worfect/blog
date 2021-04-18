@@ -19315,15 +19315,6 @@ a.text-dark:focus {
   color: #F4DF7D;
 }
 
-.auth-group .card .btn-link {
-  text-decoration: none;
-  color: #F4DF7D;
-}
-
-.auth-group .card .btn-link:hover {
-  color: #8BBF85;
-}
-
 .pagination {
   display: flex;
   align-items: center;
@@ -19469,7 +19460,8 @@ a.text-dark:focus {
 .register .btn,
 .reset-pass .btn,
 .user-menu .btn,
-.input-group .btn {
+.input-group .btn,
+.auth-group .card .card-body form .btn {
   color: #F4DF7D;
   border-color: #F4DF7D;
   background-color: #0A1F38;
@@ -19485,7 +19477,8 @@ a.text-dark:focus {
 .register .btn:hover,
 .reset-pass .btn:hover,
 .user-menu .btn:hover,
-.input-group .btn:hover {
+.input-group .btn:hover,
+.auth-group .card .card-body form .btn:hover {
   background-color: #8BBF85;
 }
 

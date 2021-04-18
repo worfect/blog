@@ -3,11 +3,11 @@
  .card{
      background-color: $primary;
      color: $secondary;
-     .btn-link{
-         text-decoration: none;
-         color: $secondary;
-         &:hover{
-             color: $hover;
+     .card-body{
+         form{
+             .btn{
+                 @extend %template-btn;
+             }
          }
      }
  }

@@ -24,7 +24,7 @@ interface MustVerifyPhone
      *
      * @return void
      */
-    public function sendPhoneVerificationNotification();
+    public function sendPhoneVerifyCode();
 
     /**
      * Get the phone number that should be used for verification.

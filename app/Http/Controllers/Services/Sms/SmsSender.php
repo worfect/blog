@@ -1,8 +1,8 @@
 <?php
 
-
 namespace App\Http\Controllers\Services\Sms;
 
+use Illuminate\Support\Facades\Log;
 
 class SmsSender
 {
@@ -19,22 +19,24 @@ class SmsSender
         $err = $this->service->check($response);
         if(is_array($err)){
             $this->logError($err);
-            (new SmsSender(config('services.sms-sender.reserve')))->send($number,$text);
+            if(get_class($this->service) == config('services.sms.main')){
+                $service = config('services.sms.reserve');
+                (new SmsSender(new $service))->send($number,$text);
+            }
         }
-    }
-
-    public function status()
-    {
-
     }
 
     public function balance()
     {
-
+        $response = $this->service->balance();
+        $err = $this->service->check($response);
+        if(is_array($err)){
+            $this->logError($err);
+        }
     }
 
-    protected function logError(array $err)
+    protected function logError(array $errorData)
     {
-//        Monolog library
+        Log::error('Error sending SMS registration message', $errorData);
     }
 }

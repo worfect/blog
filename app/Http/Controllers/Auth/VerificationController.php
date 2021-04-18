@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\PageController;
+use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Auth\Events\Verified;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Auth\VerifiesEmails;
 use Illuminate\Http\RedirectResponse;
@@ -13,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 
 
-class VerificationController extends PageController
+class VerificationController extends Controller
 {
     use VerifiesEmails;
 
@@ -37,38 +36,44 @@ class VerificationController extends PageController
      */
     public function show(Request $request)
     {
-        return $request->user()->isVerified()
-            ? redirect($this->redirectPath())
-            : $this->renderOutput('auth.verify');
+        return $request->user()->hasVerifyToken()
+            ? view('auth.verify')->render()
+            : redirect($this->redirectPath());
     }
 
     /**
-     * Mark the authenticated user's email address as verified.
      *
      *
      * @param Request $request
      * @return Application|Redirector|RedirectResponse
-     *
-     * @throws AuthorizationException
      */
     public function myVerify(Request $request)
     {
-        if ($request->user()->isVerified()) {
+        if (!$request->user()->hasVerifyToken()) {
             return redirect($this->redirectPath());
         }
 
-        if (!hash_equals((string)$request->route('token'), $request->user()->verify_token)) {
-            throw new AuthorizationException;
+        if ($request->get('code') != $request->user()->getVerifyToken()) {
+            notice('Invalid code', 'error');
+            return back();
         }
 
-
-        if ($request->user()->markEmailAsVerified()) {
-            event(new Verified($request->user()));
+        if (!$request->user()->isVerified()){
+            $request->user()->markAsVerified();
         }
 
+        if($type = $request->get('type')){
+            if($type == 'email'){
+                $request->user()->markEmailAsVerified();
+            }
+            if($type == 'phone'){
+                $request->user()->markPhoneAsVerified();
+            }
+        }
 
         notice('Verification was successful', 'success');
         return redirect($this->redirectPath());
+
     }
 
     /**
@@ -79,13 +84,22 @@ class VerificationController extends PageController
      */
     public function resend(Request $request)
     {
-        if ($request->user()->isVerified()) {
+        if (!$request->user()->hasVerifyToken()) {
             return redirect($this->redirectPath());
         }
+        dd($request->get('type'));
+        if($type = $request->get('type')){
 
-        $request->user()->sendEmailVerificationNotification();
+            if($type == 'email'){
+                $request->user()->sendEmailVerifyCode();
+            }elseif($type == 'phone'){
+                $request->user()->sendPhoneVerifyCode();
+            }else{
+                event(new Registered($request->user()));
+            }
+        }
 
-        notice('email resent', 'info');
+        notice('Resent', 'info');
         return back();
     }
 

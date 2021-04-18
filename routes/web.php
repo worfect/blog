@@ -17,12 +17,12 @@ Route::group(['middleware'=>'generate.menus'], function(){
     Route::get('auth/{provider}', 'Auth\AuthSocialController@redirectToProvider')->name('auth.social');
     Route::get('auth/{provider}/callback', 'Auth\AuthSocialController@handleProviderCallback')->name('auth.social.callback');
 
-    Route::get('email/verify/{token}', 'Auth\VerificationController@myVerify')->name('verification.verify');
-    Route::get('email/verify', 'Auth\VerificationController@show')->name('verification.notice');
-    Route::post('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
+    Route::post('verify', 'Auth\VerificationController@myVerify')->name('verification.verify');
+    Route::get('verify', 'Auth\VerificationController@show')->name('verification.notice');
+    Route::post('resend', 'Auth\VerificationController@resend')->name('verification.resend');
 
     Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
-    Route::post('password/message', 'Auth\ForgotPasswordController@initializationSendMethod')->name('password.message');
+    Route::post('password/message', 'Auth\ForgotPasswordController@selectSendMethod')->name('password.message');
     Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
     Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
 

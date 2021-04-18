@@ -39,7 +39,7 @@ return [
         'redirect' => env('APP_URL') . '/auth/vkontakte/callback',
     ],
 
-    'sms-sender' => [
+    'sms' => [
         'main' => App\Http\Controllers\Services\Sms\SmsRu::class,
         'reserve' => App\Http\Controllers\Services\Sms\SmsC::class,
     ],

@@ -32,8 +32,8 @@
         <div class="form-group">
             <label>Select method:</label>
             <p>
-                <input type="radio" name="method" value="email">{!! session()->get('email') ?? '' !!} <Br>
-                <input type="radio" name="method" value="phone">{!! session()->get('phone') ?? '' !!}
+                <input type="radio" name="dispatchMethod" value="email">{!! session()->get('email') ?? '' !!} <Br>
+                <input type="radio" name="dispatchMethod" value="phone">{!! session()->get('phone') ?? '' !!}
             </p>
         </div>
     @endif

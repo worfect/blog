@@ -17,7 +17,7 @@ class RouteServiceProvider extends ServiceProvider
     protected $namespace = 'App\Http\Controllers';
 
     public const HOME = '/';
-    public const VERIFY = '/email/verify';
+    public const VERIFY = '/verify';
     public const PROFILE = '/profile';
 
     public const GALLERY = '/gallery';

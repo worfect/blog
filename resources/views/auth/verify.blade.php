@@ -1,27 +1,30 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="auth-group">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Verify Your Email Address') }}</div>
-                <div class="card-body">
-                    @if (session('resent'))
-                        <div class="alert alert-success" role="alert">
-                            {{ __('A fresh verification link has been sent to your email address.') }}
-                        </div>
-                    @endif
-
-                    {{ __('Before proceeding, please check your email for a verification link.') }}
-                    {{ __('If you did not receive the email') }},
-                    <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
-                        @csrf
-                        <br>
-                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
-                    </form>
+<div class="auth-group row justify-content-center">
+    <div class="card col-md-8">
+        <div class="card-header">Verify your account</div>
+        <div class="card-body">
+            @if (session('resent'))
+                <div class="alert alert-success" role="alert">
+                    A fresh verification code has been sent to your email/phone.
                 </div>
-            </div>
+            @endif
+            A confirmation code has been sent to your phone/email.
+            Enter it in the input field below
+            <form class="d-inline" method="POST" action="{{ route('verification.verify') }}">
+                @csrf
+                <br>
+                <input type="hidden" name="type" value="{{ $type }}">
+                <input type="text" name="code">
+                <button type="submit" class="btn">Send</button>
+            </form>
+            <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
+                @csrf
+                <br>
+                <input type="hidden" name="type" value="{{ $type }}">
+                <button type="submit" class="btn">Click to send the code to your email/phone again</button>
+            </form>
         </div>
     </div>
 </div>
