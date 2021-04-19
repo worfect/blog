@@ -17,4 +17,8 @@ interface HasPhone
     public function phoneIsVerify();
 
     public function verifyPhone();
+
+    public function setPhoneVerifyCode();
+
+    public function hasPhoneVerifyCode();
 }

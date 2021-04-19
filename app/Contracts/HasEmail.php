@@ -19,4 +19,8 @@ interface HasEmail
     public function emailIsVerify();
 
     public function verifyEmail();
+
+    public function setEmailVerifyCode();
+
+    public function hasEmailVerifyCode();
 }

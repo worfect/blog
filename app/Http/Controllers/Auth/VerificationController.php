@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\Auth\VerifyMail;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Auth\VerifiesEmails;
 use Illuminate\Http\RedirectResponse;
@@ -36,44 +36,42 @@ class VerificationController extends Controller
      */
     public function show(Request $request)
     {
-        return $request->user()->hasVerifyToken()
+        return $request->user()->hasVerifyCode()
             ? view('auth.verify')->render()
             : redirect($this->redirectPath());
     }
 
     /**
      *
-     *
      * @param Request $request
      * @return Application|Redirector|RedirectResponse
      */
     public function myVerify(Request $request)
     {
-        if (!$request->user()->hasVerifyToken()) {
+        $code = $request->get('code');
+        $user = $request->user();
+
+        if (!$user->hasVerifyCode()) {
             return redirect($this->redirectPath());
         }
 
-        if ($request->get('code') != $request->user()->getVerifyToken()) {
+        if ($code != $user->getVerifyCode()) {
             notice('Invalid code', 'error');
             return back();
         }
 
-        if (!$request->user()->isVerified()){
-            $request->user()->markAsVerified();
+        if($user->hasPhoneVerifyCode()){
+            $user->verifyPhone();
+        }elseif($user->hasEmailVerifyCode()){
+            $user->verifyEmail();
         }
 
-        if($type = $request->get('type')){
-            if($type == 'email'){
-                $request->user()->markEmailAsVerified();
-            }
-            if($type == 'phone'){
-                $request->user()->markPhoneAsVerified();
-            }
+        if (!$user->isVerified()){
+            $user->markAsVerified();
         }
 
         notice('Verification was successful', 'success');
         return redirect($this->redirectPath());
-
     }
 
     /**
@@ -84,19 +82,18 @@ class VerificationController extends Controller
      */
     public function resend(Request $request)
     {
-        if (!$request->user()->hasVerifyToken()) {
+        $user = $request->user();
+
+        if (!$user->hasVerifyCode()) {
             return redirect($this->redirectPath());
         }
-        dd($request->get('type'));
-        if($type = $request->get('type')){
 
-            if($type == 'email'){
-                $request->user()->sendEmailVerifyCode();
-            }elseif($type == 'phone'){
-                $request->user()->sendPhoneVerifyCode();
-            }else{
-                event(new Registered($request->user()));
-            }
+        if($user->hasPhoneVerifyCode()){
+            $user->setPhoneVerifyCode();
+            $user->sendToPhone($user->getVerifyCode());
+        }elseif($user->hasEmailVerifyCode()){
+            $user->setEmailVerifyCode();
+            $user->sendToEmail(new VerifyMail($user->login, $user->getVerifyCode()));
         }
 
         notice('Resent', 'info');

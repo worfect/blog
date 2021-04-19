@@ -5,30 +5,23 @@ namespace App\Traits;
 
 
 use App\Mail\Auth\VerifyMail;
-use Illuminate\Support\Str;
 
 trait Verification
 {
-    protected function setVerifyToken()
+    public function delVerifyCode()
     {
-        $this->verify_token = Str::random(5);
+        $this->verify_code = null;
         return $this->save();
     }
 
-    protected function delVerifyToken()
+    public function getVerifyCode()
     {
-        $this->verify_token = null;
-        return $this->save();
+        return $this->verify_code;
     }
 
-    public function getVerifyToken()
+    public function hasVerifyCode()
     {
-        return $this->verify_token;
-    }
-
-    public function hasVerifyToken()
-    {
-        return isset($this->verify_token);
+        return isset($this->verify_code);
     }
 
     public function isVerified()
@@ -39,19 +32,7 @@ trait Verification
     public function markAsVerified()
     {
         $this->status = self::STATUS_ACTIVE;
-        $this->delVerifyToken();
+        $this->delVerifyCode();
         return $this->save();
-    }
-
-    public function sendVerifyCodeToEmail()
-    {
-        $this->setVerifyToken();
-        $this->sendToEmail(new VerifyMail($this->login, $this->verify_token));
-    }
-
-    public function sendVerifyCodeToPhone()
-    {
-        $this->setVerifyToken();
-        $this->sendToPhone($this->verify_token);
     }
 }

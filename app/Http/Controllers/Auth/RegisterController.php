@@ -6,7 +6,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Requests\UserRegistrationRequest;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Events\Registered;
+use App\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends PageController

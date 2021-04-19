@@ -15,14 +15,12 @@
             <form class="d-inline" method="POST" action="{{ route('verification.verify') }}">
                 @csrf
                 <br>
-                <input type="hidden" name="type" value="{{ $type }}">
                 <input type="text" name="code">
                 <button type="submit" class="btn">Send</button>
             </form>
             <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
                 @csrf
                 <br>
-                <input type="hidden" name="type" value="{{ $type }}">
                 <button type="submit" class="btn">Click to send the code to your email/phone again</button>
             </form>
         </div>

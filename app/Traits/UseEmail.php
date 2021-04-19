@@ -32,13 +32,24 @@ trait UseEmail
 
     public function verifyEmail()
     {
-        $this->phone_verified = true;
-        $this->verify_token = null;
+        $this->email_verified = true;
+        $this->verify_code = null;
         return $this->save();
     }
 
     public function sendToEmail(Mailable $mail)
     {
         Mail::to($this->email)->send($mail);
+    }
+
+    public function setEmailVerifyCode()
+    {
+        $this->verify_code = 'E-' . random_int(10000, 99999);
+        return $this->save();
+    }
+
+    public function hasEmailVerifyCode(): bool
+    {
+        return str_contains ($this->verify_code, 'E-');
     }
 }

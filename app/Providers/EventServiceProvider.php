@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Listeners\SendVerificationNotification;
-use Illuminate\Auth\Events\Registered;
+use App\Events\Registered;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use SocialiteProviders\Manager\SocialiteWasCalled;
 

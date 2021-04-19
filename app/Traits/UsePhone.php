@@ -32,7 +32,7 @@ trait UsePhone
     public function verifyPhone()
     {
         $this->phone_verified = true;
-        $this->verify_token = null;
+        $this->verify_code = null;
         return $this->save();
     }
 
@@ -40,5 +40,15 @@ trait UsePhone
     {
         $service = config('services.sms.main');
         (new SmsSender(new $service))->send($this->phone, $text);
+    }
+
+    public function setPhoneVerifyCode(){
+        $this->verify_code = 'P-' . random_int(10000, 99999);
+        return $this->save();
+    }
+
+    public function hasPhoneVerifyCode(): bool
+    {
+        return str_contains ($this->verify_code, 'P-');
     }
 }
