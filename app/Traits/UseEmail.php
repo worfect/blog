@@ -4,6 +4,7 @@
 namespace App\Traits;
 
 
+use App\Mail\Auth\VerifyMail;
 use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Mail;
 
@@ -52,4 +53,11 @@ trait UseEmail
     {
         return str_contains ($this->verify_code, 'E-');
     }
+
+    public function sendVerifyCodeToEmail()
+    {
+        $this->setEmailVerifyCode();
+        $this->sendToEmail(new VerifyMail($this->login, $this->verify_code));
+    }
+
 }

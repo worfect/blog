@@ -21,4 +21,6 @@ interface HasPhone
     public function setPhoneVerifyCode();
 
     public function hasPhoneVerifyCode();
+
+    public function sendVerifyCodeToEmail();
 }

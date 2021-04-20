@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Traits;
-
 
 use App\Http\Controllers\Services\Sms\SmsSender;
 
@@ -50,5 +48,11 @@ trait UsePhone
     public function hasPhoneVerifyCode(): bool
     {
         return str_contains ($this->verify_code, 'P-');
+    }
+
+    public function sendVerifyCodeToPhone()
+    {
+        $this->setPhoneVerifyCode();
+        $this->sendToPhone($this->getVerifyCode());
     }
 }

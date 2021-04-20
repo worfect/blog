@@ -24,12 +24,6 @@ class User extends Authenticatable implements HasEmail, HasPhone, MustVerify
     public const ROLE_MODERATOR = 'moderator';
     public const ROLE_ADMIN = 'admin';
 
-    protected $fillable = [
-        'login', 'password', 'email', 'screen_name', 'verify_token'
-    ];
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
 
     /*************************************/
 

@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 
-use App\Http\Controllers\PageController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\PasswordRecoveryRequest;
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
 
-class ForgotPasswordController extends PageController
+class ForgotPasswordController extends Controller
 {
 
     public function __construct()
@@ -22,7 +21,7 @@ class ForgotPasswordController extends PageController
     }
 
 
-    public function  selectSendMethod(PasswordRecoveryRequest $request)
+    public function selectSendMethod(PasswordRecoveryRequest $request)
     {
         $validData = $request->validated();
 
@@ -33,33 +32,59 @@ class ForgotPasswordController extends PageController
             if($user = $this->checkUserExists($method, $value)){
                 if($dispatchMethod = $request->get('dispatchMethod')){
                     if($dispatchMethod == 'email'){
-                        $user->sendEmailResetCode();
+                        $user->sendVerifyCodeToEmail();
                     }
-                    if($dispatchMethod == 'email'){
-                        $user->sendPhoneResetCode();
+                    if($dispatchMethod == 'phone'){
+                        $user->sendVerifyCodeToPhone();
                     }
+                }else{
+                    return $this->choiceAvailableResetMethod($user);
                 }
-                return $this->choiceAvailableResetMethod($user);
             }else{
                 return $this->sendResetCodeFailedResponse('auth.no_data');
             }
         }
         if($method == 'phone'){
             if($user = $this->checkUserExists($method, $value)){
-                $user->sendPhoneResetCode();
+                $user->sendVerifyCodeToPhone();
             }else{
                 return $this->sendResetLinkFailedResponse('auth.no_data');
             }
         }
         if($method == 'email'){
             if($user = $this->checkUserExists($method, $value)){
-                $user->sendEmailResetCode();
+                $user->sendVerifyCodeToEmail();
             }else{
                 return $this->sendResetLinkFailedResponse('auth.no_data');
             }
         }
+        return redirect(route('password.verify'));
+    }
 
-        return redirect(RouteServiceProvider::VERIFY);
+    protected function choiceAvailableResetMethod(User $user)
+    {
+        if($user->getEmail() and $user->getPhone()){
+            return $this->showSwitchMethods($user->getEmail(), $user->getPhone());
+        }
+        if(($user->getPhone() and empty($user->getEmail()))){
+            $user->sendVerifyCodeToPhone();
+            return redirect(route('password.verify'));
+        }
+        if(($user->getEmail() and empty($user->getPhone()))){
+            $user->sendVerifyCodeToEmail();
+            return redirect(route('password.verify'));
+        }else{
+            return $this->sendResetLinkFailedResponse('auth.no_data');
+        }
+    }
+
+    public function showSwitchMethods($email, $phone){
+        $additionalData = [
+            'switchResetMethod' => true,
+            'email' => $this->prepareDisplayPrivateData($email),
+            'phone' => $this->prepareDisplayPrivateData($phone)
+        ];
+        return redirect(route('password.request'))->with($additionalData)->withInput();
     }
 
     public function checkUserExists($name, $value)
@@ -71,34 +96,9 @@ class ForgotPasswordController extends PageController
         return false;
     }
 
-    protected function choiceAvailableResetMethod(User $user)
-    {
-        if($user->email and $user->phone){
-            return $this->showSwitchMethods($user->email, $user->phone);
-        }
-        if(($user->phone and empty($user->email))){
-            return redirect('password/message')->with([ 'method' => $user->phone ]);
-        }
-        if(($user->email and empty($user->phone))){
-            return redirect('password/message')->with([ 'method' => $user->email ]);
-        }else{
-            return $this->sendResetLinkFailedResponse('auth.no_data');
-        }
-    }
-
-    public function showSwitchMethods($email, $phone){
-        $this->template = 'auth.passwords.reset';
-        $additionalData = [
-            'switchResetMethod' => true,
-            'email' => $this->prepareDisplayPrivateData($email),
-            'phone' => $this->prepareDisplayPrivateData($phone)
-        ];
-        return redirect('password/reset')->with($additionalData)->withInput();
-    }
-
     protected function sendResetCodeFailedResponse($message)
     {
-        return redirect('password/reset')
+        return redirect(route('password.request'))
             ->withErrors(['uniqueness' => [trans($message)]]);
     }
 

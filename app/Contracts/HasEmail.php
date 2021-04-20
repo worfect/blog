@@ -23,4 +23,6 @@ interface HasEmail
     public function setEmailVerifyCode();
 
     public function hasEmailVerifyCode();
+
+    public function sendVerifyCodeToEmail();
 }

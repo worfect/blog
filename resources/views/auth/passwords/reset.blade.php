@@ -1,4 +1,4 @@
-@extends('layouts.app')
+<@extends('layouts.app')
 
 
 @section('header')
@@ -6,32 +6,55 @@
 @endsection
 
 @section('content')
-<div class="shell">
-    <div class="reset-pass">
-        <form class="px-4 py-3" method="POST" action="{{ route('password.update') }}">
+    <div class="shell">
+        <form class="px-4 py-3" method="POST" action="{{ route('login') }}">
             @csrf
-            <input type="hidden" name="token" value="{{ $token }}">
-            <input type="hidden" name="email" value="{{ $email }}">
-
             <div class="form-group">
-                <label> Password </label>
-                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="new-password" placeholder="Password">
+                <label> Email / Phone / Login </label>
+                <input type="text" class="form-control @error('login') is-invalid @enderror
+                @error('email') is-invalid @enderror @error('phone') is-invalid @enderror" name="uniqueness"
+                       value="{{ old('uniqueness') }}"  placeholder="Email / Phone / Login">
+
+                @error('login')
+                <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+                @enderror
+                @error('email')
+                <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+                @enderror
+                @error('phone')
+                <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+                @enderror
+
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Password">
                 @error('password')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
+                <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
                 @enderror
             </div>
-            <div class="form-group">
-                <label> Confirm Password </label>
-                <input id="password-confirm" type="password" class="form-control" name="password_confirmation"  autocomplete="new-password" placeholder="Confirm Password">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="remember"  {{ old('remember') ? 'checked' : '' }}>
+                <label class="form-check-label">
+                    Remember me
+                </label>
             </div>
-            <button type="submit" class="btn btn-primary">Set new password</button>
+            <button type="submit" class="btn btn-primary">Sign in</button>
         </form>
+
     </div>
-</div>
 @endsection
+
 
 @section('footer')
     @parent
 @endsection
+

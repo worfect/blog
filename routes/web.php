@@ -23,7 +23,7 @@ Route::group(['middleware'=>'generate.menus'], function(){
 
     Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
     Route::post('password/message', 'Auth\ForgotPasswordController@selectSendMethod')->name('password.message');
-    Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+    Route::get('password/verify', 'Auth\ResetPasswordController@showResetForm')->name('password.verify');
     Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
 
     /**

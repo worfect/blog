@@ -3,9 +3,6 @@
 
 namespace App\Traits;
 
-
-use App\Mail\Auth\VerifyMail;
-
 trait Verification
 {
     public function delVerifyCode()

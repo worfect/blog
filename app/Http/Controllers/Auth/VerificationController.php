@@ -96,7 +96,7 @@ class VerificationController extends Controller
             $user->sendToEmail(new VerifyMail($user->login, $user->getVerifyCode()));
         }
 
-        notice('Resent', 'info');
+        notice('A fresh verification code has been sent to your email/phone.', 'info');
         return back();
     }
 
