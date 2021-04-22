@@ -56,7 +56,7 @@ class VerificationController extends Controller
         }
 
         if ($code != $user->getVerifyCode()) {
-            notice('Invalid code', 'error');
+            notice('Invalid code', 'danger');
             return back();
         }
 

@@ -6,7 +6,7 @@
 @endsection
 
 @section('content')
-    @include('notice::show')
+    @parent
     <div class="content row">
         <section class="article col-sm row">
 

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware'=>'generate.menus'], function(){
@@ -42,6 +43,12 @@ Route::group(['middleware'=>'generate.menus'], function(){
     /**
      * Profile.
      */
+    Route::get('profile', function (){
+        if($id = Auth::id()){
+            return redirect("profile/$id");
+        }
+        return redirect(\route('home'));
+    });
     Route::get('profile/{id}', 'ProfileController@index')->name('profile');
     Route::get('/profile/{id}/gallery', 'ProfilePage@gallery')->name('profile.gallery');
 

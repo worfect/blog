@@ -41,7 +41,9 @@ trait UsePhone
     }
 
     public function setPhoneVerifyCode(){
-        $this->verify_code = 'P-' . random_int(10000, 99999);
+        do {
+            $this->verify_code = 'P-' . random_int(10000, 99999);
+        } while ((new $this)->where('verify_code', '=',  $this->verify_code)->exists());
         return $this->save();
     }
 

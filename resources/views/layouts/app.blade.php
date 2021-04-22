@@ -20,20 +20,17 @@
 </head>
 <body>
 <div class="container">
-
     @section('header')
         @include('layouts.header')
     @show
 
-
     @section('content')
-
+        @include('notice::show')
     @show
 
     @section('footer')
         @include('layouts.footer')
     @show
-
 </div>
 
 <!-- Scripts -->

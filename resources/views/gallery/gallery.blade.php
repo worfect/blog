@@ -6,6 +6,7 @@
 @endsection
 
 @section('content')
+    @parent
     <div class="menu-gallery">
         @include('gallery.menu')
     </div>

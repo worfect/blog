@@ -45,9 +45,12 @@ trait UseEmail
 
     public function setEmailVerifyCode()
     {
-        $this->verify_code = 'E-' . random_int(10000, 99999);
+        do {
+            $this->verify_code = 'E-' . random_int(10000, 99999);
+        } while ((new $this)->where('verify_code', '=',  $this->verify_code)->exists());
         return $this->save();
     }
+
 
     public function hasEmailVerifyCode(): bool
     {

@@ -42253,6 +42253,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var notice = __webpack_require__(/*! ./vendor/notice/messages */ "./resources/js/vendor/notice/messages.js");
+
 function removeGalleryModal() {
   if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.gallery-modal').length) {
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('.gallery-modal').remove();

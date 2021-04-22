@@ -3,64 +3,62 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PasswordResetEmailRequest;
+use App\Http\Requests\PasswordResetRequest;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Foundation\Auth\ResetsPasswords;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
 
 class ResetPasswordController extends Controller
 {
     use ResetsPasswords;
+
+    public $redirectTo = RouteServiceProvider::PROFILE;
 
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
     }
 
-    public function showResetForm(Request $request, $token = null)
+    public function showResetForm(Request $request)
     {
         return view('auth.passwords.reset')->render();
     }
 
-    /**
-     * Reset the given user's password.
-     *
-     * @param PasswordResetEmailRequest $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
-     * @throws ValidationException
-     */
-    public function reset(PasswordResetEmailRequest $request)
+    public function reset(PasswordResetRequest $request)
     {
-        $response = $this->broker()->reset(
-            $this->credentials($request), function ($user, $password) {
+        $password = $request->get('password');
+        if ($user = $this->getUser($request->get('code'))) {
             $this->resetPassword($user, $password);
-        });
-
-        return $response == Password::PASSWORD_RESET
-            ? $this->sendResetResponse($request, $response)
-            : $this->sendResetFailedResponse($request, $response);
+            return $this->sendResetResponse($user);
+        }
+        return $this->sendResetFailedResponse();
     }
 
+    protected function getUser($code){
+        $user = User::where('verify_code', $code)->count();
+        if ($user != 1) {
+            return false;
+        }
+        return User::where('verify_code', $code)->first();
+    }
     /**
      * Reset the given user's password.
      *
-     * @param  \Illuminate\Contracts\Auth\CanResetPassword  $user
-     * @param  string  $password
+     * @param User $user
+     * @param string $password
      * @return void
      */
     protected function resetPassword($user, $password)
     {
         $this->setUserPassword($user, $password);
 
-        $user->setRememberToken(Str::random(60));
+        $user->delVerifyCode();
 
-        $user->save();
+        $user->setRememberToken(Str::random(60));
 
         event(new PasswordReset($user));
 
@@ -70,56 +68,27 @@ class ResetPasswordController extends Controller
     /**
      * Set the user's password.
      *
-     * @param  \Illuminate\Contracts\Auth\CanResetPassword  $user
-     * @param  string  $password
+     * @param User $user
+     * @param string $password
      * @return void
      */
     protected function setUserPassword($user, $password)
     {
         $user->password = Hash::make($password);
+        $user->save();
     }
 
-    /**
-     * Get the response for a successful password reset.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string  $response
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
-     */
-    protected function sendResetResponse(Request $request, $response)
+
+    protected function sendResetResponse($user)
     {
-        if ($request->wantsJson()) {
-            return new JsonResponse(['message' => trans($response)], 200);
-        }
-
-        return redirect($this->redirectPath())
-            ->with('status', trans($response));
+        notice("Password changed successfully", 'info');
+        return redirect($this->redirectPath() . '/' . $user->id);
     }
 
-    /**
-     * Get the response for a failed password reset.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string  $response
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
-     */
-    protected function sendResetFailedResponse(Request $request, $response)
+    protected function sendResetFailedResponse()
     {
-        if ($request->wantsJson()) {
-            throw ValidationException::withMessages([
-                'email' => [trans($response)],
-            ]);
-        }
-
-        return redirect()->back()
-            ->withInput($request->only('email'))
-            ->withErrors(['email' => trans($response)]);
+        notice("Something wrong", 'danger');
+        return redirect()->back();
     }
 
-    /**
-     * Where to redirect users after resetting their password.
-     *
-     * @var string
-     */
-    protected $redirectTo = RouteServiceProvider::HOME;
 }
