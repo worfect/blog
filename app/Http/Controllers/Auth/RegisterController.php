@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\RequestVerification;
 use App\Http\Controllers\PageController;
 use App\Http\Requests\UserRegistrationRequest;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
-use App\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends PageController
@@ -33,7 +33,11 @@ class RegisterController extends PageController
         $data = $request->validated();
         $user = $this->user->registerUser($data);
 
-        event(new Registered($user));
+        if($user->hasEmail()){
+            event(new RequestVerification($user, 'email'));
+        }elseif($user->hasPhone()){
+            event(new RequestVerification($user, 'phone'));
+        }
 
         $this->guard()->login($user);
 

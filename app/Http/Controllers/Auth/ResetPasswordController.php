@@ -9,6 +9,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -18,12 +19,7 @@ class ResetPasswordController extends Controller
 
     public $redirectTo = RouteServiceProvider::PROFILE;
 
-    public function __construct()
-    {
-        $this->middleware('guest')->except('logout');
-    }
-
-    public function showResetForm(Request $request)
+    public function showPasswordResetForm(Request $request)
     {
         return view('auth.passwords.reset')->render();
     }
@@ -39,21 +35,21 @@ class ResetPasswordController extends Controller
     }
 
     protected function getUser($code){
-        $user = User::where('verify_code', $code)->count();
-        if ($user != 1) {
-            return false;
+        if($user = Auth::user() and $user->getVerifyCode() == $code){
+            return $user;
+        }elseif(!Auth::user()){
+            $user = User::where('verify_code', $code)->count();
+            if ($user = 1) {
+                return User::where('verify_code', $code)->first();
+            }
         }
-        return User::where('verify_code', $code)->first();
+        return false;
     }
-    /**
-     * Reset the given user's password.
-     *
-     * @param User $user
-     * @param string $password
-     * @return void
-     */
+
     protected function resetPassword($user, $password)
     {
+        $this->
+
         $this->setUserPassword($user, $password);
 
         $user->delVerifyCode();
@@ -78,7 +74,6 @@ class ResetPasswordController extends Controller
         $user->save();
     }
 
-
     protected function sendResetResponse($user)
     {
         notice("Password changed successfully", 'info');
@@ -90,5 +85,4 @@ class ResetPasswordController extends Controller
         notice("Something wrong", 'danger');
         return redirect()->back();
     }
-
 }

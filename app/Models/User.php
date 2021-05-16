@@ -4,18 +4,18 @@ namespace App\Models;
 
 use App\Contracts\HasEmail;
 use App\Contracts\HasPhone;
-use App\Contracts\MustVerify;
-use App\Traits\UseEmail;
-use App\Traits\UsePhone;
-use App\Traits\Verification;
+use App\Contracts\HasVerifySource;
+use App\Traits\Email;
+use App\Traits\Phone;
+use App\Traits\VerifySource;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 
-class User extends Authenticatable implements HasEmail, HasPhone, MustVerify
+class User extends Authenticatable implements HasVerifySource, HasEmail, HasPhone
 {
-    use Notifiable, SoftDeletes, UseEmail, UsePhone, Verification;
+    use Notifiable, SoftDeletes, VerifySource, Email, Phone;
 
     public const STATUS_WAIT = 'wait';
     public const STATUS_ACTIVE = 'active';
@@ -69,5 +69,18 @@ class User extends Authenticatable implements HasEmail, HasPhone, MustVerify
     }
 
 
+    public function setVerifyCode(string $code)
+    {
+        // TODO: Implement setVerifyCode() method.
+    }
 
+    public function setVerifyExpired()
+    {
+        // TODO: Implement setVerifyExpired() method.
+    }
+
+    public function getVerifyExpired()
+    {
+        // TODO: Implement getVerifyExpired() method.
+    }
 }

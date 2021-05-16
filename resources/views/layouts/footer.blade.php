@@ -7,7 +7,7 @@
         @if(!Auth::user())
         <a class="footer-item" title="Signin" href="{{ route('login') }}"><i class="fas fa-sign-in-alt fa-2x"></i></a>
         <a class="footer-item" title="Signup" href="{{ route('register') }}"><i class="fas fa-user-plus fa-2x"></i></a>
-        <a class="footer-item" title="Reset password" href="{{ route('password.request') }}"><i class="fas fa-unlock-alt fa-2x"></i></a>
+        <a class="footer-item" title="Reset password" href="{{ route('password.forgot.form') }}"><i class="fas fa-unlock-alt fa-2x"></i></a>
         @endif
 
         @if(Auth::user())

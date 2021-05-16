@@ -31,7 +31,7 @@
                 </div>
 
                 <div id="request-pass">
-                    @include('layouts.resetpass')
+                    @include('layouts.forgot')
                 </div>
 
             </div>

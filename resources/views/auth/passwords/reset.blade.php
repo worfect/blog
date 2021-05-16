@@ -8,7 +8,7 @@
 @section('content')
     @parent
     <div class="shell">
-        <form class="px-4 py-3" method="POST" action="{{ route('password.update') }}">
+        <form class="px-4 py-3" method="POST" action="{{ route('password.reset') }}">
             @csrf
             <div class="form-group">
                 <label> Verify Code </label>

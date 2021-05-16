@@ -1,5 +1,5 @@
 
-<form class="px-4 py-3" method="POST" action="{{ route('password.message') }}">
+<form class="px-4 py-3" method="POST" action="{{ route('password.forgot.form') }}">
     @csrf
     <div class="form-group">
         <label>Email / Phone / Login</label>
@@ -23,7 +23,7 @@
             </span>
         @enderror
         @error('uniqueness')
-        <span class="invalid-feedback" role="alert">
+            <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
             </span>
         @enderror

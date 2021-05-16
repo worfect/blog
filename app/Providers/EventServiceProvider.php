@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\RequestVerification;
 use App\Listeners\SendVerificationNotification;
-use App\Events\Registered;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
@@ -15,7 +15,7 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        Registered::class => [
+        RequestVerification::class => [
             SendVerificationNotification::class,
         ],
         SocialiteWasCalled::class => [

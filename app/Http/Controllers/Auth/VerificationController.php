@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Auth\Verifier\Verifier;
 use App\Http\Controllers\Controller;
 use App\Mail\Auth\VerifyMail;
 use App\Providers\RouteServiceProvider;
@@ -46,28 +47,26 @@ class VerificationController extends Controller
      * @param Request $request
      * @return Application|Redirector|RedirectResponse
      */
-    public function myVerify(Request $request)
+    public function verification(Request $request)
     {
         $code = $request->get('code');
-        $user = $request->user();
+        $verifier = new Verifier($request->user());
 
-        if (!$user->hasVerifyCode()) {
+        if (!$verifier->hasVerifyCode()) {
             return redirect($this->redirectPath());
         }
 
-        if ($code != $user->getVerifyCode()) {
+        if ($code != $verifier->getVerifyCode()) {
             notice('Invalid code', 'danger');
             return back();
         }
 
-        if($user->hasPhoneVerifyCode()){
-            $user->verifyPhone();
-        }elseif($user->hasEmailVerifyCode()){
-            $user->verifyEmail();
+        if(!$verifier->verifyByEmail()){
+            $verifier->verifyByPhone();
         }
 
-        if (!$user->isVerified()){
-            $user->markAsVerified();
+        if (!$verifier->isVerified()){
+            $verifier->markAsVerified();
         }
 
         notice('Verification was successful', 'success');

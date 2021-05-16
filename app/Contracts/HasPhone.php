@@ -6,21 +6,15 @@ namespace App\Contracts;
 
 interface HasPhone
 {
-    public function hasPhone();
-
-    public function setPhone($phone);
+    public function setPhone(int $phone);
 
     public function getPhone();
 
-    public function sendToPhone($text);
+    public function hasPhone(): bool;
 
-    public function phoneIsVerify();
+    public function sendToPhone(string $text);
 
-    public function verifyPhone();
+    public function phoneConfirmed(): bool;
 
-    public function setPhoneVerifyCode();
-
-    public function hasPhoneVerifyCode();
-
-    public function sendVerifyCodeToEmail();
+    public function confirmPhone();
 }

@@ -3,26 +3,19 @@
 
 namespace App\Contracts;
 
-
-use Illuminate\Mail\Mailable;
+use Illuminate\Contracts\Mail\Mailable as MailableContract;
 
 interface HasEmail
 {
-    public function hasEmail();
-
-    public function setEmail($email);
+    public function setEmail(string $email);
 
     public function getEmail();
 
-    public function sendToEmail(Mailable $mail);
+    public function hasEmail(): bool;
 
-    public function emailIsVerify();
+    public function sendToEmail(MailableContract $mail);
 
-    public function verifyEmail();
+    public function emailConfirmed(): bool;
 
-    public function setEmailVerifyCode();
-
-    public function hasEmailVerifyCode();
-
-    public function sendVerifyCodeToEmail();
+    public function confirmEmail();
 }

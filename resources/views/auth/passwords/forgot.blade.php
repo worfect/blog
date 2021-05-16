@@ -8,7 +8,7 @@
 @section('content')
     <div class="shell">
         <div class="register">
-            @include('layouts.resetpass')
+            @include('layouts.forgot')
             <div class="dropdown-divider"></div>
             @include('layouts.social')
         </div>
