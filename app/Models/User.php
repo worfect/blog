@@ -69,18 +69,5 @@ class User extends Authenticatable implements HasVerifySource, HasEmail, HasPhon
     }
 
 
-    public function setVerifyCode(string $code)
-    {
-        // TODO: Implement setVerifyCode() method.
-    }
 
-    public function setVerifyExpired()
-    {
-        // TODO: Implement setVerifyExpired() method.
-    }
-
-    public function getVerifyExpired()
-    {
-        // TODO: Implement getVerifyExpired() method.
-    }
 }

@@ -7,13 +7,7 @@ use Carbon\Carbon;
 
 trait VerifySource
 {
-    public function setVerifyExpired()
-    {
-        $this->expired_token = Carbon::now();
-        $this->save();
-    }
-
-    public function setVerifyCode(string $type)
+    public function setVerifyCode(string $code)
     {
         $this->verify_code = $code;
         return $this->save();
@@ -29,6 +23,28 @@ trait VerifySource
         $this->verify_code = null;
         return $this->save();
     }
+
+    public function setVerifyExpired()
+    {
+        $this->expired_token = Carbon::now();
+        $this->save();
+    }
+
+    public function getVerifyExpired()
+    {
+        return $this->expired_token;
+    }
+
+    public function delVerifyExpired()
+    {
+        $this->expired_token = null;
+        $this->save();
+    }
+
+
+
+
+
 
     public function expectVerify()
     {
@@ -55,19 +71,5 @@ trait VerifySource
         $this->status = self::STATUS_ACTIVE;
         $this->delVerifyCode();
         return $this->save();
-    }
-
-    public function delExpiredToken()
-    {
-        $this->expired_token = null;
-        $this->save();
-    }
-
-    public function checkCode()
-    {
-        if(Carbon::now()->diffInMinutes($this->expired_token) > 15){
-            return false;
-        }
-        return true;
     }
 }

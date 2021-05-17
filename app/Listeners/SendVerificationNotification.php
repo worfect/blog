@@ -16,7 +16,7 @@ class SendVerificationNotification
      */
     public function handle(RequestVerification $event)
     {
-        $verifier = new Verifier($event->user, $event->source);
-        $verifier->sendVerifyCode();
+        $verifier = new Verifier($event->user);
+        $verifier->sendVerifyCode($event->source);
     }
 }

@@ -9,24 +9,36 @@ use App\Contracts\HasPhone;
 use App\Contracts\HasVerifySource;
 use App\Http\Controllers\Controller;
 use App\Mail\Auth\VerifyMail;
+use App\Models\User;
+use Carbon\Carbon;
 
 class Verifier extends Controller
 {
-    protected $user;
-    protected $source;
+    protected $user = null;
 
-    public function __construct(HasVerifySource $user, string $source)
+    public function verifyCode($code): bool
     {
-        $this->user = $user;
-        $this->source = $source;
+        $this->setUser($code);
+        if($this->user and $this->checkExpired()){
+            return true;
+        }else{
+            return false;
+        }
     }
 
-    public function sendVerifyCode()
+    public function user()
     {
-        if($this->source === "email" and $this->user instanceof HasEmail and $this->user->hasEmail()){
+        return $this->user;
+    }
+
+    public function sendVerifyCode(HasVerifySource $user, string $source)
+    {
+        $this->user = $user;
+
+        if($source === "email" and $this->user instanceof HasEmail and $this->user->hasEmail()){
             $this->setEmailVerifyCode();
             $this->user->sendToEmail(new VerifyMail($this->user->getVerifyCode()));
-        }elseif($this->source === "phone" and $this->user instanceof HasPhone and $this->user->hasPhone()){
+        }elseif($source === "phone" and $this->user instanceof HasPhone and $this->user->hasPhone()){
             $this->setPhoneVerifyCode();
             $this->user->sendToPhone($this->user->getVerifyCode());
         }
@@ -65,5 +77,24 @@ class Verifier extends Controller
     protected function generateCode(string $prefix): string
     {
         return $prefix . random_int(10000, 99999);
+    }
+
+    protected function checkExpired(): bool
+    {
+        $expired = Carbon::now()->diffInMinutes($this->user->getVerifyExpired()) > 10;
+        $this->user->delVerifyExpired();
+        $this->user->delVerifyCode();
+
+        if($expired){
+            return false;
+        }
+        return true;
+    }
+
+    protected function setUser($code)
+    {
+        if (User::where('verify_code', $code)->count() == 1) {
+            $this->user =  User::where('verify_code', $code)->first();
+        }
     }
 }

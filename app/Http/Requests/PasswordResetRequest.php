@@ -24,8 +24,8 @@ class PasswordResetRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => 'required',
-            'password' => 'bail|required|string|min:6|confirmed',
+            'code' => 'bail|required',
+            'password' => 'required|string|min:6|confirmed',
         ];
     }
 

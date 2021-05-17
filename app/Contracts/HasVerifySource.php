@@ -9,15 +9,17 @@ interface HasVerifySource
 
     public function getVerifyCode();
 
+    public function delVerifyCode();
+
     public function setVerifyExpired();
 
     public function getVerifyExpired();
+
+    public function delVerifyExpired();
 
     public function expectVerify();
 
     public function isVerified();
 
     public function verify();
-
-    public function checkCode();
 }
