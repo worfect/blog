@@ -30,11 +30,12 @@ trait Phone
 
     public function phoneConfirmed(): bool
     {
-        return true;
+        return $this->phone_confirmed;
     }
 
     public function confirmPhone()
     {
-
+        $this->phone_confirmed = true;
+        return $this->save();
     }
 }

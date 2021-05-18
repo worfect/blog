@@ -42,18 +42,15 @@ trait VerifySource
     }
 
 
-
-
-
-
     public function expectVerify()
     {
-        // TODO: Implement expectVerify() method.
+        //оно мне надо?
+        return $this->status == self::STATUS_WAIT;
     }
 
     public function verify()
     {
-        // TODO: Implement verify() method.
+        $this->status = self::STATUS_ACTIVE;
     }
 
     public function hasVerifyCode()

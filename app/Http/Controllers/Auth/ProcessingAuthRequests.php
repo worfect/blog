@@ -134,7 +134,6 @@ class ProcessingAuthRequests extends Controller
      */
     protected function verifyPhoneNumber($uniqueness)
     {
-
         preg_match('/^((7|(\+ ?7)|8) ?[- (]?[ -)(]?)([ -]?[ -]?[0-9][ -)(]?[ -)(]?){9}[0-9]$/', trim($uniqueness), $matches);
         return $matches;
     }

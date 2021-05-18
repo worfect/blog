@@ -31,11 +31,12 @@ trait Email
 
     public function emailConfirmed(): bool
     {
-        return true;
+        return $this->email_confirmed;
     }
 
     public function confirmEmail()
     {
-
+        $this->email_confirmed = true;
+        return $this->save();
     }
 }

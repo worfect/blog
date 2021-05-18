@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Http\Controllers\Auth\Verifier;
-
 
 use App\Contracts\HasEmail;
 use App\Contracts\HasPhone;
@@ -16,19 +14,11 @@ class Verifier extends Controller
 {
     protected $user = null;
 
-    public function verifyCode($code): bool
+    public function getVerifiedUser(): HasVerifySource
     {
-        $this->setUser($code);
-        if($this->user and $this->checkExpired()){
-            return true;
-        }else{
-            return false;
+        if($this->user instanceof HasVerifySource and $this->user->isVerified()){
+            return $this->user;
         }
-    }
-
-    public function user()
-    {
-        return $this->user;
     }
 
     public function sendVerifyCode(HasVerifySource $user, string $source)
@@ -41,6 +31,41 @@ class Verifier extends Controller
         }elseif($source === "phone" and $this->user instanceof HasPhone and $this->user->hasPhone()){
             $this->setPhoneVerifyCode();
             $this->user->sendToPhone($this->user->getVerifyCode());
+        }
+    }
+
+    public function verifyUser($code): bool
+    {
+        $this->setUser($code);
+        if($this->user and $this->checkExpired()){
+            $source = $this->determineSource($code);
+            $this->markUserAsVerify($source);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    protected function determineSource($code): string
+    {
+        if(strpos('P-', $code) == '0'){
+            return 'phone';
+        }
+        if(strpos('E-', $code) == '0'){
+            return 'email';
+        }
+    }
+
+    protected function markUserAsVerify(string $source)
+    {
+        if($this->user instanceof HasVerifySource){
+            $this->user->verify();
+        }
+        if($source === 'phone' and $this->user instanceof HasPhone){
+            $this->user->confirmPhone();
+        }
+        if($source === 'email' and $this->user instanceof HasEmail){
+            $this->user->confirmEmail();
         }
     }
 
@@ -94,7 +119,10 @@ class Verifier extends Controller
     protected function setUser($code)
     {
         if (User::where('verify_code', $code)->count() == 1) {
-            $this->user =  User::where('verify_code', $code)->first();
+            $user =  User::where('verify_code', $code)->first();
+            if($user instanceof HasVerifySource){
+                $this->user = $user;
+            }
         }
     }
 }

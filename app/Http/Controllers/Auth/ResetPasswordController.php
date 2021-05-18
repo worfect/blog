@@ -28,8 +28,8 @@ class ResetPasswordController extends Controller
         $password = $request->get('password');
 
         $verifier = new Verifier();
-        if($verifier->verifyCode($request->get('code'))){
-            $this->resetPassword($verifier->user(), $password);
+        if($verifier->verifyUser($request->get('code'))){
+            $this->resetPassword($verifier->getVerifiedUser(), $password);
             return $this->sendResetResponse();
         }
         return $this->sendResetFailedResponse();
