@@ -2,25 +2,18 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Contracts\HasVerifySource;
 use App\Http\Controllers\Auth\Verifier\Verifier;
 use App\Http\Controllers\Controller;
-use App\Mail\Auth\VerifyMail;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Auth\VerifiesEmails;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
 
 
 class VerificationController extends Controller
 {
     use VerifiesEmails;
 
-    /**
-     * Create a new controller instance.
-     *
-     */
     public function __construct()
     {
         $this->middleware('auth');
@@ -28,74 +21,34 @@ class VerificationController extends Controller
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
 
-
-    /**
-     * Show the email verification notice.
-     *
-     * @param Request $request
-     * @return array|Application|RedirectResponse|Redirector|string
-     */
     public function show(Request $request)
     {
-        return $request->user()->hasVerifyCode()
+        return $request->user()->getVerifyCode()
             ? view('auth.verify')->render()
             : redirect($this->redirectPath());
     }
 
-    /**
-     *
-     * @param Request $request
-     * @return Application|Redirector|RedirectResponse
-     */
     public function verification(Request $request)
     {
-        $code = $request->get('code');
-        $verifier = new Verifier($request->user());
-
-        if (!$verifier->hasVerifyCode()) {
+        $verifier = new Verifier();
+        if($verifier->verifyUser($request->get('code'))){
+            notice('Verification was successful', 'success');
             return redirect($this->redirectPath());
         }
 
-        if ($code != $verifier->getVerifyCode()) {
-            notice('Invalid code', 'danger');
-            return back();
-        }
-
-        if(!$verifier->verifyByEmail()){
-            $verifier->verifyByPhone();
-        }
-
-        if (!$verifier->isVerified()){
-            $verifier->markAsVerified();
-        }
-
-        notice('Verification was successful', 'success');
-        return redirect($this->redirectPath());
+        notice("Something wrong. Check if the code is correct or try submitting the code again", 'danger');
+        return redirect()->back();
     }
 
-    /**
-     * Resend the email verification notification.
-     *
-     * @param Request $request
-     * @return Application|Redirector|RedirectResponse
-     */
     public function resend(Request $request)
     {
         $user = $request->user();
-
-        if (!$user->hasVerifyCode()) {
-            return redirect($this->redirectPath());
+        if($user instanceof HasVerifySource){
+            $verifier = new Verifier();
+            $verifier->resendVerifyCode($user);
+            notice('A fresh verification code has been sent to your email/phone.', 'info');
         }
 
-        if($user->hasPhoneVerifyCode()){
-            $user->setPhoneVerifyCode();
-            $user->sendToPhone($user->getVerifyCode());
-        }elseif($user->hasEmailVerifyCode()){
-            $user->setEmailVerifyCode();
-            $user->sendToEmail(new VerifyMail($user->login, $user->getVerifyCode()));
-        }
-
-        notice('A fresh verification code has been sent to your email/phone.', 'info');
         return back();
     }
 

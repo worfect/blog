@@ -34,24 +34,34 @@ class Verifier extends Controller
         }
     }
 
+    public function resendVerifyCode(HasVerifySource $user)
+    {
+        $this->sendVerifyCode($user, $this->determineSource($user->getVerifyCode()));
+    }
+
     public function verifyUser($code): bool
     {
         $this->setUser($code);
-        if($this->user and $this->checkExpired()){
-            $source = $this->determineSource($code);
-            $this->markUserAsVerify($source);
-            return true;
-        }else{
-            return false;
+        if($this->user){
+            if($this->checkExpired())
+            {
+                $source = $this->determineSource($code);
+                $this->markUserAsVerify($source);
+                return true;
+            }
+            $this->user->delVerifyExpired();
+            $this->user->delVerifyCode();
         }
+        return false;
     }
 
     protected function determineSource($code): string
     {
-        if(strpos('P-', $code) == '0'){
+
+        if(strpos($code, 'P-') == '0'){
             return 'phone';
         }
-        if(strpos('E-', $code) == '0'){
+        if(strpos($code, 'E-') == '0'){
             return 'email';
         }
     }
@@ -86,7 +96,7 @@ class Verifier extends Controller
         $prefix = 'E-';
         do {
             $code = $this->generateCode($prefix);
-        } while ((new $this->user)->where($this->user->getVerifyCode(), '=',  $code)->exists());
+        } while ((new $this->user)->where('verify_code', $code)->exists());
         return $code;
     }
 
@@ -95,7 +105,7 @@ class Verifier extends Controller
         $prefix = 'P-';
         do {
             $code = $this->generateCode($prefix);
-        } while ((new $this->user)->where($this->user->getVerifyCode(), '=',  $code)->exists());
+        } while ((new $this->user)->where('verify_code', $code)->exists());
         return $code;
     }
 
@@ -106,14 +116,7 @@ class Verifier extends Controller
 
     protected function checkExpired(): bool
     {
-        $expired = Carbon::now()->diffInMinutes($this->user->getVerifyExpired()) > 10;
-        $this->user->delVerifyExpired();
-        $this->user->delVerifyCode();
-
-        if($expired){
-            return false;
-        }
-        return true;
+        return Carbon::now()->diffInSeconds($this->user->getVerifyExpired()) < 10;
     }
 
     protected function setUser($code)

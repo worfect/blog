@@ -34,9 +34,7 @@ class LoginController extends PageController
             return $this->sendLockoutResponse($request);
         }
 
-        $data = $request->validated();
-
-        if ($this->attemptLogin($data)) {
+        if ($this->attemptLogin($request)) {
             return $this->sendLoginResponse($request);
         }
 
@@ -45,17 +43,17 @@ class LoginController extends PageController
     }
 
 
-    protected function attemptLogin($data)
+    protected function attemptLogin($request)
     {
         return $this->guard()->attempt(
-            $data, isset($data['remember'])
+            $request->validated(), $request->get('remember')
         );
     }
 
     protected function sendFailedLoginResponse(Request $request)
     {
         throw ValidationException::withMessages([
-            'email' => [trans('auth.failed')],
+            'login' => [trans('auth.failed')],
             'password' => [trans('auth.failed')]
         ]);
     }
@@ -63,6 +61,11 @@ class LoginController extends PageController
     public function redirectTo()
     {
         return url()->previous();
+    }
+
+    public function username()
+    {
+        return 'login';
     }
 }
 

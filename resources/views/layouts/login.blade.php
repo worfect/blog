@@ -1,4 +1,4 @@
-<form class="px-4 py-3" method="POST" action="{{ route('login') }}">
+<form class="px-4 py-3" method="POST" action="{{ route('login') }}" id="login-form">
     @csrf
     <div class="form-group">
         <label> Email / Phone / Login </label>
@@ -38,5 +38,5 @@
             Remember me
         </label>
     </div>
-    <button type="submit" class="btn btn-primary">Sign in</button>
+    <button type="submit" name="loginSubmitButton" class="btn btn-primary">Sign in</button>
 </form>

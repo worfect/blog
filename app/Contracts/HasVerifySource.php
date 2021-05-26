@@ -17,8 +17,6 @@ interface HasVerifySource
 
     public function delVerifyExpired();
 
-    public function expectVerify();
-
     public function isVerified();
 
     public function verify();

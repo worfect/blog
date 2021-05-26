@@ -41,32 +41,13 @@ trait VerifySource
         $this->save();
     }
 
-
-    public function expectVerify()
-    {
-        //оно мне надо?
-        return $this->status == self::STATUS_WAIT;
-    }
-
     public function verify()
     {
         $this->status = self::STATUS_ACTIVE;
     }
 
-    public function hasVerifyCode()
-    {
-        return isset($this->verify_code);
-    }
-
     public function isVerified()
     {
         return $this->status == self::STATUS_ACTIVE;
-    }
-
-    public function markAsVerified()
-    {
-        $this->status = self::STATUS_ACTIVE;
-        $this->delVerifyCode();
-        return $this->save();
     }
 }

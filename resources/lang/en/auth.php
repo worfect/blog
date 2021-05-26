@@ -17,4 +17,5 @@ return [
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     'no_data' => 'This user has no data for password recovery',
     'email_no_send' => 'Email cannot be sent at the moment.',
+    'no_input' => 'Enter the data.',
 ];

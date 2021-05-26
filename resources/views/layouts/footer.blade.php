@@ -11,9 +11,9 @@
         @endif
 
         @if(Auth::user())
-        <form method="POST" action="{{ route('logout') }}">
+        <form id="logout-form" method="POST" action="{{ route('logout') }}">
             @csrf
-            <button type="submit" class="btn footer-item" title="Logout"><i class="fas fa-sign-out-alt fa-2x"></i></button>
+            <button  name="logoutSubmitButton" type="submit" class="btn footer-item" title="Logout"><i class="fas fa-sign-out-alt fa-2x"></i></button>
         </form>
         <a class="footer-item" title="User profile" href="{{ route('profile', Auth::user()->id) }}"><i class="far fa-id-card fa-2x"></i></a>
         @endif

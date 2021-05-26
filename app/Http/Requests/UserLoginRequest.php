@@ -34,11 +34,8 @@ class UserLoginRequest extends FormRequest
     public function messages()
     {
         return [
-            'login.required'  => 'Enter your login, email or phone',
-            'login.alpha_dash'  => 'Invalid characters used',
-            'password.required'  => 'Enter password',
-            'password.string'  => 'Password must be a string',
+            'login.required'  => trans('auth.no_input'),
+            'password.required'  => trans('auth.no_input'),
         ];
     }
-
 }

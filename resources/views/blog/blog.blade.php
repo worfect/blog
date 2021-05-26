@@ -6,6 +6,7 @@
 @endsection
 
 @section('content')
+    @parent
     <div class="content-blog">
         <section>
             <article class="col-17">
