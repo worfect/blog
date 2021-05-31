@@ -13,7 +13,7 @@ class ProcessingAuthRequests extends Controller
      * @return array
      * @var string
      */
-    public function loginRequestProcessing($dataRequest)
+    public function loginRequestProcessing($dataRequest): array
     {
         $uniqueness = $dataRequest['uniqueness'];
         $method = $this->determiningAuthMethod($uniqueness);
@@ -37,7 +37,7 @@ class ProcessingAuthRequests extends Controller
      * @return array
      * @var string
      */
-    public function registerRequestProcessing($dataRequest)
+    public function registerRequestProcessing($dataRequest): array
     {
         $uniqueness = $dataRequest['uniqueness'];
         $method = $this->determiningAuthMethod($uniqueness);
@@ -63,7 +63,7 @@ class ProcessingAuthRequests extends Controller
      * @return array
      * @var string
      */
-    public function passwordRecoveryProcessing($dataRequest)
+    public function passwordRecoveryProcessing($dataRequest): array
     {
         $uniqueness = $dataRequest['uniqueness'];
         $method = $this->determiningAuthMethod($uniqueness);

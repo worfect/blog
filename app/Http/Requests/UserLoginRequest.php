@@ -34,8 +34,8 @@ class UserLoginRequest extends FormRequest
     public function messages()
     {
         return [
-            'login.required'  => trans('auth.no_input'),
-            'password.required'  => trans('auth.no_input'),
+            'login.required'  => trans('auth.login.no_input'),
+            'password.required'  => trans('auth.login.no_input'),
         ];
     }
 }

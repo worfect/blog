@@ -9,21 +9,31 @@ use FunctionalTester;
 
 class LoginCest
 {
+    /**
+     * @return array
+     */
+    protected function testDataProvider(): array
+    {
+        return [
+            [env('USER_LOGIN'), env('USER_PASS'), 0],
+            [env('USER_PHONE'), env('USER_PASS'), 0],
+            [env('USER_EMAIL'), env('USER_PASS'), 1]
+        ];
+    }
+
     protected function createTestUser()
     {
         factory(User::class)->create([
-            'login' => 'johndoe',
-            'screen_name' => 'johndoe',
-            'password' =>  crypt('secret', 'crypt'),
-            'email' => 'johndoe@gmail.com',
-            'phone' => '89123456789',
+            'login' => env('USER_LOGIN'),
+            'screen_name' => env('USER_LOGIN'),
+            'password' =>  crypt(env('USER_PASS'), 'crypt'),
+            'email' => env('USER_EMAIL'),
+            'phone' =>  env('USER_PHONE'),
         ]);
     }
 
     /**
-     * @example ["johndoe", "secret", 0]
-     * @example ["johndoe@gmail.com", "secret", 0]
-     * @example ["89123456789", "secret", 1]
+     * @dataProvider testDataProvider
      */
     public function testLogin(FunctionalTester $I, Example $example)
     {
@@ -37,7 +47,6 @@ class LoginCest
             'remember' => $example[2]
         ];
         $I->submitForm('#login-form', $formData, 'loginSubmitButton');
-        $I->dontSeeFormErrors();
 
         $I->seeAuthentication();
 
@@ -61,8 +70,8 @@ class LoginCest
         $I->fillField('password', '');
         $I->click('loginSubmitButton', '#login-form');
 
-        $I->seeFormErrorMessage('login',trans('auth.no_input'));
-        $I->seeFormErrorMessage('password', trans('auth.no_input'));
+        $I->seeFormErrorMessage('login', trans('auth.login.no_input'));
+        $I->seeFormErrorMessage('password', trans('auth.login.no_input'));
     }
 
     public function testLoginLockout(FunctionalTester $I)
@@ -101,8 +110,5 @@ class LoginCest
     {
         $I->amOnPage('/login');
         $I->seeCurrentUrlEquals('/');
-        $I->amOnPage('/register');
-        $I->seeCurrentUrlEquals('/');
     }
-
 }

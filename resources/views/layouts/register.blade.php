@@ -1,4 +1,4 @@
-<form class="px-4 py-3" method="POST" action="{{ route('register') }}">
+<form class="px-4 py-3" method="POST" action="{{ route('register') }}" id="register-form">
     @csrf
     <div class="form-group">
         <label>Login</label>
@@ -11,8 +11,8 @@
     </div>
     <div class="form-group">
         <label> Email / Phone </label>
-        <input type="text" class="form-control @error('uniqueness') is-invalid @enderror
-                        @error('email') is-invalid @enderror @error('phone') is-invalid @enderror" name="uniqueness"
+        <input id="uniqueness" name="uniqueness" type="text" class="form-control @error('uniqueness') is-invalid @enderror
+                                                    @error('email') is-invalid @enderror @error('phone') is-invalid @enderror"
                                                                     value="{{ old('uniqueness') }}"  placeholder="Email / Phone">
 
         @error('uniqueness')
@@ -43,9 +43,9 @@
     </div>
     <div class="form-group">
         <label>Confirm password</label>
-        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="Confirm password">
+        <input id="password-conform" type="password" class="form-control" name="password_confirmation" placeholder="Confirm password">
     </div>
-    <button type="submit" class="btn btn-primary">Sign up</button>
+    <button type="submit" name="registerSubmitButton" class="btn btn-primary">Sign up</button>
 </form>
 
 

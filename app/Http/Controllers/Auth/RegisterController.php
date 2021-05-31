@@ -33,13 +33,13 @@ class RegisterController extends PageController
         $data = $request->validated();
         $user = $this->user->registerUser($data);
 
+        $this->guard()->login($user);
+
         if($user->hasEmail()){
             event(new RequestVerification($user, 'email'));
         }elseif($user->hasPhone()){
             event(new RequestVerification($user, 'phone'));
         }
-
-        $this->guard()->login($user);
 
         return redirect($this->redirectPath());
     }
