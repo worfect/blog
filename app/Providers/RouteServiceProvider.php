@@ -19,6 +19,7 @@ class RouteServiceProvider extends ServiceProvider
     public const HOME = '/';
     public const VERIFY = '/verify';
     public const PROFILE = '/profile';
+    public const LOGIN = '/login';
 
     public const GALLERY = '/gallery';
 

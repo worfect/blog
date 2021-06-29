@@ -23,13 +23,13 @@ Route::group(['middleware'=>'generate.menus'], function(){
     Route::post('resend', 'Auth\VerificationController@resend')->name('verification.resend');
 
     Route::get('password/forgot', 'Auth\ForgotPasswordController@showPasswordForgotForm')->name('password.forgot.form');
-    Route::post('password/forgot', 'Auth\ForgotPasswordController@selectSendMethod')->name('password.forgot');
+    Route::post('password/forgot', 'Auth\ForgotPasswordController@sendRequestAvailableWay')->name('password.forgot');
 
     Route::get('password/reset', 'Auth\ResetPasswordController@showPasswordResetForm')->name('password.reset.form');
-    Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.reset')->middleware('throttle:3,1');
+    Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.reset')->middleware('throttle:10,1');
 
-    Route::get('password/conform', 'Auth\ConformPasswordController@showPasswordConformForm')->name('password.conform.form');
-    Route::post('password/conform', 'Auth\ConformPasswordController@conformPassword')->name('password.conform');
+    Route::get('password/conform', 'Auth\ConfirmPasswordController@showConfirmForm')->name('password.confirm.form');
+    Route::post('password/conform', 'Auth\ConfirmPasswordController@confirm')->name('password.confirm');
 
     /**
      * Gallery.

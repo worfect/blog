@@ -32,10 +32,10 @@ class PasswordResetRequest extends FormRequest
     public function messages()
     {
         return [
-            'password.required'  => 'Enter password',
-            'password.string'  => 'Password must be a string',
-            'password.min'  => 'Min password length - 6 characters',
-            'password.confirmed'  => 'Confirmed password',
+            'code.required'  => trans('passwords.code'),
+            'password.required'  => trans('passwords.password'),
+            'password.min'  => trans('passwords.min'),
+            'password.confirmed'  =>  trans('passwords.confirmed'),
         ];
     }
 }

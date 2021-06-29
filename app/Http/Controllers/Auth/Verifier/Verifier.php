@@ -14,13 +14,27 @@ class Verifier extends Controller
 {
     protected $user = null;
 
-    public function getVerifiedUser(): HasVerifySource
+    /**
+     * Return instance of the verified user from the verifier field, if present
+     *
+     * @return HasVerifySource|null
+     */
+    public function getVerifiedUser()
     {
         if($this->user instanceof HasVerifySource and $this->user->isVerified()){
             return $this->user;
         }
+        return null;
     }
 
+    /**
+     * Generates and sends the code in the chosen way
+     *
+     * @param HasVerifySource $user
+     * @param string $source
+     *
+     * @return void
+     */
     public function sendVerifyCode(HasVerifySource $user, string $source)
     {
         $this->user = $user;
@@ -34,38 +48,61 @@ class Verifier extends Controller
         }
     }
 
+    /**
+     * Replaces the code with a new code of the same type
+     *
+     * @param HasVerifySource $user
+     *
+     * @return void
+     */
     public function resendVerifyCode(HasVerifySource $user)
     {
         $this->sendVerifyCode($user, $this->determineSource($user->getVerifyCode()));
     }
 
-    public function verifyUser($code): bool
+    /**
+     * User verification
+     *
+     * @param string $code
+     * @return bool
+     */
+    public function verifyUser(string $code): bool
     {
         $this->setUser($code);
-        if($this->user){
-            if($this->checkExpired())
-            {
-                $source = $this->determineSource($code);
-                $this->markUserAsVerify($source);
-                return true;
-            }
+
+        if($this->user and $this->checkExpired()){
+            $source = $this->determineSource($code);
+            $this->markUserAsVerify($source);
             $this->user->delVerifyExpired();
             $this->user->delVerifyCode();
+            return true;
         }
         return false;
     }
 
-    protected function determineSource($code): string
+    /**
+     * Defines the verification method by code
+     *
+     * @param string $code
+     * @return string
+     */
+    protected function determineSource(string $code): string
     {
-
-        if(strpos($code, 'P-') == '0'){
+        if(stristr($code, 'P-')){
             return 'phone';
         }
-        if(strpos($code, 'E-') == '0'){
+        if(stristr($code, 'E-')){
             return 'email';
         }
+        return '';
     }
 
+    /**
+     * Marks the user as verified
+     *
+     * @param string $source
+     * @return void
+     */
     protected function markUserAsVerify(string $source)
     {
         if($this->user instanceof HasVerifySource){
@@ -78,6 +115,7 @@ class Verifier extends Controller
             $this->user->confirmEmail();
         }
     }
+
 
     protected function setEmailVerifyCode()
     {
@@ -116,7 +154,7 @@ class Verifier extends Controller
 
     protected function checkExpired(): bool
     {
-        return Carbon::now()->diffInSeconds($this->user->getVerifyExpired()) < 10;
+        return Carbon::now()->diffInMinutes($this->user->getVerifyExpired()) < 10;
     }
 
     protected function setUser($code)

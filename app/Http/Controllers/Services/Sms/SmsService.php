@@ -10,5 +10,4 @@ interface SmsService
     public function balance(): string;
 
     public function check(string $response);
-
 }

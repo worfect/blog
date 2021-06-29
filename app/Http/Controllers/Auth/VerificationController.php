@@ -20,25 +20,44 @@ class VerificationController extends Controller
         $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
-
+    /**
+     * Show the verification page.
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function show(Request $request)
     {
         return $request->user()->getVerifyCode()
-            ? view('auth.verify')->render()
+            ? view('auth.verify')
             : redirect($this->redirectPath());
     }
 
+    /**
+     * User verification
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function verification(Request $request)
     {
         $verifier = new Verifier();
         if($verifier->verifyUser($request->get('code'))){
-            notice('Verification was successful', 'success');
+            notice(trans('verify.success'), 'success');
             return redirect($this->redirectPath());
         }
 
-        notice("Something wrong. Check if the code is correct or try submitting the code again", 'danger');
+        notice(trans('verify.error'), 'danger');
         return redirect()->back();
     }
+
+
+    /**
+     * Resending the verification code.
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
 
     public function resend(Request $request)
     {
@@ -46,7 +65,7 @@ class VerificationController extends Controller
         if($user instanceof HasVerifySource){
             $verifier = new Verifier();
             $verifier->resendVerifyCode($user);
-            notice('A fresh verification code has been sent to your email/phone.', 'info');
+            notice(trans('verify.resend'), 'info');
         }
 
         return back();

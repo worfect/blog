@@ -14,7 +14,7 @@ trait Phone
 
     public function getPhone(): int
     {
-        return $this->phone;
+        return (int)$this->phone;
     }
 
     public function hasPhone(): bool

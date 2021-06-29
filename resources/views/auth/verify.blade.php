@@ -12,16 +12,16 @@
             <div class="card-body">
                 A confirmation code has been sent to your phone/email.
                 Enter it in the input field below
-                <form class="d-inline" method="POST" action="{{ route('verification.verify') }}">
+                <form id="verify-form" class="d-inline" method="POST" action="{{ route('verification.verify') }}">
                     @csrf
                     <br>
                     <input type="text" name="code">
-                    <button type="submit" class="btn">Send</button>
+                    <button type="submit" class="btn" name="verifySubmitButton">Send</button>
                 </form>
-                <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
+                <form id="resend-form" class="d-inline" method="POST" action="{{ route('verification.resend') }}">
                     @csrf
                     <br>
-                    <button type="submit" class="btn">Click to send the code to your email/phone again</button>
+                    <button type="submit" class="btn" name="resendSubmitButton">Click to send the code to your email/phone again</button>
                 </form>
             </div>
         </div>

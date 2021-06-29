@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Events\RequestVerification;
-use App\Http\Controllers\PageController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRegistrationRequest;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
-class RegisterController extends PageController
+class RegisterController extends Controller
 {
     use RegistersUsers;
 
@@ -23,11 +23,22 @@ class RegisterController extends PageController
         $this->user = $user;
     }
 
+    /**
+     * Show the registration form page.
+     *
+     * @return \Illuminate\View\View
+     */
     public function showRegistrationForm()
     {
-        return $this->renderOutput('auth.register');
+        return view('auth.register');
     }
 
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param UserRegistrationRequest $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
     public function register(UserRegistrationRequest $request)
     {
         $data = $request->validated();

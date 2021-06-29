@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PasswordResetRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\ResetsPasswords;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -18,11 +17,22 @@ class ResetPasswordController extends Controller
 
     public $redirectTo = RouteServiceProvider::PROFILE;
 
-    public function showPasswordResetForm(Request $request)
+    /**
+     * Display the password reset view.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showPasswordResetForm()
     {
-        return view('auth.passwords.reset')->render();
+        return view('auth.passwords.reset');
     }
 
+    /**
+     * Reset the given user's password.
+     *
+     * @param PasswordResetRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function reset(PasswordResetRequest $request)
     {
         $password = $request->get('password');
@@ -35,21 +45,40 @@ class ResetPasswordController extends Controller
         return $this->sendResetFailedResponse();
     }
 
+    /**
+     * Reset the given user's password.
+     *
+     * @param  \Illuminate\Contracts\Auth\CanResetPassword  $user
+     * @param  string  $password
+     * @return void
+     */
     protected function resetPassword($user, $password)
     {
         $this->setUserPassword($user, $password);
         $user->setRememberToken(Str::random(60));
     }
 
+    /**
+     * Set the user's password.
+     *
+     * @param  \Illuminate\Contracts\Auth\CanResetPassword  $user
+     * @param  string  $password
+     * @return void
+     */
     protected function setUserPassword($user, $password)
     {
         $user->password = Hash::make($password);
         $user->save();
     }
 
+    /**
+     * Get the response for a successful password reset.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     protected function sendResetResponse()
     {
-        notice("Password changed successfully", 'info');
+        notice(trans('passwords.reset'), 'info');
         if($user = Auth::user()){
             return redirect($this->redirectPath() . '/' . $user->id);
         }else{
@@ -57,9 +86,14 @@ class ResetPasswordController extends Controller
         }
     }
 
+    /**
+     * Get the response for a failed password reset.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     protected function sendResetFailedResponse()
     {
-        notice("Something wrong. Check if the code is correct or try submitting the code again", 'danger');
-        return redirect()->back();
+        notice(trans('passwords.error'), 'danger');
+        return redirect(route('password.reset'));
     }
 }

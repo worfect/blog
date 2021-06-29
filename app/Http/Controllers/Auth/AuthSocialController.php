@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Auth\ProcessingAuthRequests;
 use App\Models\SocialAccount;
 use App\Models\User;
 use Laravel\Socialite\Facades\Socialite;
-
 
 class AuthSocialController extends Controller
 {
@@ -44,6 +42,7 @@ class AuthSocialController extends Controller
     {
         $socialiteUser = Socialite::driver($provider)->stateless()->user();
         $socialData = $this->prepareRequest->socialRequestProcessing($socialiteUser, $provider);
+
         $user = $this->findOrCreateUser($socialData);
 
         auth()->login($user);
@@ -51,7 +50,12 @@ class AuthSocialController extends Controller
         return redirect()->back();
     }
 
-
+    /**
+     * Search and, if necessary, create a user.
+     *
+     * @param array $socialData
+     * @return User
+     */
     public function findOrCreateUser(array $socialData)
     {
         if ($user = $this->findUserBySocialId($socialData)) {
@@ -70,15 +74,27 @@ class AuthSocialController extends Controller
         return $user;
     }
 
-    public function findUserBySocialId($socialData)
+    /**
+     * Search user by SocialId.
+     *
+     * @param array $socialData
+     * @return User|null
+     */
+    public function findUserBySocialId(array $socialData)
     {
         $socialAccount = $this->socialAccount->where('provider', $socialData['provider'])
             ->where('provider_id', $socialData['provider_id'])
             ->first();
 
-        return $socialAccount ? $socialAccount->user : false;
+        return $socialAccount ? $socialAccount->user : null;
     }
 
+    /**
+     * Search user by email.
+     *
+     * @param array $socialData
+     * @return User|null
+     */
     public function findUserByEmail($socialData)
     {
         return !$socialData['email'] ? null : $this->user->where('email', $socialData['email'])->first();

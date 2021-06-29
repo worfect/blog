@@ -36,7 +36,6 @@ class PasswordRecoveryRequest extends FormRequest
     {
         return [
             'login.required'  => 'Enter your login, email or phone',
-            'login.alpha_dash'  => 'Invalid characters used',
         ];
     }
 }

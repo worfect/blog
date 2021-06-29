@@ -23,7 +23,7 @@ class RegisterCest
         factory(User::class)->create([
             'login' => env('USER_LOGIN'),
             'screen_name' => env('USER_LOGIN'),
-            'password' =>  crypt(env('USER_PASS'), 'crypt'),
+            'password' =>  env('USER_PASS_CRYPT'),
             'email' => env('USER_EMAIL'),
             'phone' =>  env('USER_PHONE'),
         ]);
@@ -105,6 +105,16 @@ class RegisterCest
         ];
 
         $I->seeRecord('App\Models\User', $userData);
+
+        $user = User::where('login', $userData['login'])->first();
+        if(isset($user->phone)){
+            $I->assertTrue((bool) preg_match("/^P-[0-9]{5}$/", $user->verify_code));
+        }
+        if(isset($user->email)){
+            $I->assertTrue((bool) preg_match("/^E-[0-9]{5}$/", $user->verify_code));
+        }
+        $I->assertTrue(isset($user->expired_token));
+
     }
 
     protected function testRedirect(FunctionalTester $I)

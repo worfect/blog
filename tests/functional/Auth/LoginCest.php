@@ -15,9 +15,9 @@ class LoginCest
     protected function testDataProvider(): array
     {
         return [
-            [env('USER_LOGIN'), env('USER_PASS'), 0],
-            [env('USER_PHONE'), env('USER_PASS'), 0],
-            [env('USER_EMAIL'), env('USER_PASS'), 1]
+            [env('USER_LOGIN'), 0],
+            [env('USER_PHONE'), 0],
+            [env('USER_EMAIL'), 1]
         ];
     }
 
@@ -26,7 +26,7 @@ class LoginCest
         factory(User::class)->create([
             'login' => env('USER_LOGIN'),
             'screen_name' => env('USER_LOGIN'),
-            'password' =>  crypt(env('USER_PASS'), 'crypt'),
+            'password' =>  env('USER_PASS_CRYPT'),
             'email' => env('USER_EMAIL'),
             'phone' =>  env('USER_PHONE'),
         ]);
@@ -43,14 +43,14 @@ class LoginCest
 
         $formData = [
             'uniqueness' => $example[0],
-            'password' => $example[1],
-            'remember' => $example[2]
+            'password' => env('USER_PASS'),
+            'remember' => $example[1]
         ];
         $I->submitForm('#login-form', $formData, 'loginSubmitButton');
 
         $I->seeAuthentication();
 
-        $this->testRemember($I, $example[2]);
+        $this->testRemember($I, $example[1]);
         $this->testRedirect($I);
         $this->testLogout($I);
     }
@@ -96,7 +96,7 @@ class LoginCest
         if($val){
             $I->dontSeeRecord('users', ['remember_token' => null]);
         }else{
-            $I->SeeRecord('users', ['remember_token' => null]);
+            $I->seeRecord('users', ['remember_token' => null]);
         }
     }
 

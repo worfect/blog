@@ -147,7 +147,7 @@ class ProcessingAuthRequests extends Controller
     public function unificationPhoneNumber($number)
     {
         $number = preg_replace('/ |-|\)|\(/', '', $number);
-        return $number = preg_replace('/\+7/', '8', $number);
+        return preg_replace('/\+7/', '8', $number);
     }
 
 }

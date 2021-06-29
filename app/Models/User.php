@@ -48,14 +48,15 @@ class User extends Authenticatable implements HasVerifySource, HasEmail, HasPhon
     {
         $user = new User;
         $id = User::orderBy('id', 'desc')->first()->id;
-
         $user->login = 'id_' . ++$id;
         $user->screen_name = $user->login;
-        $user->email = isset($data['email']) ? $data['email'] : null;
-        $user->phone = isset($data['phone']) ? $data['phone'] : null;
+        $user->email = $data['email'] ?? null;
+        $user->phone = $data['phone'] ?? null;
         $user->password = bcrypt(Str::random(32));
         $user->status = self::STATUS_ACTIVE;
         $user->role = self::ROLE_USER;
+        $user->email_confirmed = isset($data['email']) ? 1 : 0;
+        $user->phone_confirmed = isset($data['phone']) ? 1 : 0;
 
         $user->save();
 

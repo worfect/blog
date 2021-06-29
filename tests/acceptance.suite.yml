@@ -1,0 +1,10 @@
+actor: AcceptanceTester
+modules:
+  enabled:
+    - WebDriver:
+        browser: chrome
+        host: 172.18.0.8
+        port: 5555
+        url: 'http://localhost'
+    - Laravel5:
+        part: ORM

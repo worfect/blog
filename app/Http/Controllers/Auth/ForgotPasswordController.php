@@ -20,10 +20,16 @@ class ForgotPasswordController extends Controller
 
     public function showPasswordForgotForm()
     {
-        return view('auth.passwords.forgot')->render();
+        return view('auth.passwords.forgot');
     }
 
-    public function selectSendMethod(PasswordRecoveryRequest $request)
+    /**
+     * Handle a verification request in a user-accessible way.
+     *
+     * @param PasswordRecoveryRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function sendRequestAvailableWay(PasswordRecoveryRequest $request)
     {
         $validData = $request->validated();
 
@@ -32,7 +38,8 @@ class ForgotPasswordController extends Controller
 
         if($this->isMethodExists($method) and $user = $this->getUser($method, $value)){
             if($method == 'login'){
-                if($dispatchMethod = $this->isMethodExists($request->get('dispatchMethod'))){
+                $dispatchMethod = $request->get('dispatchMethod');
+                if(isset($dispatchMethod) and $this->isMethodExists($dispatchMethod)) {
                     event(new RequestVerification($user, $dispatchMethod));
                 }else{
                     return $this->choiceAvailableResetMethod($user);
@@ -41,65 +48,43 @@ class ForgotPasswordController extends Controller
                 event(new RequestVerification($user, $method));
             }
         }else{
-            return $this->sendResetCodeFailedResponse('auth.no_data');
+            return $this->sendResetCodeFailedResponse(trans('auth.no_data'));
         }
 
         return redirect(route('password.reset.form'));
-//
-//
-//        if($method == 'login'){
-//            if($user = $this->checkUserExists($method, $value)){
-//                if($dispatchMethod = $request->get('dispatchMethod')){
-//                    if($dispatchMethod == 'email'){
-//                        event(new RequestVerification($user, 'email'));
-//                    }
-//                    if($dispatchMethod == 'phone'){
-//                        event(new RequestVerification($user, 'phone'));
-//                    }
-//                }else{
-//                    return $this->choiceAvailableResetMethod($user);
-//                }
-//            }else{
-//                return $this->sendResetCodeFailedResponse('auth.no_data');
-//            }
-//        }
-//        if($method == 'phone'){
-//            if($user = $this->checkUserExists($method, $value)){
-//                event(new RequestVerification($user, 'phone'));
-//            }else{
-//                return $this->sendResetCodeFailedResponse('auth.no_data');
-//            }
-//        }
-//        if($method == 'email'){
-//            if($user = $this->checkUserExists($method, $value)){
-//                event(new RequestVerification($user, 'email'));
-//            }else{
-//                return $this->sendResetCodeFailedResponse('auth.no_data');
-//            }
-//        }
-//        return redirect(route('password.reset.form'));
     }
 
+    /**
+     * Defining an available method to send.
+     *
+     * @param HasVerifySource $user
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     protected function choiceAvailableResetMethod(HasVerifySource $user)
     {
-        $hasPhone = $user instanceof HasPhone and $user->hasPhone();
-        $hasEmail = $user instanceof HasEmail and $user->hasEmail();
-
-        if($hasPhone and $hasEmail){
-            return $this->showSwitchMethods($user->getEmail(), $user->getPhone());
+        if(is_a($user, HasPhone::class) or is_a($user, HasEmail::class)){
+            if($user->hasPhone() and $user->hasEmail()){
+                return $this->showSwitchMethods($user->getEmail(), $user->getPhone());
+            }
+            if($user->hasPhone() and !$user->hasEmail()){
+                event(new RequestVerification($user, 'phone'));
+                return redirect(route('password.reset.form'));
+            }
+            if(!$user->hasPhone() and $user->hasEmail()){
+                event(new RequestVerification($user, 'email'));
+                return redirect(route('password.reset.form'));
+            }
         }
-        if($hasPhone and !$hasEmail){
-            event(new RequestVerification($user, 'phone'));
-            return redirect(route('password.reset.form'));
-        }
-        if(!$hasPhone and $hasEmail){
-            event(new RequestVerification($user, 'email'));
-            return redirect(route('password.reset.form'));
-        }
-
-        return $this->sendResetCodeFailedResponse('auth.no_data');
+        return $this->sendResetCodeFailedResponse(trans('auth.no_data')); // OR EXEPTION AND LOG?
     }
 
+    /**
+     * Showing a switch for selecting a verification method
+     *
+     * @param $email
+     * @param $phone
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function showSwitchMethods($email, $phone)
     {
         $additionalData = [
@@ -110,28 +95,50 @@ class ForgotPasswordController extends Controller
         return redirect(route('password.forgot.form'))->with($additionalData)->withInput();
     }
 
+    /**
+     * Getting a user instance by field value.
+     *
+     * @param $name
+     * @param $value
+     * @return false
+     */
     protected function getUser($name, $value)
     {
-        if ($user = User::where($name, $value)->first()) {
-            return $user;
-        }
-        return false;
+         return User::where($name, $value)->first();
     }
 
+    /**
+     * Check of the possibility of verification.
+     *
+     * @param string $method
+     * @return bool
+     */
     protected function isMethodExists(string $method): bool
     {
         if($method == 'login' or $method == 'phone' or $method ==  'email'){
             return true;
         }
-        return false;
+        return false; // OR EXEPTION AND LOG?
     }
 
-    protected function sendResetCodeFailedResponse($message)
+    /**
+     * Sending a verification error message.
+     *
+     * @param string $message
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    protected function sendResetCodeFailedResponse(string $message)
     {
         return redirect(route('password.forgot.form'))
-            ->withErrors(['uniqueness' => [trans($message)]]);
+            ->withErrors(['uniqueness' => $message]);
     }
 
+    /**
+     * Preparation for displaying personal data.
+     *
+     * @param $data
+     * @return string
+     */
     protected function prepareDisplayPrivateData($data): string
     {
         return substr($data, 0, 4) . '***' . substr($data, -4, 4);
