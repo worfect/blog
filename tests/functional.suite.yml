@@ -1,0 +1,8 @@
+actor: FunctionalTester
+modules:
+  enabled:
+    - \Helper\Functional
+    - Asserts
+    - Laravel:
+        environment_file: .env.testing
+        cleanup: true

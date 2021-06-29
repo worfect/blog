@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware'=>'generate.menus'], function(){
@@ -7,7 +8,7 @@ Route::group(['middleware'=>'generate.menus'], function(){
      * Register the typical authentication routes for an application.
      */
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
-    Route::post('login', 'Auth\LoginController@authenticate')->name('login');
+    Route::post('login', 'Auth\LoginController@login')->name('login');
 
     Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
@@ -17,14 +18,18 @@ Route::group(['middleware'=>'generate.menus'], function(){
     Route::get('auth/{provider}', 'Auth\AuthSocialController@redirectToProvider')->name('auth.social');
     Route::get('auth/{provider}/callback', 'Auth\AuthSocialController@handleProviderCallback')->name('auth.social.callback');
 
-    Route::get('email/verify/{token}', 'Auth\VerificationController@myVerify')->name('verification.verify');
-    Route::get('email/verify', 'Auth\VerificationController@show')->name('verification.notice');
-    Route::post('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
+    Route::post('verify', 'Auth\VerificationController@verification')->name('verification.verify');
+    Route::get('verify', 'Auth\VerificationController@show')->name('verification.notice');
+    Route::post('resend', 'Auth\VerificationController@resend')->name('verification.resend');
 
-    Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
-    Route::post('password/message', 'Auth\ForgotPasswordController@initializationSendMethod')->name('password.message');
-    Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
-    Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
+    Route::get('password/forgot', 'Auth\ForgotPasswordController@showPasswordForgotForm')->name('password.forgot.form');
+    Route::post('password/forgot', 'Auth\ForgotPasswordController@sendRequestAvailableWay')->name('password.forgot');
+
+    Route::get('password/reset', 'Auth\ResetPasswordController@showPasswordResetForm')->name('password.reset.form');
+    Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.reset')->middleware('throttle:10,1');
+
+    Route::get('password/conform', 'Auth\ConfirmPasswordController@showConfirmForm')->name('password.confirm.form');
+    Route::post('password/conform', 'Auth\ConfirmPasswordController@confirm')->name('password.confirm');
 
     /**
      * Gallery.
@@ -42,8 +47,14 @@ Route::group(['middleware'=>'generate.menus'], function(){
     /**
      * Profile.
      */
-    Route::get('profile/{id}', 'Site\ProfilePage@index')->name('profile');
-    Route::get('/profile/{id}/gallery', 'Site\ProfilePage@gallery')->name('profile.gallery');
+    Route::get('profile', function (){
+        if($id = Auth::id()){
+            return redirect("profile/$id");
+        }
+        return redirect(\route('home'));
+    });
+    Route::get('profile/{id}', 'ProfileController@index')->name('profile');
+    Route::get('/profile/{id}/gallery', 'ProfilePage@gallery')->name('profile.gallery');
 
     /**
      * Comment.
@@ -61,6 +72,7 @@ Route::group(['middleware'=>'generate.menus'], function(){
      * Home.
      */
     Route::get('/', 'HomeController@index')->name('home');
+    Route::redirect('/home', '/');
 
     Route::post('rating', 'RatingController@index')->middleware('only.ajax');
 

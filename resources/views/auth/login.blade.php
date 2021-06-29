@@ -6,6 +6,7 @@
 @endsection
 
 @section('content')
+    @parent
     <div class="shell">
         <div class="login">
             @include('layouts.login')
@@ -19,3 +20,4 @@
 @section('footer')
     @parent
 @endsection
+

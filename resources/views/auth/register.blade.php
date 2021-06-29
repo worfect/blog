@@ -6,6 +6,7 @@
 @endsection
 
 @section('content')
+    @parent
     <div class="shell">
         <div class="register">
             @include('layouts.register')

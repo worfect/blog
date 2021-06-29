@@ -2,19 +2,18 @@
 
 namespace App\Mail\Auth;
 
-use App\Models\User;
+
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
+
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Hash;
+
 
 class VerifyMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $login;
-    public $token;
+    public $code;
 
 
     /**
@@ -22,10 +21,9 @@ class VerifyMail extends Mailable
      *
      * @return void
      */
-    public function __construct($login, $token)
+    public function __construct($code)
     {
-        $this->token = $token;
-        $this->login = $login;;
+        $this->code = $code;;
     }
 
     /**

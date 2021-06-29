@@ -2,18 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Contracts\HasEmail;
+use App\Contracts\HasPhone;
+use App\Contracts\HasVerifySource;
+use App\Traits\Email;
+use App\Traits\Phone;
+use App\Traits\VerifySource;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\Auth\VerifyMail;
 use Illuminate\Support\Str;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements HasVerifySource, HasEmail, HasPhone
 {
-    use Notifiable, SoftDeletes;
-
+    use Notifiable, SoftDeletes, VerifySource, Email, Phone;
 
     public const STATUS_WAIT = 'wait';
     public const STATUS_ACTIVE = 'active';
@@ -23,15 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public const ROLE_ADMIN = 'admin';
 
 
-
-
-    protected $fillable = [
-        'login', 'password', 'email', 'screen_name', 'verify_token'
-    ];
-
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    /*************************************/
 
     public function registerUser(array $data)
     {
@@ -42,7 +36,6 @@ class User extends Authenticatable implements MustVerifyEmail
         $user->email = isset($data['email']) ? $data['email'] : null;
         $user->phone = isset($data['phone']) ? $data['phone'] : null;
         $user->password = bcrypt($data['password']);
-        $user->verify_token = Str::random(32);
         $user->status = self::STATUS_WAIT;
         $user->role = self::ROLE_USER;
 
@@ -55,45 +48,20 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $user = new User;
         $id = User::orderBy('id', 'desc')->first()->id;
-
         $user->login = 'id_' . ++$id;
         $user->screen_name = $user->login;
-        $user->email = isset($data['email']) ? $data['email'] : null;
-        $user->phone = isset($data['phone']) ? $data['phone'] : null;
+        $user->email = $data['email'] ?? null;
+        $user->phone = $data['phone'] ?? null;
         $user->password = bcrypt(Str::random(32));
         $user->status = self::STATUS_ACTIVE;
         $user->role = self::ROLE_USER;
+        $user->email_confirmed = isset($data['email']) ? 1 : 0;
+        $user->phone_confirmed = isset($data['phone']) ? 1 : 0;
 
         $user->save();
 
         return $user;
     }
-
-
-
-
-    public function hasVerifiedEmail()
-    {
-        return $this->verified_at;
-    }
-
-    public function markEmailAsVerified()
-    {
-        $this->status = self::STATUS_ACTIVE;
-        $this->verify_token = null;
-        return $this->save();
-    }
-
-    public function sendEmailVerificationNotification()
-    {
-        Mail::to($this->getEmailForVerification())->send(new VerifyMail($this->login, $this->verify_token));
-    }
-
-    public function getEmailForVerification()
-    {
-        return $this->email;
-    }
-
 
     public function isAdministrator(): bool
     {
@@ -101,26 +69,6 @@ class User extends Authenticatable implements MustVerifyEmail
                 or $this->role == self::ROLE_MODERATOR;
     }
 
-    public function isVerified(): bool
-    {
-        return $this->status == self::STATUS_ACTIVE;
-    }
 
 
-    public function blog()
-    {
-        return $this->hasMany("App\Models\Blog");
-    }
-    public function gallery()
-    {
-        return $this->hasMany("App\Models\Gallery");
-    }
-    public function news()
-    {
-        return $this->hasMany("App\Models\News");
-    }
-    public function comments()
-    {
-        return $this->hasMany("App\Models\Comment");
-    }
 }

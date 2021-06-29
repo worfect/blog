@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Controllers\Helpers\ProcessingAuthRequests;
+use App\Http\Controllers\Auth\ProcessingAuthRequests;
 use Illuminate\Foundation\Http\FormRequest;
 
 
@@ -36,18 +36,16 @@ class UserRegistrationRequest extends FormRequest
     public function messages()
     {
         return [
-            'uniqueness.accepted' => 'Enter the correct email or phone number',
-            'email.unique'  => 'This email is already in use',
-            'phone.unique'  => 'This phone is already in use',
-            'login.required'  => 'Enter login',
-            'login.string'  => 'Login must be a string',
-            'login.between'  => 'Login length - from 3 to 30 characters',
-            'login.unique'  => 'This login is already in use',
-            'login.alpha_dash'  => 'Field may have alpha-numeric characters, as well as dashes and underscores',
-            'password.required'  => 'Enter password',
-            'password.string'  => 'Password must be a string',
-            'password.min'  => 'Min password length - 6 characters',
-            'password.confirmed'  => 'Confirmed password',
+            'uniqueness.accepted' => trans('auth.register.accepted'),
+            'email.unique'  => trans('auth.register.email.unique'),
+            'phone.unique'  => trans('auth.register.phone.unique'),
+            'login.required'  => trans('auth.register.login.required'),
+            'login.between'  => trans('auth.register.login.between'),
+            'login.unique'  => trans('auth.register.login.unique'),
+            'login.alpha_dash'  => trans('auth.register.login.alpha_dash'),
+            'password.required'  => trans('auth.register.password.required'),
+            'password.min'  => trans('auth.register.password.min'),
+            'password.confirmed'  => trans('auth.register.password.confirmed'),
         ];
     }
 }

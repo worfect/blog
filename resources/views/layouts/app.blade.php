@@ -9,9 +9,6 @@
 
     <title>{{ config('app.name', 'Best Blog') }}</title>
 
-
-
-
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}" rel="stylesheet">
@@ -23,20 +20,17 @@
 </head>
 <body>
 <div class="container">
-
     @section('header')
         @include('layouts.header')
     @show
 
-
     @section('content')
-
+        @include('notice::show')
     @show
 
     @section('footer')
         @include('layouts.footer')
     @show
-
 </div>
 
 <!-- Scripts -->

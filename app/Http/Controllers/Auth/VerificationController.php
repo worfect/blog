@@ -2,112 +2,78 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\ContentController;
+use App\Contracts\HasVerifySource;
+use App\Http\Controllers\Auth\Verifier\Verifier;
+use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Auth\Events\Verified;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Auth\VerifiesEmails;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Routing\Redirector;
 
 
-class VerificationController extends ContentController
+class VerificationController extends Controller
 {
-
     use VerifiesEmails;
 
-
-    public $redirectTo = RouteServiceProvider::PROFILE;
-
-    /**
-     * Create a new controller instance.
-     *
-     */
     public function __construct()
     {
-
         $this->middleware('auth');
         $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
-
-
     /**
-     * Show the email verification notice.
+     * Show the verification page.
      *
-     * @param Request $request
-     * @return Application|RedirectResponse|Response|Redirector
+     * @param  Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
     public function show(Request $request)
     {
-        return $request->user()->hasVerifiedEmail()
-            ? redirect($this->redirectTo . '/' . $request->user()->id)
-            : $this->renderOutput('auth.verify');
+        return $request->user()->getVerifyCode()
+            ? view('auth.verify')
+            : redirect($this->redirectPath());
     }
 
     /**
-     * Mark the authenticated user's email address as verified.
+     * User verification
      *
-     * @param Request $request
-     * @return Response
-     *
-     * @throws AuthorizationException
+     * @param  Request  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function myVerify(Request $request)
+    public function verification(Request $request)
     {
-
-        if (!hash_equals((string)$request->route('token'), $request->user()->verify_token)) {
-            throw new AuthorizationException;
+        $verifier = new Verifier();
+        if($verifier->verifyUser($request->get('code'))){
+            notice(trans('verify.success'), 'success');
+            return redirect($this->redirectPath());
         }
 
-        if ($request->user()->hasVerifiedEmail()) {
-            return $request->wantsJson()
-                ? new Response('', 204)
-                : redirect($this->redirectPath());
-        }
-
-        if ($request->user()->markEmailAsVerified()) {
-            event(new Verified($request->user()));
-        }
-
-        if ($response = $this->verified($request)) {
-            return $response;
-        }
+        notice(trans('verify.error'), 'danger');
+        return redirect()->back();
     }
 
-    /**
-     * The user has been verified.
-     *
-     * @param Request $request
-     * @return mixed
-     */
-    protected function verified(Request $request)
-    {
-        return redirect($this->redirectTo . '/' . $request->user()->id);
-    }
 
     /**
-     * Resend the email verification notification.
+     * Resending the verification code.
      *
-     * @param Request $request
-     * @return Response
+     * @param  Request  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
+
     public function resend(Request $request)
     {
-        if ($request->user()->hasVerifiedEmail()) {
-            return $request->wantsJson()
-                ? new Response('', 204)
-                : redirect($this->redirectPath());
+        $user = $request->user();
+        if($user instanceof HasVerifySource){
+            $verifier = new Verifier();
+            $verifier->resendVerifyCode($user);
+            notice(trans('verify.resend'), 'info');
         }
 
-        $request->user()->sendEmailVerificationNotification();
+        return back();
+    }
 
-        return $request->wantsJson()
-            ? new Response('', 202)
-            : back()->with('resent', true);
+    public function redirectTo()
+    {
+        return RouteServiceProvider::PROFILE . '/' . \request()->user()->id;
     }
 }
 

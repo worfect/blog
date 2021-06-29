@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Portfolio;
 use Illuminate\Http\Request;
 
-class PortfolioController extends ContentController
+class PortfolioController extends PageController
 {
     public function __construct(Portfolio $portfolio)
     {

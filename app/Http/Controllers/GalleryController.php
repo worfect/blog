@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class GalleryController extends ContentController
+class GalleryController extends PageController
 {
     public function __construct(Gallery $gallery)
     {

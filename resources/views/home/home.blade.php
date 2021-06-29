@@ -6,6 +6,7 @@
 @endsection
 
 @section('content')
+    @parent
     <div class="content-home">
         <div class="header">
             @isset($banner)

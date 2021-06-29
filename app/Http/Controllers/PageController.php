@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class ContentController extends Controller
+class PageController extends Controller
 {
     public $model;
     protected $builder;
     protected $config = null;
     protected $collections = [];
 
-    public function collection($config = null): ContentController
+    public function collection($config = null): PageController
     {
         $this->config = $config;
         $this->builder = $this->model->with($this->model->relations);
@@ -25,19 +25,19 @@ class ContentController extends Controller
         return $this;
     }
 
-    public function byId($id): ContentController
+    public function byId($id): PageController
     {
         $this->builder->where('id', $id);
         return $this;
     }
 
-    public function withSearch($query): ContentController
+    public function withSearch($query): PageController
     {
         $this->builder = (new SearchController())->search($this->builder, $query);
         return $this;
     }
 
-    public function withFilter($query): ContentController
+    public function withFilter($query): PageController
     {
         $this->builder = (new FilterController())->filter($this->builder, $query);
         return $this;

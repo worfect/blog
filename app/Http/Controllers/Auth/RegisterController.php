@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\ContentController;
+use App\Events\RequestVerification;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRegistrationRequest;
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
-
-class RegisterController extends ContentController
+class RegisterController extends Controller
 {
     use RegistersUsers;
+
+    public $redirectTo = RouteServiceProvider::VERIFY;
 
     public $user;
 
@@ -21,28 +23,36 @@ class RegisterController extends ContentController
         $this->user = $user;
     }
 
+    /**
+     * Show the registration form page.
+     *
+     * @return \Illuminate\View\View
+     */
     public function showRegistrationForm()
     {
-        return $this->renderOutput('auth.register');
+        return view('auth.register');
     }
 
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param UserRegistrationRequest $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
     public function register(UserRegistrationRequest $request)
     {
         $data = $request->validated();
         $user = $this->user->registerUser($data);
 
-        event(new Registered($user));
-
         $this->guard()->login($user);
 
-        if ($response = $this->registered()) {
-            return $response;
+        if($user->hasEmail()){
+            event(new RequestVerification($user, 'email'));
+        }elseif($user->hasPhone()){
+            event(new RequestVerification($user, 'phone'));
         }
+
+        return redirect($this->redirectPath());
     }
 
-
-    protected function registered()
-    {
-        return redirect()->to('email/verify');
-    }
 }

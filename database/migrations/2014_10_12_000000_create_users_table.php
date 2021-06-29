@@ -29,7 +29,10 @@ class CreateUsersTable extends Migration
             $table->string('email')->nullable();
 
             $table->string('status');
-            $table->string('verify_token')->nullable();
+            $table->string('verify_code')->nullable();
+            $table->timestamp('expired_token')->nullable();
+            $table->boolean('phone_confirmed')->default(false);
+            $table->boolean('email_confirmed')->default(false);
             $table->rememberToken();
         });
     }

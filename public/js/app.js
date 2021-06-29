@@ -42167,6 +42167,7 @@ __webpack_require__(/*! ./gallery */ "./resources/js/gallery.js");
 __webpack_require__(/*! ./menus */ "./resources/js/menus.js");
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()('#notice-overlay-modal').modal();
+jquery__WEBPACK_IMPORTED_MODULE_0___default()('div.alert').not('.alert-important').delay(3000).fadeOut(350);
 
 /***/ }),
 
@@ -42251,6 +42252,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Form_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Form.js */ "./resources/js/Form.js");
 
 
+
+var notice = __webpack_require__(/*! ./vendor/notice/messages */ "./resources/js/vendor/notice/messages.js");
 
 function removeGalleryModal() {
   if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.gallery-modal').length) {

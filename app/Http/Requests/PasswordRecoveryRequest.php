@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Controllers\Helpers\ProcessingAuthRequests;
+use App\Http\Controllers\Auth\ProcessingAuthRequests;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PasswordRecoveryRequest extends FormRequest
@@ -36,7 +36,6 @@ class PasswordRecoveryRequest extends FormRequest
     {
         return [
             'login.required'  => 'Enter your login, email or phone',
-            'login.alpha_dash'  => 'Invalid characters used',
         ];
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Helpers;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 
@@ -13,7 +13,7 @@ class ProcessingAuthRequests extends Controller
      * @return array
      * @var string
      */
-    public function loginRequestProcessing($dataRequest)
+    public function loginRequestProcessing($dataRequest): array
     {
         $uniqueness = $dataRequest['uniqueness'];
         $method = $this->determiningAuthMethod($uniqueness);
@@ -37,7 +37,7 @@ class ProcessingAuthRequests extends Controller
      * @return array
      * @var string
      */
-    public function registerRequestProcessing($dataRequest)
+    public function registerRequestProcessing($dataRequest): array
     {
         $uniqueness = $dataRequest['uniqueness'];
         $method = $this->determiningAuthMethod($uniqueness);
@@ -63,7 +63,7 @@ class ProcessingAuthRequests extends Controller
      * @return array
      * @var string
      */
-    public function passwordRecoveryProcessing($dataRequest)
+    public function passwordRecoveryProcessing($dataRequest): array
     {
         $uniqueness = $dataRequest['uniqueness'];
         $method = $this->determiningAuthMethod($uniqueness);
@@ -103,7 +103,7 @@ class ProcessingAuthRequests extends Controller
      * @param $uniqueness
      * @return false|string
      */
-    public function determiningAuthMethod($uniqueness)
+    protected function determiningAuthMethod($uniqueness)
     {
         if ($this->verifyEmail($uniqueness)) {
             return 'email';
@@ -122,7 +122,7 @@ class ProcessingAuthRequests extends Controller
      */
     protected function verifyEmail($uniqueness)
     {
-        preg_match('/\A[^@]+@([^@\.]+\.)+[^@\.]+\z/', $uniqueness, $matches);
+        preg_match('/\A[^@]+@([^@\.]+\.)+[^@\.]+\z/', trim($uniqueness), $matches);
         return $matches;
     }
 
@@ -134,7 +134,7 @@ class ProcessingAuthRequests extends Controller
      */
     protected function verifyPhoneNumber($uniqueness)
     {
-        preg_match('/^(( ?(\+ ?7)|( ?8)) ?[- (]?[ -)(]?)([ -]?[ -]?[0-9][ -)(]?[ -)(]?){9}[0-9]$/', $uniqueness, $matches);
+        preg_match('/^((7|(\+ ?7)|8) ?[- (]?[ -)(]?)([ -]?[ -]?[0-9][ -)(]?[ -)(]?){9}[0-9]$/', trim($uniqueness), $matches);
         return $matches;
     }
 
@@ -147,7 +147,7 @@ class ProcessingAuthRequests extends Controller
     public function unificationPhoneNumber($number)
     {
         $number = preg_replace('/ |-|\)|\(/', '', $number);
-        return $number = preg_replace('/\+7/', '8', $number);
+        return preg_replace('/\+7/', '8', $number);
     }
 
 }

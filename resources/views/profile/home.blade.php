@@ -6,11 +6,11 @@
 @endsection
 
 @section('content')
+    @parent
     <div class="content row">
         <section class="article col-sm row">
 
             <div class=" header col-sm">
-                {{ $user->login }}
             </div>
 
 
@@ -25,6 +25,9 @@
         </aside>
 
     </div>
+    <form>
+
+    </form>
 @endsection
 
 

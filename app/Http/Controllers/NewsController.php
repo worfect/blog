@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\News;
 use Illuminate\Http\Request;
 
-class NewsController extends ContentController
+class NewsController extends PageController
 {
     public function __construct(News $news)
     {
