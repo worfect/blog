@@ -4,40 +4,38 @@ namespace App\Http\Controllers;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class PageController extends Controller
+class ContentController extends Controller
 {
     public $model;
     protected $builder;
     protected $config = null;
     protected $collections = [];
 
-    public function collection($config = null): PageController
+    public function collection($config = null): ContentController
     {
         $this->config = $config;
         $this->builder = $this->model->with($this->model->relations);
 
-        if(isset($this->config)){
+        if(isset($this->config)) {
             $this->builder->select($config['select']);
-        }else{
-            $this->builder;
         }
 
         return $this;
     }
 
-    public function byId($id): PageController
+    public function byId($id): ContentController
     {
         $this->builder->where('id', $id);
         return $this;
     }
 
-    public function withSearch($query): PageController
+    public function withSearch($query): ContentController
     {
         $this->builder = (new SearchController())->search($this->builder, $query);
         return $this;
     }
 
-    public function withFilter($query): PageController
+    public function withFilter($query): ContentController
     {
         $this->builder = (new FilterController())->filter($this->builder, $query);
         return $this;
@@ -49,10 +47,10 @@ class PageController extends Controller
             return $this->builder->get();
         }elseif($this->config['paginate'] == true) {
             return $this->builder->paginate($this->config['amount'])
-                                            ->appends(request()->query());
+                ->appends(request()->query());
         }else{
             return $this->builder->take($this->config['amount'])
-                                        ->get();
+                ->get();
         }
     }
 

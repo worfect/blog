@@ -1,0 +1,12 @@
+.banner-profile{
+    border-radius: 0.25em;
+    height: 100%;
+    overflow: hidden;
+    .banner-profile-item{
+        img{
+            height: 100%;
+            width: auto;
+            max-width: 100%;
+        }
+    }
+}

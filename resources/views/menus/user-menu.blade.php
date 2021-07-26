@@ -1,13 +1,12 @@
 <div class="user-menu col-sm-2">
     @if(Auth::user())
         <button class="btn" id="user-menu-btn">
-            Profile
+            User
         </button>
         <div class="dropdown-menu menu-profile" id="user-menu-dropdown">
             <div class="switch-user-menu">
-                <a class="dropdown-item" id="">Information</a>
-                <a class="dropdown-item" id="">Articles</a>
-                <a class="dropdown-item" id="">Comments</a>
+                <a class="dropdown-item" id="" href="{{ route('profile.default') }}">Profile</a>
+                <a class="dropdown-item" id="">Notifications</a>
                 <div class="dropdown-divider"></div>
                 <form class="logout" method="POST" action="{{ route('logout') }}">
                     @csrf

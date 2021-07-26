@@ -52,7 +52,7 @@ Route::group(['middleware'=>'generate.menus'], function(){
             return redirect("profile/$id");
         }
         return redirect(\route('home'));
-    });
+    })->name('profile.default');
     Route::get('profile/{id}', 'ProfileController@index')->name('profile');
     Route::get('/profile/{id}/gallery', 'ProfilePage@gallery')->name('profile.gallery');
 
@@ -78,7 +78,7 @@ Route::group(['middleware'=>'generate.menus'], function(){
 
 
     Route::resources([
-        'blog' => 'Site\BlogPage',
+        'blog' => 'BlogController',
     ]);
 
     Route::resource('portfolio', 'Site\PortfolioPage');

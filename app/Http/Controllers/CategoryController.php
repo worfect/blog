@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
-class CategoryController extends PageController
+class CategoryController extends ContentController
 {
     public function __construct(Category $category)
     {

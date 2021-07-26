@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use Illuminate\Http\Request;
 
-class BlogController extends PageController
+class BlogController extends ContentController
 {
 
     public function __construct(Blog $blog)
@@ -17,11 +17,11 @@ class BlogController extends PageController
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return array|\Illuminate\Http\Response|string
      */
     public function index()
     {
-        //
+        return $this->renderOutput('blog.blog');
     }
 
     /**

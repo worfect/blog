@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
-class CommentController extends PageController
+class CommentController extends ContentController
 {
     public function __construct(Comment $comment)
     {

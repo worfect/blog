@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Carbon;
 
-class FilterController extends PageController
+class FilterController extends ContentController
 {
     protected $params;
 

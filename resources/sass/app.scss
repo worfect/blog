@@ -59,7 +59,10 @@
 @import "search/menu";
 @import "search/result";
 
-
+@import "profile/profile";
+@import "profile/banner";
+@import "profile/content";
+@import "profile/info";
 
 body{
     background-color: $background;
