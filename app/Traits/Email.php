@@ -39,4 +39,13 @@ trait Email
         $this->email_confirmed = true;
         return $this->save();
     }
+
+    public function updateEmail($email): bool
+    {
+        if($this->email != $email){
+            $this->email = $email;
+            $this->email_confirmed = false;
+        }
+        return $this->save();
+    }
 }

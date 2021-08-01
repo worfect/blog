@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\ValidationException;
 
 class ProcessingAuthRequests extends Controller
 {
-
     /**
      * Defines the login method and preparing the dataset for validation
      *
@@ -98,6 +98,39 @@ class ProcessingAuthRequests extends Controller
     }
 
     /**
+     * First checks and prepares the data of the user data update form
+     *
+     * @param $dataRequest
+     * @return array
+     * @throws ValidationException
+     */
+    public function userDataUpdateProcessing($dataRequest): array
+    {
+        $errors = [];
+        $response = [];
+
+        $response['screen_name'] = $dataRequest['screen_name'];
+
+        if($this->verifyPhoneNumber($dataRequest['phone'])){
+            $response['phone'] = $this->unificationPhoneNumber($dataRequest['phone']);
+        }else{
+            $errors['phone'] = trans('auth.update.phone.invalid');
+        }
+
+        if($this->verifyEmail($dataRequest['email'])){
+            $response['email'] = $dataRequest['email'];
+        }else{
+            $errors['email'] = trans('auth.update.email.invalid');
+        }
+
+        if($errors === []){
+            return $response;
+        }else{
+            throw ValidationException::withMessages($errors);
+        }
+    }
+
+    /**
      * Defines the authentication method
      *
      * @param $uniqueness
@@ -120,7 +153,7 @@ class ProcessingAuthRequests extends Controller
      * @param $uniqueness
      * @return false|string
      */
-    protected function verifyEmail($uniqueness)
+    public function verifyEmail($uniqueness)
     {
         preg_match('/\A[^@]+@([^@\.]+\.)+[^@\.]+\z/', trim($uniqueness), $matches);
         return $matches;
@@ -132,7 +165,7 @@ class ProcessingAuthRequests extends Controller
      * @param $uniqueness
      * @return false|string
      */
-    protected function verifyPhoneNumber($uniqueness)
+    public function verifyPhoneNumber($uniqueness)
     {
         preg_match('/^((7|(\+ ?7)|8) ?[- (]?[ -)(]?)([ -]?[ -]?[0-9][ -)(]?[ -)(]?){9}[0-9]$/', trim($uniqueness), $matches);
         return $matches;

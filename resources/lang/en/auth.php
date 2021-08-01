@@ -19,4 +19,13 @@ return [
     'register.password.required' => 'Enter password',
     'register.password.min' => 'Min password length - 6 characters',
     'register.password.confirmed' => 'Confirmed password',
+
+    'update.phone.invalid' => 'Invalid phone data',
+    'update.email.invalid' => 'Invalid email data',
+    'update.email.unique' => 'This email is already in use',
+    'update.phone.unique' => 'This phone is already in use',
+    'update.screen_name.alpha_dash' => 'Field may have alpha-numeric characters, as well as dashes and underscores',
+    'update.screen_name.required' => 'Enter name',
+    'update.phone.required' => 'Enter phone',
+    'update.email.required' => 'Enter email',
 ];

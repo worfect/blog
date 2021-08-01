@@ -21080,13 +21080,15 @@ footer .duplicate-navigate .footer-item {
   justify-content: space-between;
   flex-direction: row;
   max-height: 580px;
+  align-items: flex-start;
+  align-content: flex-start;
 }
 
 #content-profile section article {
   margin-right: 0.5em;
   border-radius: 0.25em;
   padding: 0;
-  background-color: #0A1F38;
+  background-color: #F4DF7D;
   display: flex;
   flex-direction: column;
 }
@@ -21095,7 +21097,7 @@ footer .duplicate-navigate .footer-item {
   border-radius: 0.25em;
   margin-left: 0.5em;
   padding: 0;
-  background-color: #0A1F38;
+  background-color: #F4DF7D;
   display: flex;
   flex-direction: column;
 }

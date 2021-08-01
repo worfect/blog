@@ -33,9 +33,18 @@ trait Phone
         return $this->phone_confirmed;
     }
 
-    public function confirmPhone()
+    public function confirmPhone(): bool
     {
         $this->phone_confirmed = true;
+        return $this->save();
+    }
+
+    public function updatePhone($phone): bool
+    {
+        if( $this->phone != $phone){
+            $this->phone = $phone;
+            $this->phone_confirmed = false;
+        }
         return $this->save();
     }
 }

@@ -17,4 +17,6 @@ interface HasPhone
     public function phoneConfirmed(): bool;
 
     public function confirmPhone();
+
+    public function updatePhone(int $phone): bool;
 }

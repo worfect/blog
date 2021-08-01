@@ -3,33 +3,39 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\UserDataUpdateRequest;
+use App\Models\User;
 
-class ProfileController extends ContentController
+class ProfileController extends Controller
 {
-
-    public function index($id, BannerController $banner, BlogController $blog,
-                          CommentController $comment, GalleryController $gallery)
+    public function index($id)
     {
-        $units = [
-            'blog' => $blog,
-            'gallery' => $gallery,
-            'comment' => $comment,
-            'banner' => $banner
-        ];
+        return view('profile.profile', ['user' =>  User::with('blog', 'gallery', 'comment')
+                                                                ->get()
+                                                                ->where('id', $id)]);
+    }
 
-        foreach ($units as $name => $controller){
-            $config = config('site_settings.profile.' . $name);
+    public function edit($id)
+    {
+        return view('profile.edit', ['user' =>  User::get()->where('id', $id)]);
+    }
 
-            if($name == 'banner'){
-                $this->collections[$name] = $controller->collection($config)->get();
-            }else{
-                $this->collections[$name] = $controller->collection($config)
-                                                        ->builder()
-                                                        ->where('user_id', $id)
-                                                        ->get();
-            }
+
+    public function update($id, UserDataUpdateRequest $request)
+    {
+        $user = User::findOrFail($id);
+        if($email = $request->get('email')){
+            $user->updateEmail($email);
         }
-        return $this->renderOutput('profile.profile');
+        if($phone = $request->get('phone')){
+            $user->updatePhone($phone);
+        }
+
+        return notice()->success("User data update")->json();
+    }
+
+    public function refresh($id)
+    {
+        return view('profile.editForm', ['user' =>  User::get()->where('id', $id)]);
     }
 }

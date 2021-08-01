@@ -28,6 +28,9 @@ Route::group(['middleware'=>'generate.menus'], function(){
     Route::get('password/reset', 'Auth\ResetPasswordController@showPasswordResetForm')->name('password.reset.form');
     Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.reset')->middleware('throttle:10,1');
 
+    Route::get('password/change', 'Auth\ChangePasswordController@showPasswordChangeForm')->name('password.change.form');
+    Route::post('password/change', 'Auth\ChangePasswordController@change')->name('password.change')->middleware('throttle:10,1');
+
     Route::get('password/conform', 'Auth\ConfirmPasswordController@showConfirmForm')->name('password.confirm.form');
     Route::post('password/conform', 'Auth\ConfirmPasswordController@confirm')->name('password.confirm');
 
@@ -41,20 +44,25 @@ Route::group(['middleware'=>'generate.menus'], function(){
     Route::get('gallery/delete', 'GalleryController@destroy')->middleware('only.ajax');
     Route::get('gallery/restore', 'GalleryController@restore')->middleware('only.ajax');
     Route::post('gallery/update', 'GalleryController@update')->middleware('only.ajax');
-    Route::post('gallery/refresh', 'GalleryController@refresh')->middleware('only.ajax');
+    Route::get('gallery/refresh', 'GalleryController@refresh')->middleware('only.ajax');
     Route::post('gallery', 'GalleryController@store');
 
     /**
      * Profile.
      */
+    Route::get('profile/gallery', 'ProfileController@index')->name('profile.gallery');
+    Route::get('profile/{id}/edit', 'ProfileController@edit')->name('profile.edit');
+    Route::get('profile/{id}/update/refresh', 'ProfileController@refresh')->middleware('only.ajax');
+    Route::post('profile/{id}/update', 'ProfileController@update')->name('profile.update');
+    Route::get('profile/{id}', 'ProfileController@index')->name('profile');
     Route::get('profile', function (){
         if($id = Auth::id()){
             return redirect("profile/$id");
         }
         return redirect(\route('home'));
     })->name('profile.default');
-    Route::get('profile/{id}', 'ProfileController@index')->name('profile');
-    Route::get('/profile/{id}/gallery', 'ProfilePage@gallery')->name('profile.gallery');
+
+
 
     /**
      * Comment.

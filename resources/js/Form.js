@@ -6,6 +6,7 @@ export default class Form {
     form;
     formData;
     url;
+    urlRefresh;
     refreshSection;
     noticeSection;
 
@@ -76,12 +77,9 @@ export default class Form {
     _refreshContent() {
         let refreshSection = this.refreshSection
         $.ajax({
-            url: this.url + "/refresh",
-            method: 'POST',
-            dataType: 'HTML',
-            processData: false,
-            contentType: false,
-            data: this.formData
+            url: this.urlRefresh,
+            method: 'GET',
+            dataType: 'HTML'
         })
             .done(function (data) {
                 $(refreshSection).empty();
@@ -96,7 +94,8 @@ export default class Form {
         this._responseProcessing();
     }
 
-    withRefresh(section) {
+    withRefresh(urlRefresh, section) {
+        this.urlRefresh = urlRefresh
         this.refreshSection = section;
         return this
     }

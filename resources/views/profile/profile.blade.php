@@ -8,12 +8,6 @@
 @section('content')
     @parent
     <div class="content-profile" id="content-profile">
-        <div class="header">
-            @isset($banner)
-                @include('profile.banner')
-            @endisset
-        </div>
-
         <section>
             <article class="col-15">
                 <ul class="nav nav-tabs">
@@ -27,15 +21,11 @@
                         <a data-toggle="tab" class="nav-link" href="#user-comment">Comments</a>
                     </li>
                 </ul>
-
-            @include('profile.content')
-
+                @include('profile.content')
             </article>
 
             <aside>
-                @isset($blog)
-                    @include('profile.info')
-                @endisset
+                @include('profile.info')
             </aside>
         </section>
     </div>

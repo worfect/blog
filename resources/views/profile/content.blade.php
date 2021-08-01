@@ -1,7 +1,8 @@
 <div class="tab-content">
-    @isset($blog)
+@foreach($user as $item)
+    @isset($item->blog)
         <div class="user-blog tab-pane fade show active" id="user-blog">
-            @foreach($blog as $item)
+            @foreach($item->blog as $item)
                 <div class="blog-item">
                     <a href="{{ route('blog.show', $item->id ) }}"> <div class="title">
                             <h4>{{ $item->title }}</h4>
@@ -25,9 +26,9 @@
         </div>
     @endisset
 
-    @isset($gallery)
+    @isset($item->gallery)
         <div class="user-gallery tab-pane fade" id="user-gallery">
-            @foreach($gallery as $item)
+            @foreach($item->gallery as $item)
                 <div class="blog-item">
                     <a href="{{ route('blog.show', $item->id ) }}"> <div class="title">
                             <h4>{{ $item->title }}</h4>
@@ -51,12 +52,13 @@
         </div>
     @endisset
 
-    @isset($comment)
+    @isset($item->comment)
         <div class="user-comment tab-pane fade" id="user-comment">
-            @foreach($comment as $item)
+            @foreach($item->comment as $item)
                 <h4>{{ $item->text }}</h4>
             @endforeach
         </div>
     @endisset
+@endforeach
 </div>
 

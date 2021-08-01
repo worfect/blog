@@ -118,14 +118,14 @@ $(document).on( "submit", "#store-gallery-item", function(e){
     e.preventDefault();
     let form = new Form($(this), 'gallery');
     form.withNotice('.edit-gallery-item')
-        .withRefresh('.content-gallery')
+        .withRefresh('gallery/refresh',  '.content-gallery')
         .submitForm();
 });
 
 $(document).on( "submit", "#update-gallery-item", function(e){
     e.preventDefault();
     let form = new Form($(this), 'gallery/update');
-    form.withNotice('.edit-gallery-item')
+    form.withNotice('gallery/refresh', '.edit-gallery-item')
         .submitForm();
 });
 
@@ -133,7 +133,7 @@ $(document).on( "submit", ".add-gallery-comment-form", function(e){
     e.preventDefault();
     let form = new Form($(this), 'comment');
     form.withNotice('.add-gallery-comment')
-        .withRefresh('.show-gallery-comments')
+        .withRefresh('comment/refresh', '.show-gallery-comments')
         .submitForm();
 });
 

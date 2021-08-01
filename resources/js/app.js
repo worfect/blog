@@ -17,7 +17,7 @@ require('./search');
 require('./slick');
 require('./gallery');
 require('./menus');
-
+require('./profile');
 
 $('#notice-overlay-modal').modal();
 $('div.alert').not('.alert-important').delay(3000).fadeOut(350);

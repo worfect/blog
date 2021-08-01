@@ -18,4 +18,6 @@ interface HasEmail
     public function emailConfirmed(): bool;
 
     public function confirmEmail();
+
+    public function updateEmail(string $email): bool;
 }

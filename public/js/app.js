@@ -42022,6 +42022,7 @@ var Form = /*#__PURE__*/function () {
     this.form = void 0;
     this.formData = void 0;
     this.url = void 0;
+    this.urlRefresh = void 0;
     this.refreshSection = void 0;
     this.noticeSection = void 0;
     this.form = form;
@@ -42092,12 +42093,9 @@ var Form = /*#__PURE__*/function () {
     value: function _refreshContent() {
       var refreshSection = this.refreshSection;
       jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
-        url: this.url + "/refresh",
-        method: 'POST',
-        dataType: 'HTML',
-        processData: false,
-        contentType: false,
-        data: this.formData
+        url: this.urlRefresh,
+        method: 'GET',
+        dataType: 'HTML'
       }).done(function (data) {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()(refreshSection).empty();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()(refreshSection).append(data);
@@ -42110,7 +42108,8 @@ var Form = /*#__PURE__*/function () {
     }
   }, {
     key: "withRefresh",
-    value: function withRefresh(section) {
+    value: function withRefresh(urlRefresh, section) {
+      this.urlRefresh = urlRefresh;
       this.refreshSection = section;
       return this;
     }
@@ -42165,6 +42164,8 @@ __webpack_require__(/*! ./slick */ "./resources/js/slick.js");
 __webpack_require__(/*! ./gallery */ "./resources/js/gallery.js");
 
 __webpack_require__(/*! ./menus */ "./resources/js/menus.js");
+
+__webpack_require__(/*! ./profile */ "./resources/js/profile.js");
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()('#notice-overlay-modal').modal();
 jquery__WEBPACK_IMPORTED_MODULE_0___default()('div.alert').not('.alert-important').delay(3000).fadeOut(350);
@@ -42371,17 +42372,17 @@ function restoreGalleryItem() {
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", "#store-gallery-item", function (e) {
   e.preventDefault();
   var form = new _Form_js__WEBPACK_IMPORTED_MODULE_1__["default"](jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), 'gallery');
-  form.withNotice('.edit-gallery-item').withRefresh('.content-gallery').submitForm();
+  form.withNotice('.edit-gallery-item').withRefresh('gallery/refresh', '.content-gallery').submitForm();
 });
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", "#update-gallery-item", function (e) {
   e.preventDefault();
   var form = new _Form_js__WEBPACK_IMPORTED_MODULE_1__["default"](jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), 'gallery/update');
-  form.withNotice('.edit-gallery-item').submitForm();
+  form.withNotice('gallery/refresh', '.edit-gallery-item').submitForm();
 });
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", ".add-gallery-comment-form", function (e) {
   e.preventDefault();
   var form = new _Form_js__WEBPACK_IMPORTED_MODULE_1__["default"](jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), 'comment');
-  form.withNotice('.add-gallery-comment').withRefresh('.show-gallery-comments').submitForm();
+  form.withNotice('.add-gallery-comment').withRefresh('comment/refresh', '.show-gallery-comments').submitForm();
 });
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", ".gallery-card-search-result", showGalleryItemModal);
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", ".create-gallery-item", createGalleryItemModal);
@@ -42432,6 +42433,29 @@ $('.nav-item').hover(function () {
   $(this).find('ul').slideDown('fast');
 }, function () {
   $(this).find('ul').slideUp('fast');
+});
+
+/***/ }),
+
+/***/ "./resources/js/profile.js":
+/*!*********************************!*\
+  !*** ./resources/js/profile.js ***!
+  \*********************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Form */ "./resources/js/Form.js");
+
+
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", "#change-user-data-form", function (e) {
+  var url = window.location.pathname.replace('edit', '') + 'update';
+  e.preventDefault();
+  var form = new _Form__WEBPACK_IMPORTED_MODULE_1__["default"](jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), url);
+  form.withRefresh(url + '/refresh', '#edit-profile').withNotice('.settings-profile').submitForm();
 });
 
 /***/ }),

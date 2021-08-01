@@ -67,6 +67,7 @@ class ResetPasswordController extends Controller
      */
     protected function setUserPassword($user, $password)
     {
+        dd($password);
         $user->password = Hash::make($password);
         $user->save();
     }
@@ -93,7 +94,7 @@ class ResetPasswordController extends Controller
      */
     protected function sendResetFailedResponse()
     {
-        notice(trans('passwords.error'), 'danger');
+        notice(trans('passwords.reset_error'), 'danger');
         return redirect(route('password.reset'));
     }
 }
