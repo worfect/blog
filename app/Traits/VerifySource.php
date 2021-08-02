@@ -50,4 +50,9 @@ trait VerifySource
     {
         return $this->status == self::STATUS_ACTIVE;
     }
+
+    public function unverified()
+    {
+        $this->status = self::STATUS_WAIT;
+    }
 }

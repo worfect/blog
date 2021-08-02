@@ -51,6 +51,8 @@ Route::group(['middleware'=>'generate.menus'], function(){
      * Profile.
      */
     Route::get('profile/gallery', 'ProfileController@index')->name('profile.gallery');
+    Route::get('profile/{id}/multi-factor/{action}', 'ProfileController@multiFactor')->name('profile.multi-factor');
+    Route::get('profile/{id}/verify/{source}', 'ProfileController@verifyRequest')->name('profile.verify');
     Route::get('profile/{id}/edit', 'ProfileController@edit')->name('profile.edit');
     Route::get('profile/{id}/update/refresh', 'ProfileController@refresh')->middleware('only.ajax');
     Route::post('profile/{id}/update', 'ProfileController@update')->name('profile.update');

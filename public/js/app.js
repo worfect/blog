@@ -42455,7 +42455,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", "#change-us
   var url = window.location.pathname.replace('edit', '') + 'update';
   e.preventDefault();
   var form = new _Form__WEBPACK_IMPORTED_MODULE_1__["default"](jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), url);
-  form.withRefresh(url + '/refresh', '#edit-profile').withNotice('.settings-profile').submitForm();
+  form.withRefresh(url + '/refresh', '#edit-profile').withNotice('.profile-notice').submitForm();
 });
 
 /***/ }),

@@ -20,4 +20,6 @@ interface HasVerifySource
     public function isVerified();
 
     public function verify();
+
+    public function unverified();
 }

@@ -21,11 +21,13 @@ return [
     'register.password.confirmed' => 'Confirmed password',
 
     'update.phone.invalid' => 'Invalid phone data',
+    'update.phone.unique' => 'This phone is already in use',
+    'update.phone.required' => 'Enter phone',
     'update.email.invalid' => 'Invalid email data',
     'update.email.unique' => 'This email is already in use',
-    'update.phone.unique' => 'This phone is already in use',
+    'update.email.required' => 'Enter email',
     'update.screen_name.alpha_dash' => 'Field may have alpha-numeric characters, as well as dashes and underscores',
     'update.screen_name.required' => 'Enter name',
-    'update.phone.required' => 'Enter phone',
-    'update.email.required' => 'Enter email',
+    'update.screen_name.between' => 'Length - from 3 to 30 characters',
+    'update.screen_name.unique' => 'This nickname is already in use',
 ];
