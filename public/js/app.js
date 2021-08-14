@@ -42061,30 +42061,35 @@ var Form = /*#__PURE__*/function () {
     value: function _responseProcessing() {
       var _this2 = this;
 
-      this._ajaxSendForm().then(function (data) {
-        _this2._cleanInvalid();
+      return new Promise(function (resolve, reject) {
+        _this2._ajaxSendForm().then(function (data) {
+          _this2._cleanInvalid();
 
-        if (_this2.noticeSection) {
-          notice.showNoticeMessages(data, _this2.noticeSection);
-        }
+          if (_this2.noticeSection) {
+            notice.showNoticeMessages(data, _this2.noticeSection);
+          }
 
-        if (_this2.refreshSection) {
-          _this2._refreshContent();
-        }
-      })["catch"](function (data) {
-        _this2._cleanInvalid();
+          if (_this2.refreshSection) {
+            _this2._refreshContent();
+          }
 
-        var errors = data.responseJSON.errors;
-        jquery__WEBPACK_IMPORTED_MODULE_0___default.a.each(errors, function (name, message) {
-          var span = document.createElement('span');
-          var strong = document.createElement('strong');
-          var field = jquery__WEBPACK_IMPORTED_MODULE_0___default()('[name = ' + name + ']');
-          strong.innerHTML = message;
-          jquery__WEBPACK_IMPORTED_MODULE_0___default()(span).attr({
-            "class": "invalid-feedback",
-            "role": "alert"
-          }).html(strong);
-          field.addClass("is-invalid").after(span);
+          resolve(true);
+        })["catch"](function (data) {
+          _this2._cleanInvalid();
+
+          var errors = data.responseJSON.errors;
+          jquery__WEBPACK_IMPORTED_MODULE_0___default.a.each(errors, function (name, message) {
+            var span = document.createElement('span');
+            var strong = document.createElement('strong');
+            var field = jquery__WEBPACK_IMPORTED_MODULE_0___default()('[name = ' + name + ']');
+            strong.innerHTML = message;
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()(span).attr({
+              "class": "invalid-feedback",
+              "role": "alert"
+            }).html(strong);
+            field.addClass("is-invalid").after(span);
+          });
+          reject(false);
         });
       });
     }
@@ -42104,7 +42109,11 @@ var Form = /*#__PURE__*/function () {
   }, {
     key: "submitForm",
     value: function submitForm() {
-      this._responseProcessing();
+      return this._responseProcessing().then(function (data) {
+        return data;
+      })["catch"](function (data) {
+        return data;
+      });
     }
   }, {
     key: "withRefresh",
@@ -42269,7 +42278,7 @@ function showGalleryItemModal() {
   removeGalleryModal();
   jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
     type: "GET",
-    url: "gallery/show",
+    url: "/gallery/show",
     data: {
       id: id
     },
@@ -42285,7 +42294,7 @@ function createGalleryItemModal() {
   removeGalleryModal();
   jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
     type: "GET",
-    url: "gallery/create",
+    url: "/gallery/create",
     dataType: "html",
     success: function success(data) {
       if (data.indexOf('notice-message') != -1) {
@@ -42304,7 +42313,7 @@ function editGalleryItemModal() {
   removeGalleryModal();
   jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
     type: "GET",
-    url: "gallery/edit",
+    url: "/gallery/edit",
     data: {
       id: id
     },
@@ -42326,7 +42335,7 @@ function deleteGalleryItem() {
   removeGalleryModal();
   jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
     type: "GET",
-    url: "gallery/delete",
+    url: "/gallery/delete",
     data: {
       id: id
     },
@@ -42350,7 +42359,7 @@ function restoreGalleryItem() {
   id = parseInt(id.match(/\d+/));
   jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
     type: "GET",
-    url: "gallery/restore",
+    url: "/gallery/restore",
     data: {
       id: id
     },
@@ -42441,22 +42450,10 @@ $('.nav-item').hover(function () {
 /*!*********************************!*\
   !*** ./resources/js/profile.js ***!
   \*********************************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Form */ "./resources/js/Form.js");
+/*! no static exports found */
+/***/ (function(module, exports) {
 
 
-jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", "#change-user-data-form", function (e) {
-  var url = window.location.pathname.replace('edit', '') + 'update';
-  e.preventDefault();
-  var form = new _Form__WEBPACK_IMPORTED_MODULE_1__["default"](jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), url);
-  form.withRefresh(url + '/refresh', '#edit-profile').withNotice('.profile-notice').submitForm();
-});
 
 /***/ }),
 

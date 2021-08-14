@@ -85,4 +85,9 @@ class User extends Authenticatable implements HasVerifySource, HasEmail, HasPhon
     {
         return $this->hasMany("App\Models\Comment");
     }
+
+    public function attitude()
+    {
+        return $this->hasMany('App\Models\Attitude');
+    }
 }

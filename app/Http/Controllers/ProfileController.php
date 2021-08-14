@@ -12,9 +12,9 @@ class ProfileController extends Controller
 {
     public function index($id)
     {
-        return view('profile.profile', ['user' =>  User::with('blog', 'gallery', 'comment')
-                                                                ->get()
-                                                                ->where('id', $id)]);
+        return view('profile.profile', ['user' =>  User::with('blog', 'gallery', 'comment', 'attitude')
+                                                            ->where('id', $id)
+                                                            ->get()]);
     }
 
     public function edit($id)
@@ -60,23 +60,19 @@ class ProfileController extends Controller
         }
     }
 
-//    public function multiFactorRequest($id, $action)
-//    {
-//
-//    }
-//
-//    public function multiFactor($id, $action)
-//    {
-//        $user = User::findOrFail($id);
-//
-//        if($action == 'on'){
-//            $user->multi_factor = true;
-//            $user->save();
-//        }elseif ($action == 'off'){
-//            $user->multi_factor = false;
-//            $user->save();
-//        }
-//    }
+    public function multiFactorRequest($id, $action)
+    {
+        $user = User::findOrFail($id);
+
+        if($action == 'enable'){
+            $user->enableMultiFactor();
+            notice('Multi-factor auth ON', 'success');
+        }elseif ($action == 'disable'){
+            $user->disableMultiFactor();
+            notice('Multi-factor auth OFF', 'warning');
+        }
+        return redirect()->route('profile.edit', ['id' => $id]);
+    }
 
     public function refresh($id)
     {

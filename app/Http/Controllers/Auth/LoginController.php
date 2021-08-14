@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\RequestVerification;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserLoginRequest;
+use App\Models\User;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 
@@ -48,6 +52,14 @@ class LoginController extends Controller
         }
 
         if ($this->attemptLogin($request)) {
+
+            $user = User::find(Auth::id());
+
+            if ($user->isMultiFactor()) {
+                Auth::logout();
+                event(new RequestVerification($user, 'phone'));
+                return redirect()->to(RouteServiceProvider::VERIFY)->with('id', $user->id);
+            }
             return $this->sendLoginResponse($request);
         }
 

@@ -14,12 +14,11 @@ function removeGalleryModal(){
 function showGalleryItemModal() {
     let id = $(this).prop("id");
     id = parseInt(id.match(/\d+/));
-
     removeGalleryModal();
 
     $.ajax({
         type: "GET",
-        url: "gallery/show",
+        url: "/gallery/show",
         data: {id},
         dataType: "html",
         success: function(data) {
@@ -33,7 +32,7 @@ function createGalleryItemModal() {
     removeGalleryModal();
     $.ajax({
         type: "GET",
-        url: "gallery/create",
+        url: "/gallery/create",
         dataType: "html",
         success: function(data) {
             if(data.indexOf('notice-message') != -1){
@@ -53,7 +52,7 @@ function editGalleryItemModal() {
     removeGalleryModal();
     $.ajax({
         type: "GET",
-        url: "gallery/edit",
+        url: "/gallery/edit",
         data: {id},
         dataType: "html",
         success: function(data) {
@@ -74,7 +73,7 @@ function deleteGalleryItem() {
     removeGalleryModal();
     $.ajax({
         type: "GET",
-        url: "gallery/delete",
+        url: "/gallery/delete",
         data: {id},
         dataType: "html",
         success: function(data) {
@@ -97,7 +96,7 @@ function restoreGalleryItem() {
 
     $.ajax({
         type: "GET",
-        url: "gallery/restore",
+        url: "/gallery/restore",
         data: {id},
         dataType: "html",
         success: function(data) {

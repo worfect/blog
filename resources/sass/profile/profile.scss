@@ -1,35 +1,114 @@
-#content-profile {
-    display: flex;
-    flex-direction: column;
-    margin-top: 0.5em;
-    .header {
-        margin-top: 0.5em;
-        height: 125px;
-    }
+#user-profile {
+    margin-top: 1em;
 
     section {
         margin-top: 1em;
         display: flex;
         justify-content: space-between;
         flex-direction: row;
-        max-height: 580px;
         align-items: flex-start;
         align-content: flex-start;
         article{
             margin-right: 0.5em;
             border-radius: 0.25em;
             padding: 0;
-            background-color: $secondary;
-            display: flex;
-            flex-direction: column;
+            .nav-tabs{
+                background-color: transparent;
+                .nav-item{
+                    background-color: $secondary;
+                    color: $primary;
+                    .active{
+                        background-color: $primary;
+                        color: $secondary;
+                    }
+                }
+            }
+            .tab-content{
+                background-color: $secondary;
+                color: $primary;
+                padding: 0.5em;
+                .user-comment{
+                    .user-comment-item{
+                        display: flex;
+                        justify-content: space-between;
+                        flex-direction: column;
+                        .header{
+                            display: flex;
+                            justify-content: flex-end;
+                            flex-direction: row;
+                            padding: 0.5em;
+                            .header-item{
+                                margin-right: 1.5em;
+                            }
+                        }
+                        .content{
+                            background-color: $primary;
+                            color: $secondary;
+                            padding: 0.5em;
+                        }
+                    }
+                }
+                .user-blog{
+                   .user-blog-item{
+                       display: flex;
+                       justify-content: space-between;
+                       flex-direction: column;
+                       .header{
+                           display: flex;
+                           justify-content: flex-start;
+                           flex-direction: row;
+                           padding: 0.5em;
+                           .header-item{
+                               margin-right: 1.5em;
+                           }
+                       }
+                   }
+                }
+                .user-gallery{
+                    .group-gallery {
+                        display: flex;
+                        justify-content: space-around;
+                        margin: 0.5em 0.25em 0.25em 0.25em;
+                        .gallery-card {
+                            border-radius: 0.25em;
+                            background-color: $secondary;
+                            color: $primary;
+                            max-width: 225px;
+
+                            .card-img-overlay {
+                                opacity: 0;
+                                background-color: $secondary;
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: space-around;
+                                align-items: center;
+
+                                .card-text {
+                                    color: $primary;
+                                    text-align: center;
+                                }
+
+                                .icon {
+                                    color: $primary;
+                                }
+
+                                &:hover {
+                                    opacity: 0.9;
+                                    cursor: pointer;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
         }
         aside{
             border-radius: 0.25em;
             margin-left: 0.5em;
             padding: 0;
             background-color: $secondary;
-            display: flex;
-            flex-direction: column;
+            color: $primary;
         }
     }
 }

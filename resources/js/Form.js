@@ -34,44 +34,49 @@ export default class Form {
                 contentType: false,
                 data: this.formData
             })
-                .done(function (data) {
-                    resolve(data);
-                })
-                .fail(function (data) {
-                    reject(data);
-                })
+            .done(function (data) {
+                resolve(data);
+            })
+            .fail(function (data) {
+                reject(data);
+            })
         })
     }
 
     _responseProcessing() {
-        this._ajaxSendForm()
-            .then((data) => {
-                this._cleanInvalid();
-                if (this.noticeSection) {
-                    notice.showNoticeMessages(data, this.noticeSection);
-                }
-                if (this.refreshSection) {
-                    this._refreshContent()
-                }
-            })
-            .catch((data) => {
-                this._cleanInvalid();
-                let errors = data.responseJSON.errors;
+        return new Promise((resolve, reject) => {
+            this._ajaxSendForm()
+                .then((data) => {
+                    this._cleanInvalid();
+                    if (this.noticeSection) {
+                        notice.showNoticeMessages(data, this.noticeSection);
+                    }
+                    if (this.refreshSection) {
+                        this._refreshContent()
+                    }
+                    resolve(true);
+                })
+                .catch((data) => {
+                    this._cleanInvalid();
+                    let errors = data.responseJSON.errors;
 
-                $.each(errors, function (name, message) {
-                    let span = document.createElement('span');
-                    let strong = document.createElement('strong');
-                    let field = $('[name = ' + name + ']');
+                    $.each(errors, function (name, message) {
+                        let span = document.createElement('span');
+                        let strong = document.createElement('strong');
+                        let field = $('[name = ' + name + ']');
 
-                    strong.innerHTML = message;
+                        strong.innerHTML = message;
 
-                    $(span).attr({"class": "invalid-feedback", "role": "alert"})
-                        .html(strong);
+                        $(span).attr({"class": "invalid-feedback", "role": "alert"})
+                            .html(strong);
 
-                    field.addClass("is-invalid")
-                        .after(span);
-                });
-            })
+                        field.addClass("is-invalid")
+                            .after(span);
+                    });
+
+                    reject(false);
+                })
+        })
     }
 
     _refreshContent() {
@@ -91,7 +96,13 @@ export default class Form {
     }
 
     submitForm() {
-        this._responseProcessing();
+        return this._responseProcessing()
+            .then((data) => {
+                return data;
+            })
+            .catch((data) => {
+                return data;
+            })
     }
 
     withRefresh(urlRefresh, section) {

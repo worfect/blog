@@ -38,7 +38,7 @@ Route::group(['middleware'=>'generate.menus'], function(){
      * Gallery.
      */
     Route::get('gallery', 'GalleryController@index')->name('gallery.index');
-    Route::get('gallery/show', 'GalleryController@show')->middleware('only.ajax');
+    Route::get('gallery/show', 'GalleryController@show')->middleware('only.ajax')->name('gallery.show');
     Route::get('gallery/create', 'GalleryController@create')->middleware('only.ajax');
     Route::get('gallery/edit', 'GalleryController@edit')->middleware('only.ajax');
     Route::get('gallery/delete', 'GalleryController@destroy')->middleware('only.ajax');
@@ -51,11 +51,11 @@ Route::group(['middleware'=>'generate.menus'], function(){
      * Profile.
      */
     Route::get('profile/gallery', 'ProfileController@index')->name('profile.gallery');
-    Route::get('profile/{id}/multi-factor/{action}', 'ProfileController@multiFactor')->name('profile.multi-factor');
+    Route::get('profile/{id}/multi-factor/{action}', 'ProfileController@multiFactorRequest')->name('profile.multi-factor')->middleware('password.confirm');
     Route::get('profile/{id}/verify/{source}', 'ProfileController@verifyRequest')->name('profile.verify');
     Route::get('profile/{id}/edit', 'ProfileController@edit')->name('profile.edit');
     Route::get('profile/{id}/update/refresh', 'ProfileController@refresh')->middleware('only.ajax');
-    Route::post('profile/{id}/update', 'ProfileController@update')->name('profile.update');
+    Route::post('profile/{id}/update', 'ProfileController@update')->name('profile.update')->middleware('password.confirm');
     Route::get('profile/{id}', 'ProfileController@index')->name('profile');
     Route::get('profile', function (){
         if($id = Auth::id()){

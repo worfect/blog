@@ -1,3 +1,4 @@
+
 @foreach($user as $item)
     <table class="table table-borderless">
         <tbody>
@@ -11,19 +12,19 @@
         </tr>
         <tr>
             <td>Rating</td>
-            <td></td>
+            <td>{{ $item->comment->sum('rating') + $item->blog->sum('rating') + $item->gallery->sum('rating') }}</td>
         </tr>
         <tr>
             <td>Comments</td>
-            <td></td>
+            <td>{{ count($item->comment) }}</td>
         </tr>
         <tr>
             <td>Blog</td>
-            <td></td>
+            <td>{{ count($item->blog) }}</td>
         </tr>
         <tr>
             <td>Gallery</td>
-            <td></td>
+            <td>{{ count($item->gallery) }}</td>
         </tr>
         </tbody>
     </table>

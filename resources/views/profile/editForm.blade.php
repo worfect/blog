@@ -20,32 +20,40 @@
                 <input id="change-user-email-input" type="text" class="form-control" name ="email" value="{{ $item->email }}">
             </div>
         </div>
-        <button type="submit" class="btn btn-primary" name="ChangeUserDataSubmitButton">Change User Data</button>
+        <button type="submit" class="btn btn-primary" name="ChangeUserDataSubmitButton" data-toggle="modal" data-target="#confPassword">Change User Data</button>
     </form>
+
     <div class="settings-profile" id="settings-profile" >
         <a href="{{ route('password.change.form') }}"><button class="btn btn-primary">Change Password</button></a>
-        @if($item->)
-            <form action="{{ route('profile.multi-factor', ['id' => $item->id, 'action' => 'on']) }}">
-                <button class="btn btn-primary">Multi-factor authentication: disabled</button>
+        @if(!$item->phoneConfirmed())
+            <form>
+                <button class="btn btn-primary" disabled>Multi-factor authentication: confirm phone to start</button>
             </form>
         @else
-            <form action="{{ route('profile.multi-factor', ['id' => $item->id, 'action' => 'off']) }}">
-                <button class="btn btn-primary">Multi-factor authentication: enabled</button>
-            </form>
+            @if(!$item->isMultiFactor())
+                <form class="multi-factor-auth" action="{{ route('profile.multi-factor', ['id' => $item->id, 'action' => 'enable']) }}">
+                    <button type="submit" class="btn btn-primary">Multi-factor authentication: disabled</button>
+                </form>
+            @else
+                <form class="multi-factor-auth" action="{{ route('profile.multi-factor', ['id' => $item->id, 'action' => 'disable']) }}">
+                    <button type="submit" class="btn btn-primary">Multi-factor authentication: enabled</button>
+                </form>
+            @endif
         @endif
+
         <form action="{{ route('profile.verify', ['id' => $item->id, 'source' => 'phone']) }}">
             <button type="submit" class="btn btn-primary" name="PhoneVerifySubmitButton" id="phone-verify-submit-button"
-                    @if(!$item->phone) disabled> No phone </button>
-            @elseif(!$item->phone_confirmed) > Verify phone</button>
+                    @if(!$item->getPhone()) disabled> No phone </button>
+            @elseif(!$item->phoneConfirmed()) > Verify phone</button>
             @else  disabled> Phone verified</button> @endif
         </form>
 
         <form action="{{ route('profile.verify', ['id' => $item->id, 'source' => 'email'] )}}">
             <button type="submit" class="btn btn-primary" name="EmailVerifySubmitButton" id="email-verify-submit-button"
-                    @if(!$item->email) disabled> No email </button>
-            @elseif(!$item->email_confirmed) > Verify email</button>
+                    @if(!$item->getEmail()) disabled> No email </button>
+            @elseif(!$item->emailConfirmed()) > Verify email</button>
             @else  disabled> Email verified</button> @endif
         </form>
     </div>
+    <a href="{{ URL::previous() }}"><button class="btn btn-primary">Back</button></a>
 @endforeach
-

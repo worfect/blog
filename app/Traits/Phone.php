@@ -44,7 +44,28 @@ trait Phone
         if( $this->phone != $phone){
             $this->phone = $phone;
             $this->phone_confirmed = false;
+            $this->disableMultiFactor();
         }
         return $this->save();
+    }
+
+    public function enableMultiFactor(): bool
+    {
+        if($this->phoneConfirmed()){ // или отдельно? или не надо? или в контроллере?
+            $this->multi_factor = true;
+            return $this->save();
+        }
+        return true;
+    }
+
+    public function disableMultiFactor(): bool
+    {
+        $this->multi_factor = false;
+        return $this->save();
+    }
+
+    public function isMultiFactor(): bool
+    {
+        return $this->multi_factor;
     }
 }
