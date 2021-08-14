@@ -41,12 +41,6 @@ return [
 
     'sms' => [
         'main' => App\Http\Controllers\Services\Sms\SmsRu::class,
-        'reserve' => App\Http\Controllers\Services\Sms\SmsC::class,
-    ],
-
-    'sms.ru' => [
-        'client_id' => env('VK_ID'),
-        'client_secret' => env('VK_SECRET'),
-        'redirect' => env('APP_URL') . '/auth/vkontakte/callback',
+        'reserve' => App\Http\Controllers\Services\Sms\SmsPilot::class,
     ],
 ];
