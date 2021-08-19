@@ -83,8 +83,11 @@ export default class Form {
         let refreshSection = this.refreshSection
         $.ajax({
             url: this.urlRefresh,
-            method: 'GET',
-            dataType: 'HTML'
+            method: 'POST',
+            dataType: 'HTML',
+            processData: false,
+            contentType: false,
+            data: this.formData
         })
             .done(function (data) {
                 $(refreshSection).empty();

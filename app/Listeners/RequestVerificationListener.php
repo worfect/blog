@@ -6,7 +6,7 @@ namespace App\Listeners;
 use App\Events\RequestVerification;
 use App\Http\Controllers\Auth\Verifier\Verifier;
 
-class SendVerificationNotification
+class RequestVerificationListener
 {
     /**
      * Handle the event.

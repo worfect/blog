@@ -3,9 +3,11 @@
 
 namespace App\Models;
 
+
+use App\Events\ContentDeleted;
+use App\Events\ContentRestored;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Str;
 
 class Gallery extends Model
 {
@@ -15,6 +17,10 @@ class Gallery extends Model
     public $relations = ['user', 'comments', 'categories', 'attitude'];
     public $name = 'gallery';
 
+    protected $dispatchesEvents = [
+        'deleted' => ContentDeleted::class,
+        'restored' => ContentRestored::class,
+    ];
 
     public function comments()
     {

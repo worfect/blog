@@ -42,7 +42,6 @@ class CommentController extends ContentController
             return notice()->warning("Only verified users can add comments")->json();
         }
 
-
         $ModelName = 'App\\Models\\' . Str::studly($request->get('type'));
         $currentModel = new $ModelName;
 

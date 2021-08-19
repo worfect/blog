@@ -44,7 +44,7 @@ class GalleryController extends ContentController
 
     public function show(CommentController $comment, Request $request)
     {
-        $this->viewCount($request->get('id'));
+        $this->increaseViewsCount($request->get('id'));
 
         $this->collections['gallery'] = $this->collection()
                                                 ->byId($request->get('id'))
@@ -136,6 +136,7 @@ class GalleryController extends ContentController
 
     /**
      * @param ImageUpdateRequest $request
+     * @return mixed
      */
     public function update(ImageUpdateRequest $request)
     {
@@ -170,7 +171,7 @@ class GalleryController extends ContentController
             return notice()->warning("You do not have enough rights to perform this operation")->html();
         }
 
-        $this->model::destroy($request->get('id'));
+        $this->model::find($request->get('id'))->delete();
 
         if(!is_null($this->model::find($request->get('id')))){
             return notice()->warning("Something went wrong")->html();
@@ -199,7 +200,7 @@ class GalleryController extends ContentController
         }
     }
 
-    public function refresh(GalleryController $gallery, Request $request)
+    public function refresh(GalleryController $gallery)
     {
         $config = config('site_settings.gallery.gallery');
         $this->collections['gallery'] = $gallery->collection($config)

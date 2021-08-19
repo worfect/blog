@@ -20508,14 +20508,43 @@ footer .duplicate-navigate .footer-item {
   align-items: baseline;
 }
 
+.content-gallery .main-gallery .main-gallery-items .gallery-card-deleted {
+  border-radius: 0.25em;
+  background-color: #F4DF7D;
+  color: #0A1F38;
+  margin-bottom: 1em;
+  max-width: 300px;
+}
+
 .content-gallery .main-gallery .main-gallery-items .gallery-card-deleted .card-img-overlay {
   opacity: 0.5 !important;
   background-color: #ef8354 !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .content-gallery .main-gallery .main-gallery-items .gallery-card-deleted .card-img-overlay:hover {
   opacity: 0.9 !important;
   cursor: pointer !important;
+}
+
+.content-gallery .main-gallery .main-gallery-items .gallery-card-deleted .card-img-overlay .card-text {
+  color: #0A1F38;
+  text-align: center;
+}
+
+.content-gallery .main-gallery .main-gallery-items .gallery-card-deleted .card-img-overlay .icon {
+  color: #0A1F38;
+}
+
+.content-gallery .main-gallery .main-gallery-items .gallery-card-deleted .card-img-overlay .card-text-deleted {
+  display: none;
+}
+
+.content-gallery .main-gallery .main-gallery-items .gallery-card-deleted .card-img-overlay .icon-deleted {
+  display: none;
 }
 
 .content-gallery .main-gallery .main-gallery-items .gallery-card {

@@ -44,7 +44,7 @@ Route::group(['middleware'=>'generate.menus'], function(){
     Route::get('gallery/delete', 'GalleryController@destroy')->middleware('only.ajax');
     Route::get('gallery/restore', 'GalleryController@restore')->middleware('only.ajax');
     Route::post('gallery/update', 'GalleryController@update')->middleware('only.ajax');
-    Route::get('gallery/refresh', 'GalleryController@refresh')->middleware('only.ajax');
+    Route::post('gallery/refresh', 'GalleryController@refresh')->middleware('only.ajax');
     Route::post('gallery', 'GalleryController@store');
 
     /**

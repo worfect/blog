@@ -42099,8 +42099,11 @@ var Form = /*#__PURE__*/function () {
       var refreshSection = this.refreshSection;
       jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
         url: this.urlRefresh,
-        method: 'GET',
-        dataType: 'HTML'
+        method: 'POST',
+        dataType: 'HTML',
+        processData: false,
+        contentType: false,
+        data: this.formData
       }).done(function (data) {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()(refreshSection).empty();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()(refreshSection).append(data);
@@ -42344,7 +42347,7 @@ function deleteGalleryItem() {
       if (data.indexOf('notice-message') != -1) {
         notice.showNoticeHtml(data, 'header');
       } else {
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id).addClass("gallery-card-deleted");
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id).addClass("gallery-card-deleted").removeClass("gallery-card");
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id + ' .card-text-deleted').show();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id + ' .icon-deleted').show();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id + ' .card-text').hide();
@@ -42368,7 +42371,7 @@ function restoreGalleryItem() {
       if (data.indexOf('notice-message') != -1) {
         notice.showNoticeHtml(data, 'header');
       } else {
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id).removeClass("gallery-card-deleted");
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id).removeClass("gallery-card-deleted").addClass("gallery-card");
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id + ' .card-text-deleted').hide();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id + ' .icon-deleted').hide();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id + ' .card-text').show();
@@ -42380,18 +42383,18 @@ function restoreGalleryItem() {
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", "#store-gallery-item", function (e) {
   e.preventDefault();
-  var form = new _Form_js__WEBPACK_IMPORTED_MODULE_1__["default"](jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), 'gallery');
-  form.withNotice('.edit-gallery-item').withRefresh('gallery/refresh', '.content-gallery').submitForm();
+  var form = new _Form_js__WEBPACK_IMPORTED_MODULE_1__["default"](jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), '/gallery');
+  form.withNotice('.edit-gallery-item').withRefresh('/gallery/refresh', '.content-gallery').submitForm();
 });
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", "#update-gallery-item", function (e) {
   e.preventDefault();
-  var form = new _Form_js__WEBPACK_IMPORTED_MODULE_1__["default"](jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), 'gallery/update');
-  form.withNotice('gallery/refresh', '.edit-gallery-item').submitForm();
+  var form = new _Form_js__WEBPACK_IMPORTED_MODULE_1__["default"](jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), '/gallery/update');
+  form.withNotice('/gallery/refresh', '.edit-gallery-item').submitForm();
 });
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", ".add-gallery-comment-form", function (e) {
   e.preventDefault();
-  var form = new _Form_js__WEBPACK_IMPORTED_MODULE_1__["default"](jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), 'comment');
-  form.withNotice('.add-gallery-comment').withRefresh('comment/refresh', '.show-gallery-comments').submitForm();
+  var form = new _Form_js__WEBPACK_IMPORTED_MODULE_1__["default"](jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), '/comment');
+  form.withNotice('.add-gallery-comment').withRefresh('/comment/refresh', '.show-gallery-comments').submitForm();
 });
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", ".gallery-card-search-result", showGalleryItemModal);
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", ".create-gallery-item", createGalleryItemModal);

@@ -1,6 +1,7 @@
 <div class="tab-content">
 @foreach($user as $item)
 
+
     @isset($item->comment)
         <div class="user-comment tab-pane fade show active" id="user-comment">
             @foreach($item->comment->sortByDesc('updated_at') as $comment)

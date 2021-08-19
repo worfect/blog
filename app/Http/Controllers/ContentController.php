@@ -65,7 +65,7 @@ class ContentController extends Controller
         return view($template, $this->collections)->render();
     }
 
-    protected function viewCount($id)
+    protected function increaseViewsCount($id)
     {
         $post = $this->model::find($id);
         $post->views = ++$post->views;

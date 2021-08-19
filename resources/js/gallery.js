@@ -80,7 +80,7 @@ function deleteGalleryItem() {
             if (data.indexOf('notice-message') != -1) {
                 notice.showNoticeHtml(data, 'header')
             }else{
-                $('#gallery-card-' + id).addClass("gallery-card-deleted");
+                $('#gallery-card-' + id).addClass("gallery-card-deleted").removeClass("gallery-card");
                 $('#gallery-card-' + id + ' .card-text-deleted').show();
                 $('#gallery-card-' + id + ' .icon-deleted').show();
                 $('#gallery-card-' + id + ' .card-text').hide();
@@ -103,7 +103,7 @@ function restoreGalleryItem() {
             if (data.indexOf('notice-message') != -1) {
                 notice.showNoticeHtml(data, 'header')
             }else{
-                $('#gallery-card-' + id).removeClass("gallery-card-deleted");
+                $('#gallery-card-' + id).removeClass("gallery-card-deleted").addClass("gallery-card");
                 $('#gallery-card-' + id + ' .card-text-deleted').hide();
                 $('#gallery-card-' + id + ' .icon-deleted').hide();
                 $('#gallery-card-' + id + ' .card-text').show();
@@ -115,27 +115,26 @@ function restoreGalleryItem() {
 
 $(document).on( "submit", "#store-gallery-item", function(e){
     e.preventDefault();
-    let form = new Form($(this), 'gallery');
+    let form = new Form($(this), '/gallery');
     form.withNotice('.edit-gallery-item')
-        .withRefresh('gallery/refresh',  '.content-gallery')
+        .withRefresh('/gallery/refresh',  '.content-gallery')
         .submitForm();
 });
 
 $(document).on( "submit", "#update-gallery-item", function(e){
     e.preventDefault();
-    let form = new Form($(this), 'gallery/update');
-    form.withNotice('gallery/refresh', '.edit-gallery-item')
+    let form = new Form($(this), '/gallery/update');
+    form.withNotice('/gallery/refresh', '.edit-gallery-item')
         .submitForm();
 });
 
 $(document).on( "submit", ".add-gallery-comment-form", function(e){
     e.preventDefault();
-    let form = new Form($(this), 'comment');
+    let form = new Form($(this), '/comment');
     form.withNotice('.add-gallery-comment')
-        .withRefresh('comment/refresh', '.show-gallery-comments')
+        .withRefresh('/comment/refresh', '.show-gallery-comments')
         .submitForm();
 });
-
 
 $(document).on("click", ".gallery-card-search-result", showGalleryItemModal);
 $(document).on("click", ".create-gallery-item", createGalleryItemModal);
