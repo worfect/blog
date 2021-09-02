@@ -50,7 +50,7 @@ Route::group(['middleware'=>'generate.menus'], function(){
     /**
      * Profile.
      */
-    Route::get('profile/gallery', 'ProfileController@index')->name('profile.gallery');
+    Route::get('profile/{id}#user-gallery', 'ProfileController@index')->name('profile.gallery');  #???
     Route::get('profile/{id}/multi-factor/{action}', 'ProfileController@multiFactorRequest')->name('profile.multi-factor')->middleware('password.confirm');
     Route::get('profile/{id}/verify/{source}', 'ProfileController@verifyRequest')->name('profile.verify');
     Route::get('profile/{id}/edit', 'ProfileController@edit')->name('profile.edit');
@@ -93,6 +93,9 @@ Route::group(['middleware'=>'generate.menus'], function(){
 
     Route::resource('portfolio', 'Site\PortfolioPage');
     Route::resource('news', 'Site\NewsPage');
+
+    Route::get('comment/show', 'CommentController@show')->name('comment.show');
+
 });
 
 

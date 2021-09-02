@@ -1,21 +1,21 @@
 @foreach($user as $item)
-    <form id="change-user-data-form" class="col-16" method="post" action="{{ route('profile.update', ['id' => $item->id]) }}">
+    <form id="change-user-data-form" class="px-4 py-3 " method="post" action="{{ route('profile.update', ['id' => $item->id]) }}">
         @csrf
         <div class="form-row">
-            <div class="form-group col-18">
+            <div class="form-group">
                 <label for="formGroupExampleInput">Name</label>
                 <input id="change-user-screen-name-input" type="text" class="form-control" name="screen_name" value="{{ $item->screen_name }}">
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group col-18 mb-2">
+            <div class="form-group mb-2">
                 <label for="formGroupExampleInput2">Phone</label>
                 <input id="change-user-phone-input" type="text" class="form-control" name ="phone" value="{{ $item->phone }}">
             </div>
 
         </div>
         <div class="form-row">
-            <div class="form-group col-18">
+            <div class="form-group">
                 <label for="formGroupExampleInput2">Email</label>
                 <input id="change-user-email-input" type="text" class="form-control" name ="email" value="{{ $item->email }}">
             </div>
@@ -23,7 +23,7 @@
         <button type="submit" class="btn btn-primary" name="ChangeUserDataSubmitButton" data-toggle="modal" data-target="#confPassword">Change User Data</button>
     </form>
 
-    <div class="settings-profile" id="settings-profile" >
+    <div class="settings-profile px-4 py-3" id="settings-profile" >
         <a href="{{ route('password.change.form') }}"><button class="btn btn-primary">Change Password</button></a>
         @if(!$item->phoneConfirmed())
             <form>
@@ -54,6 +54,6 @@
             @elseif(!$item->emailConfirmed()) > Verify email</button>
             @else  disabled> Email verified</button> @endif
         </form>
+        <a href="{{ URL::previous() }}"><button class="btn btn-primary">Back</button></a>
     </div>
-    <a href="{{ URL::previous() }}"><button class="btn btn-primary">Back</button></a>
 @endforeach

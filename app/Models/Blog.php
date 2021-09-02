@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Listeners\ContentDeletedListener;
-use App\Listeners\ContentRestoredListener;
+use App\Events\ContentDeleted;
+use App\Events\ContentRestored;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -15,8 +15,8 @@ class Blog extends Model
     public $name = 'blog';
 
     protected $dispatchesEvents = [
-        'deleted' => ContentDeletedListener::class,
-        'restored' => ContentRestoredListener::class,
+        'deleted' => ContentDeleted::class,
+        'restored' => ContentRestored::class,
     ];
 
     public function comments()

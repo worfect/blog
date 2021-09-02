@@ -9,11 +9,13 @@ use Illuminate\Foundation\Auth\ConfirmsPasswords;
 class ConfirmPasswordController extends Controller
 {
     use ConfirmsPasswords;
-
-    protected $redirectTo = RouteServiceProvider::PROFILE;
-
+    
     public function __construct()
     {
         $this->middleware('auth');
+    }
+
+    public function redirectTo(){
+        redirect()->back();
     }
 }

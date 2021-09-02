@@ -7,8 +7,10 @@
 
 @section('content')
     @parent
+    <div class="shell">
         <form id="change-password-form" class="px-4 py-3 col-6" method="POST" action="{{ route('password.change') }}">
             @csrf
+
             <div class="form-group">
                 <label> Current password </label>
                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password">
@@ -33,6 +35,7 @@
             </div>
             <button type="submit" class="btn btn-primary" name="ChangePasswordSubmitButton">Change</button>
         </form>
+    <div>
 @endsection
 
 

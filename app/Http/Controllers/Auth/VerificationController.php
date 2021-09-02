@@ -28,9 +28,11 @@ class VerificationController extends Controller
      */
     public function show(Request $request)
     {
-        return $request->session()->get('id')
-            ? view('auth.verify')
-            : redirect($this->redirectPath());
+        return view('auth.verify');
+//        не то пальто
+//        return $request->session()->get('id')
+//            ? view('auth.verify')
+//            : redirect($this->redirectPath());
     }
 
     /**

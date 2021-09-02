@@ -19450,15 +19450,18 @@ a.text-dark:focus {
   top: 0;
 }
 
+#edit-profile #settings-profile .btn,
+#edit-profile #change-user-data-form .btn,
 .search-menu .search-form button,
 .gallery-create .modal-content .modal-body .edit-gallery-item .down .btn,
 .menu-gallery .gallery-user-menu .user .btn,
 .menu-gallery .filter .form-inline .btn,
 .main-blog .main-blog-item .menu .btn,
 .create .user .btn,
+#change-password-form .btn,
+.reset-pass .btn,
 .login .btn,
 .register .btn,
-.reset-pass .btn,
 .user-menu .btn,
 .input-group .btn,
 .auth-group .card .card-body form .btn {
@@ -19467,15 +19470,18 @@ a.text-dark:focus {
   background-color: #0A1F38;
 }
 
+#edit-profile #settings-profile .btn:hover,
+#edit-profile #change-user-data-form .btn:hover,
 .search-menu .search-form button:hover,
 .gallery-create .modal-content .modal-body .edit-gallery-item .down .btn:hover,
 .menu-gallery .gallery-user-menu .user .btn:hover,
 .menu-gallery .filter .form-inline .btn:hover,
 .main-blog .main-blog-item .menu .btn:hover,
 .create .user .btn:hover,
+#change-password-form .btn:hover,
+.reset-pass .btn:hover,
 .login .btn:hover,
 .register .btn:hover,
-.reset-pass .btn:hover,
 .user-menu .btn:hover,
 .input-group .btn:hover,
 .auth-group .card .card-body form .btn:hover {
@@ -19655,23 +19661,6 @@ header {
   text-align: justify;
 }
 
-.shell {
-  height: 800px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.reset-pass {
-  background-color: #0A1F38;
-  color: #F4DF7D;
-  border-radius: 0.5em;
-}
-
-.reset-pass .form-control {
-  background-color: #F4DF7D;
-}
-
 .notification {
   margin-top: 100px;
 }
@@ -19700,48 +19689,6 @@ header {
 
 .notification .card .btn-link:hover {
   color: #134611;
-}
-
-.shell {
-  height: 800px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.register {
-  background-color: #0A1F38;
-  color: #F4DF7D;
-  border-radius: 0.5em;
-}
-
-.register .form-control {
-  background-color: #F4DF7D;
-}
-
-.register .dropdown-divider {
-  border-top: 1px solid #F4DF7D;
-}
-
-.shell {
-  height: 800px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.login {
-  background-color: #0A1F38;
-  color: #F4DF7D;
-  border-radius: 0.5em;
-}
-
-.login .form-control {
-  background-color: #F4DF7D;
-}
-
-.login .dropdown-divider {
-  border-top: 1px solid #F4DF7D;
 }
 
 footer {
@@ -19789,6 +19736,75 @@ footer .duplicate-navigate .footer-item {
   padding: 0.5em;
   text-align: center;
   flex-grow: 1;
+}
+
+.shell {
+  height: 800px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.register {
+  background-color: #0A1F38;
+  color: #F4DF7D;
+  border-radius: 0.5em;
+}
+
+.register .form-control {
+  background-color: #F4DF7D;
+}
+
+.register .dropdown-divider {
+  border-top: 1px solid #F4DF7D;
+}
+
+.shell {
+  height: 800px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login {
+  background-color: #0A1F38;
+  color: #F4DF7D;
+  border-radius: 0.5em;
+}
+
+.login .form-control {
+  background-color: #F4DF7D;
+}
+
+.login .dropdown-divider {
+  border-top: 1px solid #F4DF7D;
+}
+
+.shell {
+  height: 800px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.reset-pass {
+  background-color: #0A1F38;
+  color: #F4DF7D;
+  border-radius: 0.5em;
+}
+
+.reset-pass .form-control {
+  background-color: #F4DF7D;
+}
+
+#change-password-form {
+  background-color: #0A1F38;
+  color: #F4DF7D;
+  border-radius: 0.5em;
+}
+
+#change-password-form .form-control {
+  background-color: #F4DF7D;
 }
 
 .content-home {
@@ -21154,37 +21170,82 @@ footer .duplicate-navigate .footer-item {
   padding: 0.5em;
 }
 
-#user-profile section article .tab-content .user-blog .user-blog-item {
+#user-profile section article .tab-content .user-blog .user-blog-items {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
 }
 
-#user-profile section article .tab-content .user-blog .user-blog-item .header {
+#user-profile section article .tab-content .user-blog .user-blog-items .user-blog-item {
   display: flex;
   justify-content: flex-start;
   flex-direction: row;
-  padding: 0.5em;
 }
 
-#user-profile section article .tab-content .user-blog .user-blog-item .header .header-item {
+#user-profile section article .tab-content .user-blog .user-blog-items .user-blog-item .header-item {
   margin-right: 1.5em;
 }
 
-#user-profile section article .tab-content .user-gallery .group-gallery {
-  display: flex;
-  justify-content: space-around;
-  margin: 0.5em 0.25em 0.25em 0.25em;
+#user-profile section article .tab-content .user-blog .user-blog-items .user-blog-item .title {
+  width: 20em;
 }
 
-#user-profile section article .tab-content .user-gallery .group-gallery .gallery-card {
+#user-profile section article .tab-content .user-gallery .group-gallery .main-gallery-items {
+  margin-top: 1em;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+
+#user-profile section article .tab-content .user-gallery .group-gallery .main-gallery-items .gallery-card-deleted {
   border-radius: 0.25em;
   background-color: #F4DF7D;
   color: #0A1F38;
-  max-width: 225px;
+  margin-bottom: 1em;
+  max-width: 300px;
 }
 
-#user-profile section article .tab-content .user-gallery .group-gallery .gallery-card .card-img-overlay {
+#user-profile section article .tab-content .user-gallery .group-gallery .main-gallery-items .gallery-card-deleted .card-img-overlay {
+  opacity: 0.5 !important;
+  background-color: #ef8354 !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#user-profile section article .tab-content .user-gallery .group-gallery .main-gallery-items .gallery-card-deleted .card-img-overlay:hover {
+  opacity: 0.9 !important;
+  cursor: pointer !important;
+}
+
+#user-profile section article .tab-content .user-gallery .group-gallery .main-gallery-items .gallery-card-deleted .card-img-overlay .card-text {
+  color: #0A1F38;
+  text-align: center;
+}
+
+#user-profile section article .tab-content .user-gallery .group-gallery .main-gallery-items .gallery-card-deleted .card-img-overlay .icon {
+  color: #0A1F38;
+}
+
+#user-profile section article .tab-content .user-gallery .group-gallery .main-gallery-items .gallery-card-deleted .card-img-overlay .card-text-deleted {
+  display: none;
+}
+
+#user-profile section article .tab-content .user-gallery .group-gallery .main-gallery-items .gallery-card-deleted .card-img-overlay .icon-deleted {
+  display: none;
+}
+
+#user-profile section article .tab-content .user-gallery .group-gallery .main-gallery-items .gallery-card {
+  border-radius: 0.25em;
+  background-color: #F4DF7D;
+  color: #0A1F38;
+  margin-bottom: 1em;
+  max-width: 300px;
+}
+
+#user-profile section article .tab-content .user-gallery .group-gallery .main-gallery-items .gallery-card .card-img-overlay {
   opacity: 0;
   background-color: #F4DF7D;
   display: flex;
@@ -21193,18 +21254,43 @@ footer .duplicate-navigate .footer-item {
   align-items: center;
 }
 
-#user-profile section article .tab-content .user-gallery .group-gallery .gallery-card .card-img-overlay .card-text {
+#user-profile section article .tab-content .user-gallery .group-gallery .main-gallery-items .gallery-card .card-img-overlay .card-text {
   color: #0A1F38;
   text-align: center;
 }
 
-#user-profile section article .tab-content .user-gallery .group-gallery .gallery-card .card-img-overlay .icon {
+#user-profile section article .tab-content .user-gallery .group-gallery .main-gallery-items .gallery-card .card-img-overlay .icon {
   color: #0A1F38;
 }
 
-#user-profile section article .tab-content .user-gallery .group-gallery .gallery-card .card-img-overlay:hover {
+#user-profile section article .tab-content .user-gallery .group-gallery .main-gallery-items .gallery-card .card-img-overlay .card-text-deleted {
+  display: none;
+}
+
+#user-profile section article .tab-content .user-gallery .group-gallery .main-gallery-items .gallery-card .card-img-overlay .icon-deleted {
+  display: none;
+}
+
+#user-profile section article .tab-content .user-gallery .group-gallery .main-gallery-items .gallery-card .card-img-overlay:hover {
   opacity: 0.9;
   cursor: pointer;
+}
+
+#user-profile section article .tab-content .user-liked .group-liked .user-liked-item {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+#user-profile section article .tab-content .user-liked .group-liked .user-liked-item .header {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  padding: 0.5em;
+}
+
+#user-profile section article .tab-content .user-liked .group-liked .user-liked-item .header .header-item {
+  margin-right: 1.5em;
 }
 
 #user-profile section aside {
@@ -21215,8 +21301,63 @@ footer .duplicate-navigate .footer-item {
   color: #0A1F38;
 }
 
+#user-profile section aside .user-info-table {
+  border: 3px solid #0A1F38;
+  border-collapse: collapse;
+}
+
+#user-profile section aside .user-info-table td,
+#user-profile section aside .user-info-table th {
+  border: 3px solid #0A1F38;
+}
+
+#edit-profile {
+  height: 800px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#edit-profile #change-user-data-form {
+  background-color: #0A1F38;
+  color: #F4DF7D;
+  border-radius: 0.5em;
+}
+
+#edit-profile #change-user-data-form .form-control {
+  background-color: #F4DF7D;
+}
+
+#edit-profile #settings-profile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 4em;
+  background-color: #0A1F38;
+  color: #F4DF7D;
+  border-radius: 0.5em;
+}
+
+#edit-profile #settings-profile .form-control {
+  background-color: #F4DF7D;
+}
+
+#edit-profile #settings-profile form button {
+  margin-bottom: 0.5em;
+}
+
+#edit-profile #settings-profile a button {
+  margin-bottom: 0.5em;
+}
+
 body {
   background-color: #dfdcfa;
+  padding-right: 0 !important;
+}
+
+footer {
+  padding-right: 0 !important;
 }
 
 .container {

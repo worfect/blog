@@ -4,17 +4,9 @@ import Form from './Form.js';
 
 const notice = require('./vendor/notice/messages');
 
-function removeGalleryModal(){
-    if($('.gallery-modal').length){
-        $('.gallery-modal').remove();
-        $('.modal-backdrop').remove();
-    }
-}
-
 function showGalleryItemModal() {
     let id = $(this).prop("id");
     id = parseInt(id.match(/\d+/));
-    removeGalleryModal();
 
     $.ajax({
         type: "GET",
@@ -29,7 +21,6 @@ function showGalleryItemModal() {
 }
 
 function createGalleryItemModal() {
-    removeGalleryModal();
     $.ajax({
         type: "GET",
         url: "/gallery/create",
@@ -49,7 +40,8 @@ function editGalleryItemModal() {
     let id = $(this).prop("id");
     id = parseInt(id.match(/\d+/));
 
-    removeGalleryModal();
+    $('.close').click();
+
     $.ajax({
         type: "GET",
         url: "/gallery/edit",
@@ -70,7 +62,8 @@ function deleteGalleryItem() {
     let id = $(this).prop("id");
     id = parseInt(id.match(/\d+/));
 
-    removeGalleryModal();
+    $('.close').click();
+
     $.ajax({
         type: "GET",
         url: "/gallery/delete",
@@ -80,7 +73,7 @@ function deleteGalleryItem() {
             if (data.indexOf('notice-message') != -1) {
                 notice.showNoticeHtml(data, 'header')
             }else{
-                $('#gallery-card-' + id).addClass("gallery-card-deleted").removeClass("gallery-card");
+                $('div #gallery-card-' + id).addClass("gallery-card-deleted").removeClass("gallery-card");
                 $('#gallery-card-' + id + ' .card-text-deleted').show();
                 $('#gallery-card-' + id + ' .icon-deleted').show();
                 $('#gallery-card-' + id + ' .card-text').hide();
@@ -103,7 +96,7 @@ function restoreGalleryItem() {
             if (data.indexOf('notice-message') != -1) {
                 notice.showNoticeHtml(data, 'header')
             }else{
-                $('#gallery-card-' + id).removeClass("gallery-card-deleted").addClass("gallery-card");
+                $('div #gallery-card-' + id).removeClass("gallery-card-deleted").addClass("gallery-card");
                 $('#gallery-card-' + id + ' .card-text-deleted').hide();
                 $('#gallery-card-' + id + ' .icon-deleted').hide();
                 $('#gallery-card-' + id + ' .card-text').show();
@@ -124,7 +117,8 @@ $(document).on( "submit", "#store-gallery-item", function(e){
 $(document).on( "submit", "#update-gallery-item", function(e){
     e.preventDefault();
     let form = new Form($(this), '/gallery/update');
-    form.withNotice('/gallery/refresh', '.edit-gallery-item')
+    form.withNotice('.edit-gallery-item')
+        .withRefresh('/gallery/refresh',  '.content-gallery')
         .submitForm();
 });
 
@@ -143,3 +137,17 @@ $(document).on("click", ".gallery-edit-btn", editGalleryItemModal);
 $(document).on("click", ".gallery-delete-btn", deleteGalleryItem);
 $(document).on("click", '.gallery-card-deleted', restoreGalleryItem);
 
+//когда-то почему-то решил, что лишние модалы должны удаляться и работать без указания id. Повернуть назад теперь не могу. Сделать нормально - тоже...
+function removeModal(){
+        $(".modal").modal("hide");
+        $('.gallery-modal').remove();
+        $('.modal-backdrop').remove();
+        $('body').removeClass('modal-open')
+}
+
+$(document).on("click", 'button.close', removeModal);
+$(document).on('click', function(e) {
+    if (!$(e.target).closest(".modal-dialog").length) {
+        removeModal()
+    }
+});

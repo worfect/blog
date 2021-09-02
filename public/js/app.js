@@ -42268,17 +42268,9 @@ __webpack_require__.r(__webpack_exports__);
 
 var notice = __webpack_require__(/*! ./vendor/notice/messages */ "./resources/js/vendor/notice/messages.js");
 
-function removeGalleryModal() {
-  if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.gallery-modal').length) {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.gallery-modal').remove();
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.modal-backdrop').remove();
-  }
-}
-
 function showGalleryItemModal() {
   var id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).prop("id");
   id = parseInt(id.match(/\d+/));
-  removeGalleryModal();
   jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
     type: "GET",
     url: "/gallery/show",
@@ -42294,7 +42286,6 @@ function showGalleryItemModal() {
 }
 
 function createGalleryItemModal() {
-  removeGalleryModal();
   jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
     type: "GET",
     url: "/gallery/create",
@@ -42313,7 +42304,7 @@ function createGalleryItemModal() {
 function editGalleryItemModal() {
   var id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).prop("id");
   id = parseInt(id.match(/\d+/));
-  removeGalleryModal();
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.close').click();
   jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
     type: "GET",
     url: "/gallery/edit",
@@ -42335,7 +42326,7 @@ function editGalleryItemModal() {
 function deleteGalleryItem() {
   var id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).prop("id");
   id = parseInt(id.match(/\d+/));
-  removeGalleryModal();
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.close').click();
   jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
     type: "GET",
     url: "/gallery/delete",
@@ -42347,7 +42338,7 @@ function deleteGalleryItem() {
       if (data.indexOf('notice-message') != -1) {
         notice.showNoticeHtml(data, 'header');
       } else {
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id).addClass("gallery-card-deleted").removeClass("gallery-card");
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('div #gallery-card-' + id).addClass("gallery-card-deleted").removeClass("gallery-card");
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id + ' .card-text-deleted').show();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id + ' .icon-deleted').show();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id + ' .card-text').hide();
@@ -42371,7 +42362,7 @@ function restoreGalleryItem() {
       if (data.indexOf('notice-message') != -1) {
         notice.showNoticeHtml(data, 'header');
       } else {
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id).removeClass("gallery-card-deleted").addClass("gallery-card");
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('div #gallery-card-' + id).removeClass("gallery-card-deleted").addClass("gallery-card");
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id + ' .card-text-deleted').hide();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id + ' .icon-deleted').hide();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id + ' .card-text').show();
@@ -42389,7 +42380,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", "#store-gal
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", "#update-gallery-item", function (e) {
   e.preventDefault();
   var form = new _Form_js__WEBPACK_IMPORTED_MODULE_1__["default"](jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), '/gallery/update');
-  form.withNotice('/gallery/refresh', '.edit-gallery-item').submitForm();
+  form.withNotice('.edit-gallery-item').withRefresh('/gallery/refresh', '.content-gallery').submitForm();
 });
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", ".add-gallery-comment-form", function (e) {
   e.preventDefault();
@@ -42401,7 +42392,21 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", ".create-gal
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", ".gallery-card", showGalleryItemModal);
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", ".gallery-edit-btn", editGalleryItemModal);
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", ".gallery-delete-btn", deleteGalleryItem);
-jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", '.gallery-card-deleted', restoreGalleryItem);
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", '.gallery-card-deleted', restoreGalleryItem); //когда-то почему-то решил, что лишние модалы должны удаляться и работать без указания id. Повернуть назад теперь не могу. Сделать нормально - тоже...
+
+function removeModal() {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(".modal").modal("hide");
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.gallery-modal').remove();
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.modal-backdrop').remove();
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('body').removeClass('modal-open');
+}
+
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", 'button.close', removeModal);
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on('click', function (e) {
+  if (!jquery__WEBPACK_IMPORTED_MODULE_0___default()(e.target).closest(".modal-dialog").length) {
+    removeModal();
+  }
+});
 
 /***/ }),
 
@@ -42477,7 +42482,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", ".rating-pa
   var formData = new FormData(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).get(0));
   formData.append(e.originalEvent.submitter.name, e.originalEvent.submitter.value);
   jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
-    url: 'rating',
+    url: '/rating',
     method: 'POST',
     dataType: 'JSON',
     processData: false,

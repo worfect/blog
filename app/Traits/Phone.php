@@ -12,9 +12,9 @@ trait Phone
         return $this->save();
     }
 
-    public function getPhone(): int
+    public function getPhone()
     {
-        return (int)$this->phone;
+        return $this->phone;
     }
 
     public function hasPhone(): bool

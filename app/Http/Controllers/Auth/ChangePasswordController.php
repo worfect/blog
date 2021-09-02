@@ -60,7 +60,7 @@ class ChangePasswordController
     protected function sendChangeResponse()
     {
         notice(trans('passwords.change'), 'success');
-        return redirect(route('profile.edit'));
+        return redirect(route('profile.edit', ['id' => Auth::id()]));
     }
 
     /**

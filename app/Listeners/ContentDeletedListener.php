@@ -14,6 +14,11 @@ class ContentDeletedListener
      */
     public function handle(ContentDeleted $event)
     {
-        $event->model->comments()->delete();
+        if (method_exists($event->model, 'comments')){
+            $event->model->comments()->delete();
+        }
+        if (method_exists($event->model, 'attitude')){
+            $event->model->attitude()->delete();
+        }
     }
 }

@@ -150,6 +150,8 @@ class GalleryController extends ContentController
 
         $post->title = $request->title;
         $post->text = $request->text;
+
+        $post->categories()->detach();
         $post->categories()->attach($request->categories);
 
         $post->save();

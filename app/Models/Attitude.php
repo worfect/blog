@@ -4,9 +4,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Attitude extends Model
 {
+    use SoftDeletes;
+
     public $name = 'attitude';
     public $timestamps = false;
 

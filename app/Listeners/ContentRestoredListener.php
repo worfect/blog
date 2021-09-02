@@ -14,6 +14,11 @@ class ContentRestoredListener
      */
     public function handle(ContentRestored $event)
     {
-        $event->model->comments()->restore();
+        if (method_exists($event->model, 'comments')){
+            $event->model->comments()->restore();
+        }
+        if (method_exists($event->model, 'attitude')){
+            $event->model->attitude()->restore();
+        }
     }
 }

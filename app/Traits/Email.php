@@ -14,7 +14,7 @@ trait Email
         return $this->save();
     }
 
-    public function getEmail(): string
+    public function getEmail()
     {
         return $this->email;
     }

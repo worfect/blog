@@ -19,6 +19,8 @@ class CreateAttitudesTable extends Migration
             $table->integer('attitudeable_id');
             $table->string('attitudeable_type');
             $table->integer('attitude')->nullable();
+
+            $table->softDeletes();
         });
     }
 

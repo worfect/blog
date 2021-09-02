@@ -1,6 +1,6 @@
 
 @foreach($user as $item)
-    <table class="table table-borderless">
+    <table class="table table-borderless user-info-table">
         <tbody>
         <tr>
             <td>Name</td>
@@ -9,6 +9,10 @@
         <tr>
             <td>Role</td>
             <td>{{ $item->role }}</td>
+        </tr>
+        <tr>
+            <td>Status</td>
+            <td>{{ $item->status }}</td>
         </tr>
         <tr>
             <td>Rating</td>
@@ -29,6 +33,6 @@
         </tbody>
     </table>
     @if($item->id == Auth::id()) <! –– OR ADMIN ––>
-        <a href="{{ route('profile.edit', ['id' => $item->id]) }}"><button class="btn" id="user-menu-btn">Edit</button></a>
+        <a href="{{ route('profile.edit', ['id' => $item->id]) }}"><button class="btn btn-primary" id="user-menu-btn">Edit</button></a>
     @endif
 @endforeach
