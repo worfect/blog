@@ -22,7 +22,6 @@ class ProfileController extends Controller
         return view('profile.edit', ['user' =>  User::get()->where('id', $id)]);
     }
 
-
     public function update($id, UserDataUpdateRequest $request)
     {
         $user = User::findOrFail($id);
@@ -50,10 +49,10 @@ class ProfileController extends Controller
 
         if($source == 'email' and $user->hasEmail() and !$user->emailConfirmed()){
             event(new RequestVerification($user, 'email'));
-            return redirect(RouteServiceProvider::VERIFY);
+            return redirect(RouteServiceProvider::VERIFY)->withCookie('id', $user->id, 10);
         }elseif($source == 'phone' and $user->hasPhone() and !$user->phoneConfirmed()){
             event(new RequestVerification($user, 'phone'));
-            return redirect(RouteServiceProvider::VERIFY);
+            return redirect(RouteServiceProvider::VERIFY)->withCookie('id', $user->id, 10);
         }else{
             notice('Something went wrong', 'danger');
             return redirect()->back();

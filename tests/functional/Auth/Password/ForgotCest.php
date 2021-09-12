@@ -3,17 +3,18 @@
 
 namespace Tests\functional\Auth\Password;
 
-
 use App\Models\User;
 use Codeception\Example;
 use FunctionalTester;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
 
 class ForgotCest
 {
     /**
      * @return array
      */
-    protected function dataProvider(): array
+    protected function loginDataProvider(): array
     {
         return [
             ['login' => env('USER_LOGIN'), 'email' =>  env('USER_EMAIL'), 'phone' => null],
@@ -27,7 +28,7 @@ class ForgotCest
         factory(User::class)->create([
             'login' => $login,
             'screen_name' => env('USER_LOGIN'),
-            'password' =>  env('USER_PASS_CRYPT'),
+            'password' =>  'fake',
             'email' => $email,
             'phone' =>  $phone,
             'status' => User::STATUS_WAIT,
@@ -40,7 +41,7 @@ class ForgotCest
     }
 
     /**
-     * @dataProvider dataProvider
+     * @dataProvider loginDataProvider
      */
     public function testForgotByLogin(FunctionalTester $I, Example $example)
     {
@@ -53,12 +54,10 @@ class ForgotCest
         if(!is_null($example['email']) and !is_null($example['phone'])){
             $this->switch($I, $example);
         }elseif(!is_null($example['email'])){
-            $this->email($I);
+            $this->checkRedirectToReset($I, "/^E-[0-9]{5}$/");
         }elseif(!is_null($example['phone'])){
-            $this->phone($I);
+            $this->checkRedirectToReset($I, "/^P-[0-9]{5}$/");
         }
-
-        $I->seeInCurrentUrl('password/reset');
     }
 
     public function testForgotByEmail(FunctionalTester $I)
@@ -70,7 +69,8 @@ class ForgotCest
 
         $I->submitForm('#forgot-password-form', ['uniqueness' => env('USER_EMAIL')]);
 
-        $this->email($I);
+        $this->checkRedirectToReset($I, "/^E-[0-9]{5}$/");
+        $this->checkReset($I, 'email_confirmed');
     }
 
     public function testForgotByPhone(FunctionalTester $I)
@@ -81,7 +81,9 @@ class ForgotCest
         $I->seeInCurrentUrl('/password/forgot');
 
         $I->submitForm('#forgot-password-form', ['uniqueness' =>  env('USER_PHONE')]);
-        $this->phone($I);
+
+        $this->checkRedirectToReset($I, "/^P-[0-9]{5}$/");
+        $this->checkReset($I, 'phone_confirmed');
     }
 
     protected function switch(FunctionalTester $I, Example $example)
@@ -91,30 +93,41 @@ class ForgotCest
         $I->seeElement('input', ['name' => 'dispatchMethod', 'type' => 'radio', 'value' => 'phone']);
 
         $I->submitForm('#forgot-password-form', ['uniqueness' => $example['login'], 'dispatchMethod' => 'email']);
-        $this->email($I);
+        $this->checkRedirectToReset($I, "/^E-[0-9]{5}$/");
 
         $I->moveBack();
 
         $I->submitForm('#forgot-password-form', ['uniqueness' => $example['login'], 'dispatchMethod' => 'phone']);
-        $this->phone($I);
+        $this->checkRedirectToReset($I, "/^P-[0-9]{5}$/");
     }
 
-    protected function email(FunctionalTester $I)
+    protected function checkRedirectToReset(FunctionalTester $I, $codePattern)
     {
         $user = User::where('login', env('USER_LOGIN'))->first();
-        $I->assertTrue((bool) preg_match("/^E-[0-9]{5}$/", $user->verify_code));
-        $I->assertTrue(isset($user->expired_token));
-        $I->assertNotTrue($user->email_confirmed);
-        $I->assertEquals($user->status, User::STATUS_WAIT);
-    }
 
-    protected function phone(FunctionalTester $I)
-    {
-        $user = User::where('login', env('USER_LOGIN'))->first();
-        $I->assertTrue((bool) preg_match("/^P-[0-9]{5}$/", $user->verify_code));
+        $I->assertTrue((bool) preg_match($codePattern, $user->verify_code));
         $I->assertTrue(isset($user->expired_token));
         $I->assertNotTrue($user->phone_confirmed);
         $I->assertEquals($user->status, User::STATUS_WAIT);
+
+        $I->seeInCurrentUrl('/password/reset');
+        $I->assertStringContainsString($user->id, Crypt::decryptString($I->grabCookie('id')));
+    }
+
+    protected function checkReset(FunctionalTester $I, $confirmed)
+    {
+        $user = User::where('login', env('USER_LOGIN'))->first();
+        $I->submitForm('#reset-form', ['code' => $user->verify_code, 'password' => env('USER_PASS'), 'password_confirmation' => env('USER_PASS')]);
+
+        $user = User::where('login', env('USER_LOGIN'))->first();
+        $I->assertTrue(Hash::check(env('USER_PASS'), $user->password));
+        $I->assertTrue((bool)$user->$confirmed);
+        $I->assertNull($user->verify_code);
+        $I->assertNull($user->expired_token);
+        $I->assertEquals($user->status, User::STATUS_ACTIVE);
+
+        $I->seeInCurrentUrl('login');
+        $I->see(trans('passwords.reset'));
     }
 
     public function testForgotErrors(FunctionalTester $I)
@@ -128,5 +141,30 @@ class ForgotCest
 
         $I->submitForm('#forgot-password-form', ['uniqueness' => 'qwerty']);
         $I->seeFormErrorMessage('uniqueness','This user has no data for password recovery');
+    }
+
+    public function testResetError(FunctionalTester $I)
+    {
+        $this->createTestUser(env('USER_LOGIN'), env('USER_EMAIL'), env('USER_PHONE'));
+
+        $user = User::where('login', env('USER_LOGIN'))->first();
+        $user->setVerifyCode(env('EMAIL_CODE'));
+        $user->setVerifyExpired();
+
+
+        $I->amOnPage('/password/reset');
+        $I->seeInCurrentUrl('/password/reset');
+
+        $I->submitForm('#reset-form', ['code' => '', 'password' => '', 'password_confirmation' => '']);
+
+        $I->seeFormErrorMessage('code', trans('passwords.code'));
+        $I->seeFormErrorMessage('password', trans('passwords.password'));
+
+        $I->submitForm('#reset-form', ['code' =>  env('EMAIL_CODE'), 'password' => 'qwe', 'password_confirmation' => 'qwe']);
+        $I->seeFormErrorMessage('password', trans('passwords.min'));
+
+        $I->submitForm('#reset-form', ['code' => '12345', 'password' => 'qwerty', 'password_confirmation' => 'qwerty']);
+        $I->seeInCurrentUrl('/password/reset');
+        $I->see(trans('passwords.reset_error'));
     }
 }

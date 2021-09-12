@@ -28,11 +28,14 @@ class VerificationController extends Controller
      */
     public function show(Request $request)
     {
-        return view('auth.verify');
-//        не то пальто
-//        return $request->session()->get('id')
-//            ? view('auth.verify')
-//            : redirect($this->redirectPath());
+        $user = User::findOrFail($request->cookie('id'));
+
+        if($user->checkVerifyExpired()){
+            return view('auth.verify');
+        }
+
+        notice(trans('verify.error'), 'danger');
+        return redirect($this->redirectPath());
     }
 
     /**
@@ -43,7 +46,7 @@ class VerificationController extends Controller
      */
     public function verification(Request $request)
     {
-        $user = User::findOrFail($request->get('id'));
+        $user = User::findOrFail($request->cookie('id'));
         $verifier = new Verifier($user);
 
         if($verifier->verifyUser($request->get('code'))){
@@ -70,14 +73,14 @@ class VerificationController extends Controller
 
     public function resend(Request $request)
     {
-        $user = User::findOrFail($request->get('id'));
+        $user = User::findOrFail($request->cookie('id'));
 
         if($user instanceof HasVerifySource){
             (new Verifier($user))->resendVerifyCode();
             notice(trans('verify.resend'), 'info');
         }
 
-        return back()->with('id', $request->get('id'));
+        return back()->withCookie('id', $user->id, 10);
     }
 
     public function redirectTo()

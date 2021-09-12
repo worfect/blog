@@ -37,7 +37,6 @@ class ConfirmCest
         $I->submitForm('#confirm-password-form', ['password' => env('USER_PASS')], 'ConfirmPasswordSubmitButton');
 
         $I->dontSeeFormErrors();
-        $I->seeInCurrentUrl('/profile');
     }
 
     public function testConfirmError(FunctionalTester $I)

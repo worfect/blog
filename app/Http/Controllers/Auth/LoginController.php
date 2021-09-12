@@ -38,7 +38,7 @@ class LoginController extends Controller
      * Handle a login request to the application.
      *
      * @param  UserLoginRequest  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\RedirectResponse
      *
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -58,7 +58,7 @@ class LoginController extends Controller
             if ($user->isMultiFactor()) {
                 Auth::logout();
                 event(new RequestVerification($user, 'phone'));
-                return redirect()->to(RouteServiceProvider::VERIFY)->with('id', $user->id);
+                return redirect()->to(RouteServiceProvider::VERIFY)->withCookie('id', $user->id, 10);
             }
             return $this->sendLoginResponse($request);
         }

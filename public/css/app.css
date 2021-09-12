@@ -19459,7 +19459,7 @@ a.text-dark:focus {
 .main-blog .main-blog-item .menu .btn,
 .create .user .btn,
 #change-password-form .btn,
-.reset-pass .btn,
+.shell #reset-form .btn,
 .login .btn,
 .register .btn,
 .user-menu .btn,
@@ -19479,7 +19479,7 @@ a.text-dark:focus {
 .main-blog .main-blog-item .menu .btn:hover,
 .create .user .btn:hover,
 #change-password-form .btn:hover,
-.reset-pass .btn:hover,
+.shell #reset-form .btn:hover,
 .login .btn:hover,
 .register .btn:hover,
 .user-menu .btn:hover,
@@ -19787,13 +19787,13 @@ footer .duplicate-navigate .footer-item {
   align-items: center;
 }
 
-.reset-pass {
+.shell #reset-form {
   background-color: #0A1F38;
   color: #F4DF7D;
   border-radius: 0.5em;
 }
 
-.reset-pass .form-control {
+.shell #reset-form .form-control {
   background-color: #F4DF7D;
 }
 

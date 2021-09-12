@@ -67,7 +67,7 @@ class Verifier extends Controller
      */
     public function verifyUser(string $code): bool
     {
-        if($this->checkExpired() and $this->checkCodeMatch($code)){
+        if($this->user->checkVerifyExpired() and $this->checkCodeMatch($code)){
             $source = $this->determineSource();
             $this->markUserAsVerify($source);
             $this->user->delVerifyExpired();
@@ -139,11 +139,6 @@ class Verifier extends Controller
     protected function generateCode(string $prefix): string
     {
         return $prefix . random_int(10000, 99999);
-    }
-
-    protected function checkExpired(): bool
-    {
-        return Carbon::now()->diffInMinutes($this->user->getVerifyExpired()) < 10;
     }
 
     protected function checkCodeMatch($code): bool

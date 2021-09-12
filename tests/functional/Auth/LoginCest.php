@@ -63,8 +63,8 @@ class LoginCest
         $I->fillField('password', 'fake');
         $I->click('loginSubmitButton', '#login-form');
 
-        $I->seeFormErrorMessage('login', trans('auth.failed'));
-        $I->seeFormErrorMessage('password', trans('auth.failed'));
+        $I->seeFormErrorMessage('login', trans('auth.login.failed'));
+        $I->seeFormErrorMessage('password', trans('auth.login.failed'));
 
         $I->fillField('uniqueness', '');
         $I->fillField('password', '');
@@ -73,6 +73,32 @@ class LoginCest
         $I->seeFormErrorMessage('login', trans('auth.login.no_input'));
         $I->seeFormErrorMessage('password', trans('auth.login.no_input'));
     }
+
+    public function testMultifactor(FunctionalTester $I)
+    {
+        $this->createTestUser();
+        $user = User::where('login', env('USER_LOGIN'))->first();
+        $user->confirmPhone();
+        $user->enableMultiFactor();
+
+        $I->amOnPage('/login');
+        $formData = [
+            'uniqueness' => env('USER_LOGIN'),
+            'password' => env('USER_PASS')
+        ];
+        $I->submitForm('#login-form', $formData, 'loginSubmitButton');
+
+        $I->seeInCurrentUrl('/verify');
+        $I->dontSeeAuthentication();
+
+        $user = User::where('login', env('USER_LOGIN'))->first();
+        $I->submitForm('#verify-form', ['code' => $user->getVerifyCode()], 'verifySubmitButton');
+
+        $I->seeInCurrentUrl('');
+        $I->see(trans('verify.success'));
+        $I->SeeAuthentication();
+    }
+
 
     public function testLoginLockout(FunctionalTester $I)
     {

@@ -24,7 +24,6 @@ class User extends Authenticatable implements HasVerifySource, HasEmail, HasPhon
     public const ROLE_MODERATOR = 'moderator';
     public const ROLE_ADMIN = 'admin';
 
-
     /*************************************/
 
     public function registerUser(array $data)

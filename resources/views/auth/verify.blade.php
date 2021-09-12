@@ -15,7 +15,6 @@
                 <form id="verify-form" class="d-inline" method="POST" action="{{ route('verification.verify') }}">
                     @csrf
                     <br>
-                    <input type="text" name="id" hidden value="{{ session()->get('id') }}">
                     <input type="text" name="code">
                     <button type="submit" class="btn" name="verifySubmitButton">Send</button>
                 </form>
