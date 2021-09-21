@@ -113,13 +113,13 @@ class ProcessingAuthRequests extends Controller
 
         if($this->verifyPhoneNumber($dataRequest['phone'])){
             $response['phone'] = $this->unificationPhoneNumber($dataRequest['phone']);
-        }else{
+        }elseif(isset($dataRequest['phone'])){
             $errors['phone'] = trans('auth.update.phone.invalid');
         }
 
         if($this->verifyEmail($dataRequest['email'])){
             $response['email'] = $dataRequest['email'];
-        }else{
+        }elseif(isset($dataRequest['email'])){
             $errors['email'] = trans('auth.update.email.invalid');
         }
 

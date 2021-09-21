@@ -19458,6 +19458,8 @@ a.text-dark:focus {
 .menu-gallery .filter .form-inline .btn,
 .main-blog .main-blog-item .menu .btn,
 .create .user .btn,
+#confirm-password-form .btn,
+#confirm-password-form-modal .btn,
 #change-password-form .btn,
 .shell #reset-form .btn,
 .login .btn,
@@ -19478,6 +19480,8 @@ a.text-dark:focus {
 .menu-gallery .filter .form-inline .btn:hover,
 .main-blog .main-blog-item .menu .btn:hover,
 .create .user .btn:hover,
+#confirm-password-form .btn:hover,
+#confirm-password-form-modal .btn:hover,
 #change-password-form .btn:hover,
 .shell #reset-form .btn:hover,
 .login .btn:hover,
@@ -19805,6 +19809,31 @@ footer .duplicate-navigate .footer-item {
 
 #change-password-form .form-control {
   background-color: #F4DF7D;
+}
+
+#confirm-password-form-modal {
+  background-color: #0A1F38;
+  color: #F4DF7D;
+  border-radius: 0.5em;
+}
+
+#confirm-password-form-modal .form-control {
+  background-color: #F4DF7D;
+}
+
+#confirm-password-form {
+  background-color: #0A1F38;
+  color: #F4DF7D;
+  border-radius: 0.5em;
+}
+
+#confirm-password-form .form-control {
+  background-color: #F4DF7D;
+}
+
+.confirm-modal .modal-content .card {
+  background-color: #0A1F38;
+  color: #F4DF7D;
 }
 
 .content-home {
@@ -21312,7 +21341,7 @@ footer .duplicate-navigate .footer-item {
 }
 
 #edit-profile {
-  height: 800px;
+  height: 600px;
   display: flex;
   justify-content: center;
   align-items: center;

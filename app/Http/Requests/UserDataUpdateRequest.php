@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Controllers\Auth\ProcessingAuthRequests;
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -25,8 +26,18 @@ class UserDataUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['required', Rule::unique('users')->ignore($this['id'])],
-            'phone' => ['required', Rule::unique('users')->ignore($this['id'])],
+            'email' => [Rule::requiredIf(function (){
+                            $user = User::where('id', $this['id'])->first();
+                            return $user->hasEmail();
+                        }),
+                        Rule::unique('users')->ignore($this['id'])
+            ],
+            'phone' => [Rule::requiredIf(function (){
+                            $user = User::where('id', $this['id'])->first();
+                            return $user->hasPhone();
+                        }),
+                        Rule::unique('users')->ignore($this['id'])
+            ],
             'screen_name' => ['required', 'between:3,30', 'alpha_dash', Rule::unique('users')->ignore($this['id'])],
         ];
     }

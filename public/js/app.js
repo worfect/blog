@@ -42458,10 +42458,46 @@ $('.nav-item').hover(function () {
 /*!*********************************!*\
   !*** ./resources/js/profile.js ***!
   \*********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Form */ "./resources/js/Form.js");
 
 
+jquery__WEBPACK_IMPORTED_MODULE_0___default()("#change-user-data-form").bind("submit", function (e) {
+  var id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(location).attr('pathname').match(/\d+/);
+  var formData = new FormData(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).get(0));
+  e.preventDefault();
+  jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
+    url: '/profile/' + id + '/update',
+    method: 'post',
+    dataType: "html",
+    processData: false,
+    contentType: false,
+    data: {
+      formData: formData
+    }
+  }).done(function (data) {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#change-user-data-form").unbind('submit').submit();
+  }).fail(function (data) {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(".container").append(JSON.parse(data.responseText));
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.confirm-modal').modal('show');
+  });
+});
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", "#confirm-password-form-modal", function (e) {
+  e.preventDefault();
+  var form = new _Form__WEBPACK_IMPORTED_MODULE_1__["default"](jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), '/password/conform');
+  form.submitForm().then(function (result) {
+    if (result) {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.confirm-modal').modal('hide');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()("#change-user-data-form").unbind('submit').submit();
+    }
+  });
+});
 
 /***/ }),
 

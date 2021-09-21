@@ -1,0 +1,30 @@
+#confirm-password-form-modal{
+    background-color: $primary;
+    color: $secondary;
+    border-radius: 0.5em;
+    .form-control{
+        background-color: $secondary;
+    }
+    .btn{
+        @extend %template-btn;
+    }
+}
+#confirm-password-form{
+    background-color: $primary;
+    color: $secondary;
+    border-radius: 0.5em;
+    .form-control{
+        background-color: $secondary;
+    }
+    .btn{
+        @extend %template-btn;
+    }
+}
+.confirm-modal{
+    .modal-content{
+        .card{
+            background-color: $primary;
+            color: $secondary;
+        }
+    }
+}

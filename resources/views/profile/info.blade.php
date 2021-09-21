@@ -32,7 +32,7 @@
         </tr>
         </tbody>
     </table>
-    @if($item->id == Auth::id()) <! –– OR ADMIN ––>
-        <a href="{{ route('profile.edit', ['id' => $item->id]) }}"><button class="btn btn-primary" id="user-menu-btn">Edit</button></a>
+    @if($item->id == Auth::id() or (Auth::check() and Auth::user()->isAdministrator()))
+        <a href="{{ route('profile.edit', ['id' => $item->id]) }}"><button class="btn btn-primary" id="user-edit-menu-btn" name="Edit">Edit</button></a>
     @endif
 @endforeach

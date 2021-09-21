@@ -7,6 +7,7 @@ use App\Events\RequestVerification;
 use App\Http\Requests\UserDataUpdateRequest;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class ProfileController extends Controller
 {
@@ -19,11 +20,23 @@ class ProfileController extends Controller
 
     public function edit($id)
     {
+        try {
+            $this->authorize('update', [User::class, $id]);
+        } catch (AuthorizationException $e) {
+            abort(403);
+        }
+
         return view('profile.edit', ['user' =>  User::get()->where('id', $id)]);
     }
 
     public function update($id, UserDataUpdateRequest $request)
     {
+        try {
+            $this->authorize('update', [User::class, $id]);
+        } catch (AuthorizationException $e) {
+            abort(403);
+        }
+
         $user = User::findOrFail($id);
         if($email = $request->get('email')){
             $user->updateEmail($email);
@@ -40,7 +53,8 @@ class ProfileController extends Controller
             $user->unverified();
         }
 
-        return notice()->success("User data update")->json();
+        notice("User data update", 'success');
+        return redirect()->back();
     }
 
     public function verifyRequest($id, $source)

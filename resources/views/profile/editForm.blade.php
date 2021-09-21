@@ -4,20 +4,35 @@
         <div class="form-row">
             <div class="form-group">
                 <label for="formGroupExampleInput">Name</label>
-                <input id="change-user-screen-name-input" type="text" class="form-control" name="screen_name" value="{{ $item->screen_name }}">
+                <input id="change-user-screen-name-input" type="text" class="form-control @error('screen_name') is-invalid @enderror" name="screen_name" value="{{ $item->screen_name }}">
+                @error('screen_name')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
         </div>
         <div class="form-row">
             <div class="form-group mb-2">
                 <label for="formGroupExampleInput2">Phone</label>
-                <input id="change-user-phone-input" type="text" class="form-control" name ="phone" value="{{ $item->phone }}">
+                <input id="change-user-phone-input" type="text" class="form-control @error('phone') is-invalid @enderror" name ="phone" value="{{ $item->phone }}">
+                @error('phone')
+                <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
 
         </div>
         <div class="form-row">
             <div class="form-group">
                 <label for="formGroupExampleInput2">Email</label>
-                <input id="change-user-email-input" type="text" class="form-control" name ="email" value="{{ $item->email }}">
+                <input id="change-user-email-input" type="text" class="form-control @error('email') is-invalid @enderror" name ="email" value="{{ $item->email }}">
+                @error('email')
+                <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
         </div>
         <button type="submit" class="btn btn-primary" name="ChangeUserDataSubmitButton" data-toggle="modal" data-target="#confPassword">Change User Data</button>
@@ -54,6 +69,6 @@
             @elseif(!$item->emailConfirmed()) > Verify email</button>
             @else  disabled> Email verified</button> @endif
         </form>
-        <a href="{{ URL::previous() }}"><button class="btn btn-primary">Back</button></a>
+        <a href="{{ route('profile.default') }}"><button class="btn btn-primary">Back</button></a>
     </div>
 @endforeach
