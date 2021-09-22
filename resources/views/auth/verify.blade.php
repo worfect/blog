@@ -20,8 +20,9 @@
                 </form>
                 <form id="resend-form" class="d-inline" method="POST" action="{{ route('verification.resend') }}">
                     @csrf
+                    <input type="text" name="id" hidden value="{{ session()->get('id') }}">
                     <br>
-                    <button type="submit" class="btn" name="resendSubmitButton">Click to send the code to your email/phone again</button>
+                    <button type="submit" class="btn" name="resendSubmitButton">Click to send the code again</button>
                 </form>
             </div>
         </div>

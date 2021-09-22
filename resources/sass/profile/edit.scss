@@ -1,0 +1,43 @@
+#edit-profile{
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    #change-user-data-form{
+        background-color: $primary;
+        color: $secondary;
+        border-radius: 0.5em;
+        .form-control{
+            background-color: $secondary;
+        }
+        .btn{
+            @extend %template-btn;
+        }
+    }
+    #settings-profile{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-left: 4em;
+        background-color: $primary;
+        color: $secondary;
+        border-radius: 0.5em;
+        .form-control{
+            background-color: $secondary;
+        }
+        .btn{
+            @extend %template-btn;
+        }
+        form{
+            button{
+                margin-bottom: 0.5em;
+            }
+        }
+        a{
+            button{
+                margin-bottom: 0.5em;
+            }
+        }
+    }
+}

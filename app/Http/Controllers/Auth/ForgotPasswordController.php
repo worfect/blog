@@ -35,8 +35,9 @@ class ForgotPasswordController extends Controller
 
         $method = array_key_first($validData);
         $value = $validData[$method];
+        $user = $this->getUser($method, $value);
 
-        if($this->isMethodExists($method) and $user = $this->getUser($method, $value)){
+        if($this->isMethodExists($method) and $user){
             if($method == 'login'){
                 $dispatchMethod = $request->get('dispatchMethod');
                 if(isset($dispatchMethod) and $this->isMethodExists($dispatchMethod)) {
@@ -51,7 +52,7 @@ class ForgotPasswordController extends Controller
             return $this->sendResetCodeFailedResponse(trans('auth.no_data'));
         }
 
-        return redirect(route('password.reset.form'));
+        return redirect(route('password.reset.form'))->withCookie('id', $user->id, 10);
     }
 
     /**
@@ -68,11 +69,11 @@ class ForgotPasswordController extends Controller
             }
             if($user->hasPhone() and !$user->hasEmail()){
                 event(new RequestVerification($user, 'phone'));
-                return redirect(route('password.reset.form'));
+                return redirect(route('password.reset.form'))->withCookie('id', $user->id, 10);
             }
             if(!$user->hasPhone() and $user->hasEmail()){
                 event(new RequestVerification($user, 'email'));
-                return redirect(route('password.reset.form'));
+                return redirect(route('password.reset.form'))->withCookie('id', $user->id, 10);
             }
         }
         return $this->sendResetCodeFailedResponse(trans('auth.no_data')); // OR EXEPTION AND LOG?

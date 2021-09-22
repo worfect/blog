@@ -5,7 +5,7 @@ $(document).on( "submit", ".rating-panel", function(e){
     let formData = new FormData($(this).get(0))
     formData.append(e.originalEvent.submitter.name, e.originalEvent.submitter.value)
     $.ajax({
-        url: 'rating',
+        url: '/rating',
         method: 'POST',
         dataType: 'JSON',
         processData: false,

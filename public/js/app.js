@@ -42022,6 +42022,7 @@ var Form = /*#__PURE__*/function () {
     this.form = void 0;
     this.formData = void 0;
     this.url = void 0;
+    this.urlRefresh = void 0;
     this.refreshSection = void 0;
     this.noticeSection = void 0;
     this.form = form;
@@ -42060,30 +42061,35 @@ var Form = /*#__PURE__*/function () {
     value: function _responseProcessing() {
       var _this2 = this;
 
-      this._ajaxSendForm().then(function (data) {
-        _this2._cleanInvalid();
+      return new Promise(function (resolve, reject) {
+        _this2._ajaxSendForm().then(function (data) {
+          _this2._cleanInvalid();
 
-        if (_this2.noticeSection) {
-          notice.showNoticeMessages(data, _this2.noticeSection);
-        }
+          if (_this2.noticeSection) {
+            notice.showNoticeMessages(data, _this2.noticeSection);
+          }
 
-        if (_this2.refreshSection) {
-          _this2._refreshContent();
-        }
-      })["catch"](function (data) {
-        _this2._cleanInvalid();
+          if (_this2.refreshSection) {
+            _this2._refreshContent();
+          }
 
-        var errors = data.responseJSON.errors;
-        jquery__WEBPACK_IMPORTED_MODULE_0___default.a.each(errors, function (name, message) {
-          var span = document.createElement('span');
-          var strong = document.createElement('strong');
-          var field = jquery__WEBPACK_IMPORTED_MODULE_0___default()('[name = ' + name + ']');
-          strong.innerHTML = message;
-          jquery__WEBPACK_IMPORTED_MODULE_0___default()(span).attr({
-            "class": "invalid-feedback",
-            "role": "alert"
-          }).html(strong);
-          field.addClass("is-invalid").after(span);
+          resolve(true);
+        })["catch"](function (data) {
+          _this2._cleanInvalid();
+
+          var errors = data.responseJSON.errors;
+          jquery__WEBPACK_IMPORTED_MODULE_0___default.a.each(errors, function (name, message) {
+            var span = document.createElement('span');
+            var strong = document.createElement('strong');
+            var field = jquery__WEBPACK_IMPORTED_MODULE_0___default()('[name = ' + name + ']');
+            strong.innerHTML = message;
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()(span).attr({
+              "class": "invalid-feedback",
+              "role": "alert"
+            }).html(strong);
+            field.addClass("is-invalid").after(span);
+          });
+          reject(false);
         });
       });
     }
@@ -42092,7 +42098,7 @@ var Form = /*#__PURE__*/function () {
     value: function _refreshContent() {
       var refreshSection = this.refreshSection;
       jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
-        url: this.url + "/refresh",
+        url: this.urlRefresh,
         method: 'POST',
         dataType: 'HTML',
         processData: false,
@@ -42106,11 +42112,16 @@ var Form = /*#__PURE__*/function () {
   }, {
     key: "submitForm",
     value: function submitForm() {
-      this._responseProcessing();
+      return this._responseProcessing().then(function (data) {
+        return data;
+      })["catch"](function (data) {
+        return data;
+      });
     }
   }, {
     key: "withRefresh",
-    value: function withRefresh(section) {
+    value: function withRefresh(urlRefresh, section) {
+      this.urlRefresh = urlRefresh;
       this.refreshSection = section;
       return this;
     }
@@ -42165,6 +42176,8 @@ __webpack_require__(/*! ./slick */ "./resources/js/slick.js");
 __webpack_require__(/*! ./gallery */ "./resources/js/gallery.js");
 
 __webpack_require__(/*! ./menus */ "./resources/js/menus.js");
+
+__webpack_require__(/*! ./profile */ "./resources/js/profile.js");
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()('#notice-overlay-modal').modal();
 jquery__WEBPACK_IMPORTED_MODULE_0___default()('div.alert').not('.alert-important').delay(3000).fadeOut(350);
@@ -42255,20 +42268,12 @@ __webpack_require__.r(__webpack_exports__);
 
 var notice = __webpack_require__(/*! ./vendor/notice/messages */ "./resources/js/vendor/notice/messages.js");
 
-function removeGalleryModal() {
-  if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.gallery-modal').length) {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.gallery-modal').remove();
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.modal-backdrop').remove();
-  }
-}
-
 function showGalleryItemModal() {
   var id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).prop("id");
   id = parseInt(id.match(/\d+/));
-  removeGalleryModal();
   jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
     type: "GET",
-    url: "gallery/show",
+    url: "/gallery/show",
     data: {
       id: id
     },
@@ -42281,10 +42286,9 @@ function showGalleryItemModal() {
 }
 
 function createGalleryItemModal() {
-  removeGalleryModal();
   jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
     type: "GET",
-    url: "gallery/create",
+    url: "/gallery/create",
     dataType: "html",
     success: function success(data) {
       if (data.indexOf('notice-message') != -1) {
@@ -42300,10 +42304,10 @@ function createGalleryItemModal() {
 function editGalleryItemModal() {
   var id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).prop("id");
   id = parseInt(id.match(/\d+/));
-  removeGalleryModal();
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.close').click();
   jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
     type: "GET",
-    url: "gallery/edit",
+    url: "/gallery/edit",
     data: {
       id: id
     },
@@ -42322,10 +42326,10 @@ function editGalleryItemModal() {
 function deleteGalleryItem() {
   var id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).prop("id");
   id = parseInt(id.match(/\d+/));
-  removeGalleryModal();
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.close').click();
   jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
     type: "GET",
-    url: "gallery/delete",
+    url: "/gallery/delete",
     data: {
       id: id
     },
@@ -42334,7 +42338,7 @@ function deleteGalleryItem() {
       if (data.indexOf('notice-message') != -1) {
         notice.showNoticeHtml(data, 'header');
       } else {
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id).addClass("gallery-card-deleted");
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('div #gallery-card-' + id).addClass("gallery-card-deleted").removeClass("gallery-card");
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id + ' .card-text-deleted').show();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id + ' .icon-deleted').show();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id + ' .card-text').hide();
@@ -42349,7 +42353,7 @@ function restoreGalleryItem() {
   id = parseInt(id.match(/\d+/));
   jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
     type: "GET",
-    url: "gallery/restore",
+    url: "/gallery/restore",
     data: {
       id: id
     },
@@ -42358,7 +42362,7 @@ function restoreGalleryItem() {
       if (data.indexOf('notice-message') != -1) {
         notice.showNoticeHtml(data, 'header');
       } else {
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id).removeClass("gallery-card-deleted");
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('div #gallery-card-' + id).removeClass("gallery-card-deleted").addClass("gallery-card");
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id + ' .card-text-deleted').hide();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id + ' .icon-deleted').hide();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#gallery-card-' + id + ' .card-text').show();
@@ -42370,25 +42374,39 @@ function restoreGalleryItem() {
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", "#store-gallery-item", function (e) {
   e.preventDefault();
-  var form = new _Form_js__WEBPACK_IMPORTED_MODULE_1__["default"](jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), 'gallery');
-  form.withNotice('.edit-gallery-item').withRefresh('.content-gallery').submitForm();
+  var form = new _Form_js__WEBPACK_IMPORTED_MODULE_1__["default"](jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), '/gallery');
+  form.withNotice('.edit-gallery-item').withRefresh('/gallery/refresh', '.content-gallery').submitForm();
 });
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", "#update-gallery-item", function (e) {
   e.preventDefault();
-  var form = new _Form_js__WEBPACK_IMPORTED_MODULE_1__["default"](jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), 'gallery/update');
-  form.withNotice('.edit-gallery-item').submitForm();
+  var form = new _Form_js__WEBPACK_IMPORTED_MODULE_1__["default"](jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), '/gallery/update');
+  form.withNotice('.edit-gallery-item').withRefresh('/gallery/refresh', '.content-gallery').submitForm();
 });
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", ".add-gallery-comment-form", function (e) {
   e.preventDefault();
-  var form = new _Form_js__WEBPACK_IMPORTED_MODULE_1__["default"](jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), 'comment');
-  form.withNotice('.add-gallery-comment').withRefresh('.show-gallery-comments').submitForm();
+  var form = new _Form_js__WEBPACK_IMPORTED_MODULE_1__["default"](jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), '/comment');
+  form.withNotice('.add-gallery-comment').withRefresh('/comment/refresh', '.show-gallery-comments').submitForm();
 });
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", ".gallery-card-search-result", showGalleryItemModal);
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", ".create-gallery-item", createGalleryItemModal);
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", ".gallery-card", showGalleryItemModal);
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", ".gallery-edit-btn", editGalleryItemModal);
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", ".gallery-delete-btn", deleteGalleryItem);
-jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", '.gallery-card-deleted', restoreGalleryItem);
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", '.gallery-card-deleted', restoreGalleryItem); //когда-то почему-то решил, что лишние модалы должны удаляться и работать без указания id. Повернуть назад теперь не могу. Сделать нормально - тоже...
+
+function removeModal() {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(".modal").modal("hide");
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.gallery-modal').remove();
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.modal-backdrop').remove();
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('body').removeClass('modal-open');
+}
+
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", 'button.close', removeModal);
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on('click', function (e) {
+  if (!jquery__WEBPACK_IMPORTED_MODULE_0___default()(e.target).closest(".modal-dialog").length) {
+    removeModal();
+  }
+});
 
 /***/ }),
 
@@ -42436,6 +42454,53 @@ $('.nav-item').hover(function () {
 
 /***/ }),
 
+/***/ "./resources/js/profile.js":
+/*!*********************************!*\
+  !*** ./resources/js/profile.js ***!
+  \*********************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Form */ "./resources/js/Form.js");
+
+
+jquery__WEBPACK_IMPORTED_MODULE_0___default()("#change-user-data-form").bind("submit", function (e) {
+  var id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(location).attr('pathname').match(/\d+/);
+  var formData = new FormData(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).get(0));
+  e.preventDefault();
+  jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
+    url: '/profile/' + id + '/update',
+    method: 'post',
+    dataType: "html",
+    processData: false,
+    contentType: false,
+    data: {
+      formData: formData
+    }
+  }).done(function (data) {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#change-user-data-form").unbind('submit').submit();
+  }).fail(function (data) {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(".container").append(JSON.parse(data.responseText));
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.confirm-modal').modal('show');
+  });
+});
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", "#confirm-password-form-modal", function (e) {
+  e.preventDefault();
+  var form = new _Form__WEBPACK_IMPORTED_MODULE_1__["default"](jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), '/password/conform');
+  form.submitForm().then(function (result) {
+    if (result) {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.confirm-modal').modal('hide');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()("#change-user-data-form").unbind('submit').submit();
+    }
+  });
+});
+
+/***/ }),
+
 /***/ "./resources/js/rating.js":
 /*!********************************!*\
   !*** ./resources/js/rating.js ***!
@@ -42453,7 +42518,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("submit", ".rating-pa
   var formData = new FormData(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).get(0));
   formData.append(e.originalEvent.submitter.name, e.originalEvent.submitter.value);
   jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
-    url: 'rating',
+    url: '/rating',
     method: 'POST',
     dataType: 'JSON',
     processData: false,
@@ -42578,6 +42643,17 @@ $(document).ready(function () {
     infinite: false,
     slidesToShow: 3,
     slidesToScroll: 3
+  });
+});
+$(document).ready(function () {
+  $('.banner-profile').slick({
+    arrows: false,
+    autoplay: true,
+    autoplaySpeed: 8000,
+    speed: 2500,
+    pauseOnHover: false,
+    pauseOnFocus: false,
+    draggable: false
   });
 });
 

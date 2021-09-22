@@ -12,9 +12,9 @@ trait Phone
         return $this->save();
     }
 
-    public function getPhone(): int
+    public function getPhone()
     {
-        return (int)$this->phone;
+        return $this->phone;
     }
 
     public function hasPhone(): bool
@@ -33,9 +33,39 @@ trait Phone
         return $this->phone_confirmed;
     }
 
-    public function confirmPhone()
+    public function confirmPhone(): bool
     {
         $this->phone_confirmed = true;
         return $this->save();
+    }
+
+    public function updatePhone($phone): bool
+    {
+        if( $this->phone != $phone){
+            $this->phone = $phone;
+            $this->phone_confirmed = false;
+            $this->disableMultiFactor();
+        }
+        return $this->save();
+    }
+
+    public function enableMultiFactor(): bool
+    {
+        if($this->phoneConfirmed()){ // или отдельно? или не надо? или в контроллере?
+            $this->multi_factor = true;
+            return $this->save();
+        }
+        return true;
+    }
+
+    public function disableMultiFactor(): bool
+    {
+        $this->multi_factor = false;
+        return $this->save();
+    }
+
+    public function isMultiFactor(): bool
+    {
+        return $this->multi_factor;
     }
 }

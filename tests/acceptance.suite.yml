@@ -2,9 +2,15 @@ actor: AcceptanceTester
 modules:
   enabled:
     - WebDriver:
+        url: 'http://localhost:81'
         browser: chrome
-        host: 172.18.0.8
-        port: 5555
-        url: 'http://localhost'
+        host: worfect-VirtualBox
+        port: 4444
+        capabilities:
+          window_size: 1920x1080
     - Laravel5:
         part: ORM
+    - \Helper\Acceptance
+    - Asserts
+
+#docker run --net=host selenium/standalone-chrome

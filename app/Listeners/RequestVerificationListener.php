@@ -6,7 +6,7 @@ namespace App\Listeners;
 use App\Events\RequestVerification;
 use App\Http\Controllers\Auth\Verifier\Verifier;
 
-class SendVerificationNotification
+class RequestVerificationListener
 {
     /**
      * Handle the event.
@@ -16,7 +16,7 @@ class SendVerificationNotification
      */
     public function handle(RequestVerification $event)
     {
-        $verifier = new Verifier();
-        $verifier->sendVerifyCode($event->user, $event->source);
+        $verifier = new Verifier($event->user);
+        $verifier->sendVerifyCode($event->source);
     }
 }

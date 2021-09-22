@@ -2,8 +2,12 @@
 
 namespace App\Providers;
 
+use App\Events\ContentDeleted;
+use App\Events\ContentRestored;
 use App\Events\RequestVerification;
-use App\Listeners\SendVerificationNotification;
+use App\Listeners\ContentDeletedListener;
+use App\Listeners\ContentRestoredListener;
+use App\Listeners\RequestVerificationListener;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
@@ -16,7 +20,13 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         RequestVerification::class => [
-            SendVerificationNotification::class,
+            RequestVerificationListener::class,
+        ],
+        ContentDeleted::class => [
+            ContentDeletedListener::class,
+        ],
+        ContentRestored::class => [
+            ContentRestoredListener::class,
         ],
         SocialiteWasCalled::class => [
             // add your listeners (aka providers) here

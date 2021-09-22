@@ -14,7 +14,7 @@ trait Email
         return $this->save();
     }
 
-    public function getEmail(): string
+    public function getEmail()
     {
         return $this->email;
     }
@@ -37,6 +37,15 @@ trait Email
     public function confirmEmail()
     {
         $this->email_confirmed = true;
+        return $this->save();
+    }
+
+    public function updateEmail($email): bool
+    {
+        if($this->email != $email){
+            $this->email = $email;
+            $this->email_confirmed = false;
+        }
         return $this->save();
     }
 }

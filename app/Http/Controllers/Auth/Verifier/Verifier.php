@@ -12,7 +12,12 @@ use Carbon\Carbon;
 
 class Verifier extends Controller
 {
-    protected $user = null;
+    protected $user;
+
+    public function __construct(User $user)
+    {
+        $this->user = $user;
+    }
 
     /**
      * Return instance of the verified user from the verifier field, if present
@@ -21,24 +26,20 @@ class Verifier extends Controller
      */
     public function getVerifiedUser()
     {
-        if($this->user instanceof HasVerifySource and $this->user->isVerified()){
-            return $this->user;
-        }
-        return null;
+        return $this->user->isVerified()
+                ? $this->user
+                : null;
     }
 
     /**
      * Generates and sends the code in the chosen way
      *
-     * @param HasVerifySource $user
      * @param string $source
      *
      * @return void
      */
-    public function sendVerifyCode(HasVerifySource $user, string $source)
+    public function sendVerifyCode(string $source)
     {
-        $this->user = $user;
-
         if($source === "email" and $this->user instanceof HasEmail and $this->user->hasEmail()){
             $this->setEmailVerifyCode();
             $this->user->sendToEmail(new VerifyMail($this->user->getVerifyCode()));
@@ -51,13 +52,11 @@ class Verifier extends Controller
     /**
      * Replaces the code with a new code of the same type
      *
-     * @param HasVerifySource $user
-     *
      * @return void
      */
-    public function resendVerifyCode(HasVerifySource $user)
+    public function resendVerifyCode()
     {
-        $this->sendVerifyCode($user, $this->determineSource($user->getVerifyCode()));
+        $this->sendVerifyCode($this->determineSource());
     }
 
     /**
@@ -68,10 +67,8 @@ class Verifier extends Controller
      */
     public function verifyUser(string $code): bool
     {
-        $this->setUser($code);
-
-        if($this->user and $this->checkExpired()){
-            $source = $this->determineSource($code);
+        if($this->user->checkVerifyExpired() and $this->checkCodeMatch($code)){
+            $source = $this->determineSource();
             $this->markUserAsVerify($source);
             $this->user->delVerifyExpired();
             $this->user->delVerifyCode();
@@ -83,15 +80,14 @@ class Verifier extends Controller
     /**
      * Defines the verification method by code
      *
-     * @param string $code
      * @return string
      */
-    protected function determineSource(string $code): string
+    protected function determineSource(): string
     {
-        if(stristr($code, 'P-')){
+        if(stristr($this->user->getVerifyCode(), 'P-')){
             return 'phone';
         }
-        if(stristr($code, 'E-')){
+        if(stristr($this->user->getVerifyCode(), 'E-')){
             return 'email';
         }
         return '';
@@ -116,7 +112,6 @@ class Verifier extends Controller
         }
     }
 
-
     protected function setEmailVerifyCode()
     {
         $this->user->setVerifyCode($this->generateEmailCode());
@@ -132,19 +127,13 @@ class Verifier extends Controller
     protected function generateEmailCode(): string
     {
         $prefix = 'E-';
-        do {
-            $code = $this->generateCode($prefix);
-        } while ((new $this->user)->where('verify_code', $code)->exists());
-        return $code;
+        return  $this->generateCode($prefix);
     }
 
     protected function generatePhoneCode(): string
     {
         $prefix = 'P-';
-        do {
-            $code = $this->generateCode($prefix);
-        } while ((new $this->user)->where('verify_code', $code)->exists());
-        return $code;
+        return  $this->generateCode($prefix);
     }
 
     protected function generateCode(string $prefix): string
@@ -152,18 +141,8 @@ class Verifier extends Controller
         return $prefix . random_int(10000, 99999);
     }
 
-    protected function checkExpired(): bool
+    protected function checkCodeMatch($code): bool
     {
-        return Carbon::now()->diffInMinutes($this->user->getVerifyExpired()) < 10;
-    }
-
-    protected function setUser($code)
-    {
-        if (User::where('verify_code', $code)->count() == 1) {
-            $user =  User::where('verify_code', $code)->first();
-            if($user instanceof HasVerifySource){
-                $this->user = $user;
-            }
-        }
+        return $this->user->getVerifyCode() == $code;
     }
 }

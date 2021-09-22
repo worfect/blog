@@ -13,6 +13,8 @@ interface HasVerifySource
 
     public function setVerifyExpired();
 
+    public function checkVerifyExpired();
+
     public function getVerifyExpired();
 
     public function delVerifyExpired();
@@ -20,4 +22,6 @@ interface HasVerifySource
     public function isVerified();
 
     public function verify();
+
+    public function unverified();
 }

@@ -24,7 +24,6 @@ class User extends Authenticatable implements HasVerifySource, HasEmail, HasPhon
     public const ROLE_MODERATOR = 'moderator';
     public const ROLE_ADMIN = 'admin';
 
-
     /*************************************/
 
     public function registerUser(array $data)
@@ -69,6 +68,25 @@ class User extends Authenticatable implements HasVerifySource, HasEmail, HasPhon
                 or $this->role == self::ROLE_MODERATOR;
     }
 
+    public function blog()
+    {
+        return $this->hasMany("App\Models\Blog");
+    }
+    public function gallery()
+    {
+        return $this->hasMany("App\Models\Gallery");
+    }
+    public function news()
+    {
+        return $this->hasMany("App\Models\News");
+    }
+    public function comment()
+    {
+        return $this->hasMany("App\Models\Comment");
+    }
 
-
+    public function attitude()
+    {
+        return $this->hasMany('App\Models\Attitude');
+    }
 }

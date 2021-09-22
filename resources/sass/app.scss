@@ -27,14 +27,15 @@
 @import "layouts/search";
 @import "menus/user-menu";
 @import "menus/navigation-menu";
-@import "layouts/resetPass";
 @import "layouts/notification";
-
-@import "layouts/register";
-@import "layouts/login";
 @import "layouts/footer";
-@import "layouts/social";
 
+@import "auth/social";
+@import "auth/register";
+@import "auth/login";
+@import "auth/reset";
+@import "auth/change";
+@import "auth/confirm";
 
 @import "home/home";
 @import "home/banner";
@@ -59,10 +60,17 @@
 @import "search/menu";
 @import "search/result";
 
-
+@import "profile/profile";
+@import "profile/info";
+@import "profile/edit";
 
 body{
     background-color: $background;
+    padding-right: 0 !important;
+}
+// тупенько против скролл-паддинга при фэйде
+footer{
+    padding-right: 0 !important;
 }
 
 .container{

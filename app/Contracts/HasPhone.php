@@ -17,4 +17,13 @@ interface HasPhone
     public function phoneConfirmed(): bool;
 
     public function confirmPhone();
+
+    public function updatePhone(int $phone): bool;
+
+    public function enableMultiFactor(): bool;
+
+    public function disableMultiFactor(): bool;
+
+    public function isMultiFactor(): bool;
+
 }

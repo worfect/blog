@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
-class CommentController extends PageController
+class CommentController extends ContentController
 {
     public function __construct(Comment $comment)
     {
@@ -41,7 +41,6 @@ class CommentController extends PageController
         } catch (AuthorizationException $e) {
             return notice()->warning("Only verified users can add comments")->json();
         }
-
 
         $ModelName = 'App\\Models\\' . Str::studly($request->get('type'));
         $currentModel = new $ModelName;

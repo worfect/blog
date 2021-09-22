@@ -52,7 +52,6 @@ class RegisterController extends Controller
             event(new RequestVerification($user, 'phone'));
         }
 
-        return redirect($this->redirectPath());
+        return redirect($this->redirectPath())->withCookie('id', $user->id, 10);
     }
-
 }

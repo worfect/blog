@@ -50,3 +50,15 @@ $(document).ready(function () {
         slidesToScroll: 3,
     });
 });
+
+$(document).ready(function () {
+    $('.banner-profile').slick({
+        arrows: false,
+        autoplay: true,
+        autoplaySpeed: 8000,
+        speed: 2500,
+        pauseOnHover: false,
+        pauseOnFocus: false,
+        draggable: false,
+    });
+});

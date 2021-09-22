@@ -2,8 +2,10 @@
 namespace Tests\functional\Auth;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Codeception\Example;
 use FunctionalTester;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterCest
 {
@@ -42,7 +44,7 @@ class RegisterCest
 
         $this->seeRecord($I, $example);
 
-        $I->seeCurrentUrlEquals('/verify');
+        $this->verify($I, $example);
 
         $this->testRedirect($I);
     }
@@ -121,5 +123,63 @@ class RegisterCest
     {
         $I->amOnPage('/register');
         $I->seeCurrentUrlEquals('/');
+    }
+
+    protected function verify(FunctionalTester $I, Example $example)
+    {
+        $I->seeInCurrentUrl('/verify');
+
+        $this->verifyResend($I, $example);
+        $this->verifyErrors($I);
+
+        $user = Auth::user();
+
+        $I->submitForm('#verify-form', ['code' => $user->getVerifyCode()], 'verifySubmitButton');
+
+        $I->seeInCurrentUrl('');
+        $I->see(trans('verify.success'));
+        $I->seeAuthentication();
+
+        $user = Auth::user();
+
+        $I->assertNull($user->getVerifyCode());
+        $I->assertNull($user->getVerifyExpired());
+        $I->assertEquals($user->status, User::STATUS_ACTIVE);
+
+        if($example[0] == 'email'){
+            $I->assertTrue((bool) $user->emailConfirmed());
+        }
+        if($example[0] == 'phone'){
+            $I->assertTrue((bool) $user->phoneConfirmed());
+        }
+    }
+
+    protected function verifyResend(FunctionalTester $I, Example $example)
+    {
+        $user = Auth::user();
+        $oldExp = $user->getVerifyExpired();
+        $oldCode = $user->getVerifyCode();
+
+        $I->submitForm('#resend-form', [], 'resendSubmitButton');
+
+        $user = Auth::user();
+
+        if($example[0] == 'phone'){
+            $I->assertTrue((bool) preg_match("/^P-[0-9]{5}$/", $user->getVerifyCode()));
+        }
+        if($example[0] == 'email'){
+            $I->assertTrue((bool) preg_match("/^E-[0-9]{5}$/", $user->getVerifyCode()));
+        }
+        $I->assertNotEquals($oldCode, $user->getVerifyCode());
+
+        $I->assertNotEquals($user->getVerifyExpired(), $oldExp);
+    }
+
+    protected function verifyErrors(FunctionalTester $I)
+    {
+        $I->submitForm('#verify-form', ['code' => 'G-111111'], 'verifySubmitButton');
+
+        $I->seeInCurrentUrl('/verify');
+        $I->see(trans('verify.error'));
     }
 }

@@ -2,12 +2,22 @@
 
 namespace App\Models;
 
+use App\Events\ContentDeleted;
+use App\Events\ContentRestored;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Comment extends Model
 {
+    use SoftDeletes;
+
     public $relations = ['commentable', 'user', 'attitude'];
     public $name = 'comment';
+
+    protected $dispatchesEvents = [
+        'deleted' => ContentDeleted::class,
+        'restored' => ContentRestored::class,
+    ];
 
     public function commentable()
     {

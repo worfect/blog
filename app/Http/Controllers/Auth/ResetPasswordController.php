@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Auth\Verifier\Verifier;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PasswordResetRequest;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -36,11 +38,12 @@ class ResetPasswordController extends Controller
     public function reset(PasswordResetRequest $request)
     {
         $password = $request->get('password');
-
-        $verifier = new Verifier();
-        if($verifier->verifyUser($request->get('code'))){
-            $this->resetPassword($verifier->getVerifiedUser(), $password);
-            return $this->sendResetResponse();
+        if($user = User::find(Cookie::get('id'))){
+            $verifier = new Verifier($user);
+            if($verifier->verifyUser($request->get('code'))){
+                $this->resetPassword($verifier->getVerifiedUser(), $password);
+                return $this->sendResetResponse();
+            }
         }
         return $this->sendResetFailedResponse();
     }
@@ -93,7 +96,7 @@ class ResetPasswordController extends Controller
      */
     protected function sendResetFailedResponse()
     {
-        notice(trans('passwords.error'), 'danger');
+        notice(trans('passwords.reset_error'), 'danger');
         return redirect(route('password.reset'));
     }
 }

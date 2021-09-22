@@ -30,6 +30,11 @@ trait VerifySource
         $this->save();
     }
 
+    public function checkVerifyExpired(): bool
+    {
+        return $this->expired_token && (Carbon::now()->diffInMinutes($this->getVerifyExpired()) < 10);
+    }
+
     public function getVerifyExpired()
     {
         return $this->expired_token;
@@ -49,5 +54,10 @@ trait VerifySource
     public function isVerified()
     {
         return $this->status == self::STATUS_ACTIVE;
+    }
+
+    public function unverified()
+    {
+        $this->status = self::STATUS_WAIT;
     }
 }

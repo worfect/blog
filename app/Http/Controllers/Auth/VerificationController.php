@@ -5,20 +5,20 @@ namespace App\Http\Controllers\Auth;
 use App\Contracts\HasVerifySource;
 use App\Http\Controllers\Auth\Verifier\Verifier;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Foundation\Auth\VerifiesEmails;
+use Illuminate\Foundation\Auth\RedirectsUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class VerificationController extends Controller
 {
-    use VerifiesEmails;
+    use RedirectsUsers;
 
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('signed')->only('verify');
-        $this->middleware('throttle:6,1')->only('verify', 'resend');
+        $this->middleware('throttle:6,1')->only('verification', 'resend');
     }
     /**
      * Show the verification page.
@@ -28,9 +28,14 @@ class VerificationController extends Controller
      */
     public function show(Request $request)
     {
-        return $request->user()->getVerifyCode()
-            ? view('auth.verify')
-            : redirect($this->redirectPath());
+        $user = User::findOrFail($request->cookie('id'));
+
+        if($user->checkVerifyExpired()){
+            return view('auth.verify');
+        }
+
+        notice(trans('verify.error'), 'danger');
+        return redirect($this->redirectPath());
     }
 
     /**
@@ -41,8 +46,15 @@ class VerificationController extends Controller
      */
     public function verification(Request $request)
     {
-        $verifier = new Verifier();
+        $user = User::findOrFail($request->cookie('id'));
+        $verifier = new Verifier($user);
+
         if($verifier->verifyUser($request->get('code'))){
+
+            if(!Auth::check()){
+                Auth::login($user);
+            }
+
             notice(trans('verify.success'), 'success');
             return redirect($this->redirectPath());
         }
@@ -61,19 +73,19 @@ class VerificationController extends Controller
 
     public function resend(Request $request)
     {
-        $user = $request->user();
+        $user = User::findOrFail($request->cookie('id'));
+
         if($user instanceof HasVerifySource){
-            $verifier = new Verifier();
-            $verifier->resendVerifyCode($user);
+            (new Verifier($user))->resendVerifyCode();
             notice(trans('verify.resend'), 'info');
         }
 
-        return back();
+        return back()->withCookie('id', $user->id, 10);
     }
 
     public function redirectTo()
     {
-        return RouteServiceProvider::PROFILE . '/' . \request()->user()->id;
+        return RouteServiceProvider::HOME;
     }
 }
 

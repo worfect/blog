@@ -3,7 +3,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Http\Requests\ImageAddRequest;
 use App\Http\Requests\ImageUpdateRequest;
 use App\Models\Gallery;
@@ -13,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class GalleryController extends PageController
+class GalleryController extends ContentController
 {
     public function __construct(Gallery $gallery)
     {
@@ -45,7 +44,7 @@ class GalleryController extends PageController
 
     public function show(CommentController $comment, Request $request)
     {
-        $this->viewCount($request->get('id'));
+        $this->increaseViewsCount($request->get('id'));
 
         $this->collections['gallery'] = $this->collection()
                                                 ->byId($request->get('id'))
@@ -137,6 +136,7 @@ class GalleryController extends PageController
 
     /**
      * @param ImageUpdateRequest $request
+     * @return mixed
      */
     public function update(ImageUpdateRequest $request)
     {
@@ -150,6 +150,8 @@ class GalleryController extends PageController
 
         $post->title = $request->title;
         $post->text = $request->text;
+
+        $post->categories()->detach();
         $post->categories()->attach($request->categories);
 
         $post->save();
@@ -171,7 +173,7 @@ class GalleryController extends PageController
             return notice()->warning("You do not have enough rights to perform this operation")->html();
         }
 
-        $this->model::destroy($request->get('id'));
+        $this->model::find($request->get('id'))->delete();
 
         if(!is_null($this->model::find($request->get('id')))){
             return notice()->warning("Something went wrong")->html();
@@ -200,7 +202,7 @@ class GalleryController extends PageController
         }
     }
 
-    public function refresh(GalleryController $gallery, Request $request)
+    public function refresh(GalleryController $gallery)
     {
         $config = config('site_settings.gallery.gallery');
         $this->collections['gallery'] = $gallery->collection($config)

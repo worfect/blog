@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\Services\Sms;
 
 
-class SmsC implements SmsService
+class SmsPilot implements SmsService
 {
     const URL_API = "https://smspilot.ru/api.php";
 
@@ -13,7 +13,7 @@ class SmsC implements SmsService
 
     public function __construct()
     {
-        $this->api_token = env('SMSC_KEY');
+        $this->api_token = env('SMSPILOT_KEY');
     }
 
     public function send($number, $text): string

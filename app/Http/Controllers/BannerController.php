@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Layouts\Banner;
 use Illuminate\Http\Request;
 
-class BannerController extends PageController
+class BannerController extends ContentController
 {
     public function __construct(Banner $banner)
     {

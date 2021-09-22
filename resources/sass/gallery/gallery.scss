@@ -16,13 +16,34 @@
             flex-wrap: wrap;
             align-items: baseline;
             .gallery-card-deleted{
+                border-radius: 0.25em;
+                background-color: $secondary;
+                color: $primary;
+                margin-bottom: 1em;
+                max-width: 300px;
                 .card-img-overlay {
                     opacity: 0.5 !important;
                     background-color: $error !important;
-
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-around;
+                    align-items: center;
                     &:hover {
                         opacity: 0.9 !important;
                         cursor: pointer !important;
+                    }
+                    .card-text{
+                        color: $primary;
+                        text-align: center;
+                    }
+                    .icon{
+                        color: $primary;
+                    }
+                    .card-text-deleted{
+                        display: none;
+                    }
+                    .icon-deleted{
+                        display: none;
                     }
                 }
             }

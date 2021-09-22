@@ -28,6 +28,9 @@ Route::group(['middleware'=>'generate.menus'], function(){
     Route::get('password/reset', 'Auth\ResetPasswordController@showPasswordResetForm')->name('password.reset.form');
     Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.reset')->middleware('throttle:10,1');
 
+    Route::get('password/change', 'Auth\ChangePasswordController@showPasswordChangeForm')->name('password.change.form');
+    Route::post('password/change', 'Auth\ChangePasswordController@change')->name('password.change')->middleware('throttle:10,1');
+
     Route::get('password/conform', 'Auth\ConfirmPasswordController@showConfirmForm')->name('password.confirm.form');
     Route::post('password/conform', 'Auth\ConfirmPasswordController@confirm')->name('password.confirm');
 
@@ -35,7 +38,7 @@ Route::group(['middleware'=>'generate.menus'], function(){
      * Gallery.
      */
     Route::get('gallery', 'GalleryController@index')->name('gallery.index');
-    Route::get('gallery/show', 'GalleryController@show')->middleware('only.ajax');
+    Route::get('gallery/show', 'GalleryController@show')->middleware('only.ajax')->name('gallery.show');
     Route::get('gallery/create', 'GalleryController@create')->middleware('only.ajax');
     Route::get('gallery/edit', 'GalleryController@edit')->middleware('only.ajax');
     Route::get('gallery/delete', 'GalleryController@destroy')->middleware('only.ajax');
@@ -47,14 +50,21 @@ Route::group(['middleware'=>'generate.menus'], function(){
     /**
      * Profile.
      */
+    Route::get('profile/{id}#user-gallery', 'ProfileController@index')->name('profile.gallery');  #???
+    Route::get('profile/{id}/multi-factor/{action}', 'ProfileController@multiFactorRequest')->name('profile.multi-factor')->middleware('password.confirm');
+    Route::get('profile/{id}/verify/{source}', 'ProfileController@verifyRequest')->name('profile.verify');
+    Route::get('profile/{id}/edit', 'ProfileController@edit')->name('profile.edit');
+    Route::get('profile/{id}/update/refresh', 'ProfileController@refresh')->middleware('only.ajax');
+    Route::post('profile/{id}/update', 'ProfileController@update')->name('profile.update')->middleware('password.confirm');
+    Route::get('profile/{id}', 'ProfileController@index')->name('profile');
     Route::get('profile', function (){
         if($id = Auth::id()){
             return redirect("profile/$id");
         }
         return redirect(\route('home'));
-    });
-    Route::get('profile/{id}', 'ProfileController@index')->name('profile');
-    Route::get('/profile/{id}/gallery', 'ProfilePage@gallery')->name('profile.gallery');
+    })->name('profile.default');
+
+
 
     /**
      * Comment.
@@ -78,11 +88,14 @@ Route::group(['middleware'=>'generate.menus'], function(){
 
 
     Route::resources([
-        'blog' => 'Site\BlogPage',
+        'blog' => 'BlogController',
     ]);
 
     Route::resource('portfolio', 'Site\PortfolioPage');
     Route::resource('news', 'Site\NewsPage');
+
+    Route::get('comment/show', 'CommentController@show')->name('comment.show');
+
 });
 
 

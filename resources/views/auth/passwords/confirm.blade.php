@@ -26,7 +26,7 @@
                                 @enderror
 
                             </div>
-                            <div class="col-md-8 offset-md-4">
+                            <div>
                                 <button type="submit" class="btn btn-primary"  name="ConfirmPasswordSubmitButton">
                                     {{ __('Confirm Password') }}
                                 </button>
