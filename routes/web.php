@@ -37,15 +37,15 @@ Route::group(['middleware'=>'generate.menus'], function(){
     /**
      * Gallery.
      */
-    Route::get('gallery', 'GalleryController@index')->name('gallery.index');
-    Route::get('gallery/show', 'GalleryController@show')->middleware('only.ajax')->name('gallery.show');
-    Route::get('gallery/create', 'GalleryController@create')->middleware('only.ajax');
-    Route::get('gallery/edit', 'GalleryController@edit')->middleware('only.ajax');
-    Route::get('gallery/delete', 'GalleryController@destroy')->middleware('only.ajax');
-    Route::get('gallery/restore', 'GalleryController@restore')->middleware('only.ajax');
-    Route::post('gallery/update', 'GalleryController@update')->middleware('only.ajax');
-    Route::post('gallery/refresh', 'GalleryController@refresh')->middleware('only.ajax');
-    Route::post('gallery', 'GalleryController@store');
+    Route::get('gallery', 'Content\GalleryController@index')->name('gallery.index');
+    Route::get('gallery/show', 'Content\GalleryController@show')->middleware('only.ajax')->name('gallery.show');
+    Route::get('gallery/create', 'Content\GalleryController@create')->middleware('only.ajax');
+    Route::get('gallery/edit', 'Content\GalleryController@edit')->middleware('only.ajax');
+    Route::get('gallery/delete', 'Content\GalleryController@destroy')->middleware('only.ajax');
+    Route::get('gallery/restore', 'Content\GalleryController@restore')->middleware('only.ajax');
+    Route::post('gallery/update', 'Content\GalleryController@update')->middleware('only.ajax');
+    Route::post('gallery/refresh', 'Content\GalleryController@refresh')->middleware('only.ajax');
+    Route::post('gallery', 'Content\GalleryController@store');
 
     /**
      * Profile.
@@ -64,24 +64,35 @@ Route::group(['middleware'=>'generate.menus'], function(){
         return redirect(\route('home'));
     })->name('profile.default');
 
+    Route::get('admin/users', 'Admin\AdminController@showUsers')->name('admin.users');
+    Route::get('admin/user/{id}/edit', 'Admin\AdminController@showEditUserForm')->name('admin.user.edit');
+    Route::get('admin/user/{id}/delete', 'Admin\AdminController@deleteUser')->name('admin.user.delete');
+    Route::get('admin/user/{id}/block', 'Admin\AdminController@blockUser')->name('admin.user.block');
+    Route::get('admin/user/{id}/unblock', 'Admin\AdminController@unblockUser')->name('admin.user.unblock');
+    Route::get('admin/user/{id}/activate', 'Admin\AdminController@activateUser')->name('admin.user.activate');
+    Route::get('admin/user/{id}/deactivate', 'Admin\AdminController@deactivateUser')->name('admin.user.deactivate');
 
+    Route::get('admin/comments', 'Admin\AdminController@showComments')->name('admin.comments');
+    Route::get('admin/settings', 'Admin\AdminController@settings')->name('admin.settings');
+    Route::get('admin/content', 'Admin\AdminController@content')->name('admin.content');
+    Route::get('admin/services', 'Admin\AdminController@services')->name('admin.services');
 
     /**
      * Comment.
      */
-    Route::post('comment', 'CommentController@store')->middleware('only.ajax');
-    Route::post('comment/refresh', 'CommentController@refresh')->middleware('only.ajax');
+    Route::post('comment', 'Content\CommentController@store')->middleware('only.ajax');
+    Route::post('comment/refresh', 'Content\CommentController@refresh')->middleware('only.ajax');
 
     /**
      * Search.
      */
-    Route::get('search', 'SearchController@index')->name('search');
-    Route::get('qsearch', 'SearchController@quickSearch')->middleware('only.ajax');
+    Route::get('search', 'Content\SearchController@index')->name('search');
+    Route::get('qsearch', 'Content\SearchController@quickSearch')->middleware('only.ajax');
 
     /**
      * Home.
      */
-    Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/', 'Content\HomeController@index')->name('home');
     Route::redirect('/home', '/');
 
     Route::post('rating', 'RatingController@index')->middleware('only.ajax');
@@ -94,7 +105,7 @@ Route::group(['middleware'=>'generate.menus'], function(){
     Route::resource('portfolio', 'Site\PortfolioPage');
     Route::resource('news', 'Site\NewsPage');
 
-    Route::get('comment/show', 'CommentController@show')->name('comment.show');
+    Route::get('comment/show', 'Content\CommentController@show')->name('comment.show');
 
 });
 

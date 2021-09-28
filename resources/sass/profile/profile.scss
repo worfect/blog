@@ -179,16 +179,30 @@
 
         }
         aside{
-            border-radius: 0.25em;
             margin-left: 0.5em;
             padding: 0;
-            background-color: $secondary;
-            color: $primary;
+            display: flex;
+            flex-direction: column;
             .user-info-table{
+                border-radius: 0.25em;
+                background-color: $secondary;
+                color: $primary;
                 border: 3px solid $primary;
                 border-collapse: collapse;
                 td,th{
                     border: 3px solid $primary;
+                }
+            }
+            .admin-menu-btn{
+                border-radius: 0.25em;
+                background-color: $secondary;
+                color: $primary;
+                margin-top: 1em;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                button{
+                    margin: 0.5em;
                 }
             }
         }

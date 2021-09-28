@@ -1,25 +1,27 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Content;
 
-use App\Models\Portfolio;
+use App\Models\Blog;
 use Illuminate\Http\Request;
 
-class PortfolioController extends ContentController
+class BlogController extends ContentController
 {
-    public function __construct(Portfolio $portfolio)
+
+    public function __construct(Blog $blog)
     {
-        $this->model = $portfolio;
+        $this->model = $blog;
     }
+
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return array|\Illuminate\Http\Response|string
      */
     public function index()
     {
-        //
+        return $this->renderOutput('blog.blog');
     }
 
     /**

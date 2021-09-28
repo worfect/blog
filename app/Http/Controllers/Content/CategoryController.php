@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Content;
 
-use App\Models\News;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
-class NewsController extends ContentController
+class CategoryController extends ContentController
 {
-    public function __construct(News $news)
+    public function __construct(Category $category)
     {
-        $this->model = $news;
+        $this->model = $category;
     }
+
     /**
      * Display a listing of the resource.
      *

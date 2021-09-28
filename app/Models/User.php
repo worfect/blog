@@ -19,12 +19,13 @@ class User extends Authenticatable implements HasVerifySource, HasEmail, HasPhon
 
     public const STATUS_WAIT = 'wait';
     public const STATUS_ACTIVE = 'active';
+    public const STATUS_BANNED = 'banned';
 
     public const ROLE_USER = 'user';
     public const ROLE_MODERATOR = 'moderator';
     public const ROLE_ADMIN = 'admin';
 
-    /*************************************/
+    protected $hidden = ['password'];
 
     public function registerUser(array $data)
     {
@@ -62,10 +63,19 @@ class User extends Authenticatable implements HasVerifySource, HasEmail, HasPhon
         return $user;
     }
 
+    public function isBanned(): bool
+    {
+        return $this->status == self::STATUS_BANNED;
+    }
+
     public function isAdministrator(): bool
     {
-        return $this->role == self::ROLE_ADMIN
-                or $this->role == self::ROLE_MODERATOR;
+        return $this->role == self::ROLE_ADMIN;
+    }
+
+    public function isModerator(): bool
+    {
+        return  $this->role == self::ROLE_MODERATOR;
     }
 
     public function blog()

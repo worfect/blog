@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Content;
 
-use App\Models\Category;
+use App\Models\Layouts\Banner;
 use Illuminate\Http\Request;
 
-class CategoryController extends ContentController
+class BannerController extends ContentController
 {
-    public function __construct(Category $category)
+    public function __construct(Banner $banner)
     {
-        $this->model = $category;
+        $this->model = $banner;
     }
 
     /**

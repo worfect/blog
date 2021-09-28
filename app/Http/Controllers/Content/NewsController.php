@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Content;
 
-use App\Models\Layouts\Banner;
+use App\Models\News;
 use Illuminate\Http\Request;
 
-class BannerController extends ContentController
+class NewsController extends ContentController
 {
-    public function __construct(Banner $banner)
+    public function __construct(News $news)
     {
-        $this->model = $banner;
+        $this->model = $news;
     }
-
     /**
      * Display a listing of the resource.
      *

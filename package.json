@@ -29,6 +29,9 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "datatables.net": "^1.11.3",
+        "datatables.net-bs4": "^1.11.3",
+        "datatables.net-dt": "^1.11.3",
         "font-awesome": "^4.7.0",
         "jquery-ui": "^1.12.1"
     }

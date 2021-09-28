@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Content;
 
 use App\Http\Requests\CommentAddRequest;
 use App\Models\Comment;
