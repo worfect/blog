@@ -10,6 +10,7 @@
 
     @include('profile.admin.panel')
 
+
     <div class="users-table">
         <table class="table table-striped table-bordered" id="admin-users-table">
             <thead>
@@ -29,6 +30,7 @@
             </thead>
             <tbody>
             @foreach($users as $user)
+
                 <tr @if($user->status ==  \App\Models\User::STATUS_DELETED)class="deleted"@endif>
                     <td>{{ $user->id }}</td>
                     <td>{{ $user->role }}</td>
@@ -54,7 +56,6 @@
                             <td></td>
                             <td><a href="{{ route('admin.user.restore', ['id' => $user->id]) }}"><button class="btn btn-primary">Restore</button></a></td>
                          @endif
-
                 </tr>
             @endforeach
         </table>

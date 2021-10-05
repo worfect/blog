@@ -1,0 +1,92 @@
+version: '3.3'
+
+services:
+
+  app:
+    container_name: app
+    build:
+      context: ./docker/fpm
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - db
+    environment:
+      DB_PORT: 3306
+      DB_HOST: db
+      COMPOSER_MEMORY_LIMIT: -1
+      PHP_IDE_CONFIG: serverName=APP
+
+  cli:
+    container_name: cli
+    build:
+      context: ./docker/cli
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - db
+    environment:
+      DB_PORT: 3306
+      DB_HOST: db
+      COMPOSER_MEMORY_LIMIT: -1
+      PHP_IDE_CONFIG: serverName=CLI
+    tty: true
+    stdin_open: true
+
+  webserver:
+    container_name: webserver
+    build:
+      context: ./docker/nginx
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - app
+#      - db
+    ports:
+      - "81:81"
+    tty: true
+    stdin_open: true
+
+  db:
+    container_name: db
+    restart: always
+    build:
+      context: ./docker/mariadb
+    volumes:
+      - ./docker/mariadb/db-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+
+  node:
+    container_name: node
+    build:
+      context: ./docker/node
+    volumes:
+      - ./:/var/www
+    working_dir: /var/www
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    tty: true
+    stdin_open: true
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: db
+      MYSQL_USERNAME: root
+      MYSQL_ROOT_PASSWORD: root
+    depends_on:
+      - db
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 122.122.221.0/28
