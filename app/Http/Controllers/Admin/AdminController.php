@@ -39,7 +39,26 @@ class AdminController extends Controller
 
     public function deleteUser($id)
     {
+        User::destroy($id);
 
+        if(!is_null(User::find($id))){
+            notice("Something went wrong", 'warning');
+            return redirect()->back();
+        }
+        notice("User deleted", 'success');
+        return redirect()->back();
+    }
+
+    public function restoreUser($id)
+    {
+        User::withTrashed()->find($id)->restore();
+
+        if(!is_null(User::find($id))){
+            notice("User restored", 'success');
+            return redirect()->back();
+        }
+        notice("Something went wrong", 'warning');
+        return redirect()->back();
     }
 
     public function blockUser($id)

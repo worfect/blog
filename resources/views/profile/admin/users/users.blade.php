@@ -29,7 +29,7 @@
             </thead>
             <tbody>
             @foreach($users as $user)
-                <tr>
+                <tr @if(!is_null($user->deleted_at)) class="user-list-deleted" @endif>
                     <td>{{ $user->id }}</td>
                     <td>{{ $user->role }}</td>
                     <td><a href="{{ route('profile' , [ 'id' => $user->id ]) }}">{{ $user->screen_name }}</a></td>
@@ -43,9 +43,9 @@
                     @elseif($user->status ==  \App\Models\User::STATUS_ACTIVE)
                         <a href="{{ route('admin.user.deactivate', ['id' => $user->id]) }}"><button class="btn btn-primary">Deactivate</button></a>
                     @endif</td>
-                    <td>@if($user->status !=  \App\Models\User::STATUS_BANNED)
+                    <td>@if($user->status !=  \App\Models\User::STATUS_BANNED and $user->status != \App\Models\User::STATUS_DELETED )
                         <a href="{{ route('admin.user.block', ['id' => $user->id]) }}"><button class="btn btn-primary">Block</button></a>
-                    @else
+                    @elseif($user->status != \App\Models\User::STATUS_DELETED)
                         <a href="{{ route('admin.user.unblock', ['id' => $user->id]) }}"><button class="btn btn-primary">Unblock</button></a>
                     @endif</td>
                     <td><a href="{{ route('admin.user.edit', ['id' => $user->id]) }}"><button class="btn btn-primary" id="">Edit</button></a></td>

@@ -37,7 +37,12 @@ class ProfileController extends Controller
             abort(403);
         }
 
-        $user = User::findOrFail($id);
+        try {
+            $user = User::findOrFail($id);
+        } catch (AuthorizationException $e) {
+            notice("User not found", 'warning');
+        }
+
         if($email = $request->get('email')){
             $user->updateEmail($email);
         }

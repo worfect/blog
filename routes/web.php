@@ -67,6 +67,7 @@ Route::group(['middleware'=>'generate.menus'], function(){
     Route::get('admin/users', 'Admin\AdminController@showUsers')->name('admin.users');
     Route::get('admin/user/{id}/edit', 'Admin\AdminController@showEditUserForm')->name('admin.user.edit');
     Route::get('admin/user/{id}/delete', 'Admin\AdminController@deleteUser')->name('admin.user.delete');
+    Route::get('admin/user/{id}/restore', 'Admin\AdminController@restoreUser')->name('admin.user.restore');
     Route::get('admin/user/{id}/block', 'Admin\AdminController@blockUser')->name('admin.user.block');
     Route::get('admin/user/{id}/unblock', 'Admin\AdminController@unblockUser')->name('admin.user.unblock');
     Route::get('admin/user/{id}/activate', 'Admin\AdminController@activateUser')->name('admin.user.activate');

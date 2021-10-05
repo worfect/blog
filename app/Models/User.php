@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Contracts\HasEmail;
 use App\Contracts\HasPhone;
 use App\Contracts\HasVerifySource;
+use App\Events\UserDeleted;
+use App\Events\UserRestored;
 use App\Traits\Email;
 use App\Traits\Phone;
 use App\Traits\VerifySource;
@@ -17,9 +19,15 @@ class User extends Authenticatable implements HasVerifySource, HasEmail, HasPhon
 {
     use Notifiable, SoftDeletes, VerifySource, Email, Phone;
 
+    protected $dispatchesEvents = [
+        'restored' => UserRestored::class,
+        'deleted' => UserDeleted::class,
+    ];
+
     public const STATUS_WAIT = 'wait';
     public const STATUS_ACTIVE = 'active';
     public const STATUS_BANNED = 'banned';
+    public const STATUS_DELETED = 'deleted';
 
     public const ROLE_USER = 'user';
     public const ROLE_MODERATOR = 'moderator';
@@ -61,6 +69,11 @@ class User extends Authenticatable implements HasVerifySource, HasEmail, HasPhon
         $user->save();
 
         return $user;
+    }
+
+    public function isDeleted(): bool
+    {
+        return $this->status == self::STATUS_DELETED;
     }
 
     public function isBanned(): bool
