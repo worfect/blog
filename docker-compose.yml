@@ -38,11 +38,13 @@ services:
       context: ./docker/nginx
     volumes:
       - ./:/var/www
+      - ./docker/nginx/ssl:/etc/nginx/ssl
     depends_on:
       - app
-#      - db
+    #      - db
     ports:
       - "81:81"
+      - "443:443"
     tty: true
     stdin_open: true
 

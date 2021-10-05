@@ -5,6 +5,7 @@
 /vendor
 /docker/mariadb/db-data
 /docker/nginx/logrotate
+/docker/nginx/ssl
 /.idea
 .env
 .env.testing
