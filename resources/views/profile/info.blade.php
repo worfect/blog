@@ -16,11 +16,11 @@
         </tr>
         <tr>
             <td>Rating</td>
-            <td>{{ $item->comment->sum('rating') + $item->blog->sum('rating') + $item->gallery->sum('rating') }}</td>
+            <td>{{ $item->comments->sum('rating') + $item->blog->sum('rating') + $item->gallery->sum('rating') }}</td>
         </tr>
         <tr>
             <td>Comments</td>
-            <td>{{ count($item->comment) }}</td>
+            <td>{{ count($item->comments) }}</td>
         </tr>
         <tr>
             <td>Blog</td>

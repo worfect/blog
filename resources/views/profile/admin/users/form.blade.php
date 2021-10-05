@@ -39,24 +39,22 @@
     </form>
 
     <div class="settings-profile px-4 py-3" id="settings-profile" >
-        @if($item->status ==  \App\Models\User::STATUS_DELETED) DELETED @endif
-        @if($item->status == \App\Models\User::STATUS_WAIT)
-            <a href="{{ route('admin.user.activate', ['id' => $item->id]) }}"><button class="btn btn-primary">Activate</button></a>
-        @elseif($item->status ==  \App\Models\User::STATUS_ACTIVE)
-            <a href="{{ route('admin.user.deactivate', ['id' => $item->id]) }}"><button class="btn btn-primary">Deactivate</button></a>
-        @endif
-        @if($item->status !=  \App\Models\User::STATUS_BANNED and $item->status !=  \App\Models\User::STATUS_DELETED)
-            <a href="{{ route('admin.user.block', ['id' => $item->id]) }}"><button class="btn btn-primary">Block</button></a>
-        @elseif($item->status !=  \App\Models\User::STATUS_DELETED)
-            <a href="{{ route('admin.user.unblock', ['id' => $item->id]) }}"><button class="btn btn-primary">Unblock</button></a>
-        @endif
-
         @if($item->status !=  \App\Models\User::STATUS_DELETED)
+            @if($item->status == \App\Models\User::STATUS_WAIT)
+                <a href="{{ route('admin.user.activate', ['id' => $item->id]) }}"><button class="btn btn-primary">Activate</button></a>
+            @elseif($item->status ==  \App\Models\User::STATUS_ACTIVE)
+                <a href="{{ route('admin.user.deactivate', ['id' => $item->id]) }}"><button class="btn btn-primary">Deactivate</button></a>
+            @endif
+            @if($item->status !=  \App\Models\User::STATUS_BANNED)
+                <a href="{{ route('admin.user.block', ['id' => $item->id]) }}"><button class="btn btn-primary">Block</button></a>
+            @else
+                <a href="{{ route('admin.user.unblock', ['id' => $item->id]) }}"><button class="btn btn-primary">Unblock</button></a>
+            @endif
             <a href="{{ route('admin.user.delete', ['id' => $item->id]) }}"><button class="btn btn-primary">Delete</button></a>
+            <a href="{{ route('profile', ['id' => $item->id]) }}"><button class="btn btn-primary">Profile</button></a>
         @else
             <a href="{{ route('admin.user.restore', ['id' => $item->id]) }}"><button class="btn btn-primary">Restore</button></a>
         @endif
-        <a href="{{ route('profile', ['id' => $item->id]) }}"><button class="btn btn-primary">Profile</button></a>
         <a href="{{ url()->previous() }}"><button class="btn btn-primary">Back</button></a>
     </div>
 @endforeach

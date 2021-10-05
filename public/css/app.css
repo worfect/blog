@@ -21402,10 +21402,6 @@ footer .duplicate-navigate .footer-item {
   justify-content: space-between;
 }
 
-#admin-users-table tbody .user-list-deleted {
-  background-color: #ef8354;
-}
-
 body {
   background-color: #dfdcfa;
   padding-right: 0 !important;

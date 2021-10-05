@@ -13,7 +13,8 @@ class ProfileController extends Controller
 {
     public function index($id)
     {
-        return view('profile.profile', ['user' =>  User::with('blog', 'gallery', 'comment', 'attitude')
+        User::findOrFail($id);
+        return view('profile.profile', ['user' =>  User::with('blog', 'gallery', 'comments', 'attitude')
                                                             ->where('id', $id)
                                                             ->get()]);
     }

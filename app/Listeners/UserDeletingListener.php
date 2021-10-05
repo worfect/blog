@@ -2,22 +2,23 @@
 
 namespace App\Listeners;
 
-use App\Events\UserRestored;
+use App\Events\UserDeleting;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
-class UserRestoredListener
+class UserDeletingListener
 {
     /**
      * Handle the event.
      *
-     * @param UserRestored $event
+     * @param UserDeleting $event
      * @return void
      */
-    public function handle(UserRestored $event)
+    public function handle(UserDeleting $event)
     {
         $user = $event->model;
-        $user->status = USER::STATUS_WAIT;
+        $user->status = USER::STATUS_DELETED;
         $user->save();
 
         $names = ['gallery','blog','attitudes','news','comments'];
@@ -26,19 +27,18 @@ class UserRestoredListener
             if (method_exists($user, $name)) {
                 $contentModel = $user->$name()->getRelated();
                 if (method_exists($contentModel, 'comments')) {
-                    $contents = $contentModel->withTrashed()->where('user_id', $user->id)->get();
+                    $contents = $contentModel->where('user_id', $user->id)->get();
                     foreach($contents as $content){
-                        $content->comments()->restore();
-                        $content->attitude()->restore();
-
                         $id = $content->comments()->get()->modelKeys();
                         DB::table('attitudes')->where('attitudeable_type', 'App\Models\Comment')
                                                     ->whereIn('attitudeable_id', $id)
-                                                    ->whereNotNull ('deleted_at')
-                                                    ->update(['deleted_at' => null]);
+                                                    ->update(['deleted_at' => Carbon::now()]);
+
+                        $content->comments()->delete();
+                        $content->attitude()->delete();
                     }
                 }
-                $user->$name()->restore();
+                $user->$name()->delete();
             }
         }
     }

@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Contracts\HasEmail;
 use App\Contracts\HasPhone;
 use App\Contracts\HasVerifySource;
-use App\Events\UserDeleted;
+use App\Events\UserDeleting;
 use App\Events\UserRestored;
 use App\Traits\Email;
 use App\Traits\Phone;
@@ -20,8 +20,8 @@ class User extends Authenticatable implements HasVerifySource, HasEmail, HasPhon
     use Notifiable, SoftDeletes, VerifySource, Email, Phone;
 
     protected $dispatchesEvents = [
-        'restored' => UserRestored::class,
-        'deleted' => UserDeleted::class,
+        'restoring' => UserRestored::class,
+        'deleting' => UserDeleting::class,
     ];
 
     public const STATUS_WAIT = 'wait';
@@ -103,7 +103,7 @@ class User extends Authenticatable implements HasVerifySource, HasEmail, HasPhon
     {
         return $this->hasMany("App\Models\News");
     }
-    public function comment()
+    public function comments()
     {
         return $this->hasMany("App\Models\Comment");
     }
