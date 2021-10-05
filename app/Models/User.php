@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Contracts\HasEmail;
 use App\Contracts\HasPhone;
 use App\Contracts\HasVerifySource;
+use App\Events\UserDeleting;
+use App\Events\UserRestored;
 use App\Traits\Email;
 use App\Traits\Phone;
 use App\Traits\VerifySource;
@@ -17,14 +19,21 @@ class User extends Authenticatable implements HasVerifySource, HasEmail, HasPhon
 {
     use Notifiable, SoftDeletes, VerifySource, Email, Phone;
 
+    protected $dispatchesEvents = [
+        'restoring' => UserRestored::class,
+        'deleting' => UserDeleting::class,
+    ];
+
     public const STATUS_WAIT = 'wait';
     public const STATUS_ACTIVE = 'active';
+    public const STATUS_BANNED = 'banned';
+    public const STATUS_DELETED = 'deleted';
 
     public const ROLE_USER = 'user';
     public const ROLE_MODERATOR = 'moderator';
     public const ROLE_ADMIN = 'admin';
 
-    /*************************************/
+    protected $hidden = ['password'];
 
     public function registerUser(array $data)
     {
@@ -62,10 +71,24 @@ class User extends Authenticatable implements HasVerifySource, HasEmail, HasPhon
         return $user;
     }
 
+    public function isDeleted(): bool
+    {
+        return $this->status == self::STATUS_DELETED;
+    }
+
+    public function isBanned(): bool
+    {
+        return $this->status == self::STATUS_BANNED;
+    }
+
     public function isAdministrator(): bool
     {
-        return $this->role == self::ROLE_ADMIN
-                or $this->role == self::ROLE_MODERATOR;
+        return $this->role == self::ROLE_ADMIN;
+    }
+
+    public function isModerator(): bool
+    {
+        return  $this->role == self::ROLE_MODERATOR;
     }
 
     public function blog()
@@ -80,7 +103,7 @@ class User extends Authenticatable implements HasVerifySource, HasEmail, HasPhon
     {
         return $this->hasMany("App\Models\News");
     }
-    public function comment()
+    public function comments()
     {
         return $this->hasMany("App\Models\Comment");
     }

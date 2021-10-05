@@ -61,8 +61,10 @@
 @import "search/result";
 
 @import "profile/profile";
-@import "profile/info";
 @import "profile/edit";
+@import "profile/admin/menu";
+
+
 
 body{
     background-color: $background;

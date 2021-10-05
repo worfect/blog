@@ -19,8 +19,12 @@ class CreateSocialAccountTable extends Migration
             $table->string('provider');
             $table->string('token');
             $table->timestamps();
+            $table->softDeletes();
 
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')
+                    ->constrained()
+                    ->onDelete('cascade')
+                    ->onUpdate('cascade');
         });
     }
 

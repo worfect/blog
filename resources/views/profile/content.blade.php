@@ -1,9 +1,9 @@
 <div class="tab-content">
 @foreach($user as $item)
 
-    @isset($item->comment)
+    @isset($item->comments)
         <div class="user-comment tab-pane fade show active" id="user-comment">
-            @foreach($item->comment->sortByDesc('created_at') as $comment)
+            @foreach($item->comments->sortByDesc('created_at') as $comment)
                 <div class="user-comment-item">
                     <div class="header">
                         <div class="header-item title">
@@ -93,12 +93,12 @@
                                href="javascript: void(0)">
                                 {{ $attitude->attitudeable_type::where('id', $attitude->attitudeable_id)->value('title') }}
                                 @else()
-                                    href="{{ route((new $attitude->attitudeable_type)->name . '.show', $attitude->attitudeable_id ) }}">
                                     @if((new $attitude->attitudeable_type)->name == 'comment')
+                                        href="">
                                         {{ $attitude->attitudeable_type::where('id', $attitude->attitudeable_id)->value('text') }}
                                     @else()
+                                        href="{{ route((new $attitude->attitudeable_type)->name . '.show', $attitude->attitudeable_id ) }}">
                                         {{ $attitude->attitudeable_type::where('id', $attitude->attitudeable_id)->value('title') }}
-                                        testtttt
                                     @endif()
                                 @endif()
                             </a>

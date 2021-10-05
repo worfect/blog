@@ -13,7 +13,8 @@ class ProfileController extends Controller
 {
     public function index($id)
     {
-        return view('profile.profile', ['user' =>  User::with('blog', 'gallery', 'comment', 'attitude')
+        User::findOrFail($id);
+        return view('profile.profile', ['user' =>  User::with('blog', 'gallery', 'comments', 'attitude')
                                                             ->where('id', $id)
                                                             ->get()]);
     }
@@ -59,6 +60,12 @@ class ProfileController extends Controller
 
     public function verifyRequest($id, $source)
     {
+        try {
+            $this->authorize('update', [User::class, $id]);
+        } catch (AuthorizationException $e) {
+            abort(403);
+        }
+
         $user = User::findOrFail($id);
 
         if($source == 'email' and $user->hasEmail() and !$user->emailConfirmed()){
@@ -75,6 +82,13 @@ class ProfileController extends Controller
 
     public function multiFactorRequest($id, $action)
     {
+        try {
+            $this->authorize('update', [User::class, $id]);
+        } catch (AuthorizationException $e) {
+            abort(403);
+        }
+
+
         $user = User::findOrFail($id);
 
         if($action == 'enable'){

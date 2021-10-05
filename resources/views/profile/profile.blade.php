@@ -7,6 +7,7 @@
 
 @section('content')
     @parent
+    @foreach($user as $item)
     <div class="user-profile" id="user-profile">
         <section>
             <article class="col-15">
@@ -30,9 +31,13 @@
 
             <aside class="col-5">
                 @include('profile.info')
+                @if((Auth::check() and Auth::user()->isAdministrator()) and Auth::id() == $item->id)
+                     @include("profile.admin.menu")
+                @endif
             </aside>
         </section>
     </div>
+    @endforeach
 @endsection
 
 

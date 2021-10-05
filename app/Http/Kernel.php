@@ -65,5 +65,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'only.ajax' => \App\Http\Middleware\OnlyAjax::class,
         'generate.menus' =>  \App\Http\Middleware\GenerateMenus::class,
+        'admin' => \App\Http\Middleware\IsAdmin::class
     ];
 }

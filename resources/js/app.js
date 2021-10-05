@@ -1,6 +1,8 @@
 
 import $ from 'jquery';
+import 'datatables.net'
 window.$ = window.jQuery = $;
+
 
 $.ajaxSetup({
     headers: {
@@ -18,6 +20,7 @@ require('./slick');
 require('./gallery');
 require('./menus');
 require('./profile');
+require('./admin');
 
 $('#notice-overlay-modal').modal();
 $('div.alert').not('.alert-important').delay(3000).fadeOut(350);

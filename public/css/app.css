@@ -21323,14 +21323,16 @@ footer .duplicate-navigate .footer-item {
 }
 
 #user-profile section aside {
-  border-radius: 0.25em;
   margin-left: 0.5em;
   padding: 0;
-  background-color: #F4DF7D;
-  color: #0A1F38;
+  display: flex;
+  flex-direction: column;
 }
 
 #user-profile section aside .user-info-table {
+  border-radius: 0.25em;
+  background-color: #F4DF7D;
+  color: #0A1F38;
   border: 3px solid #0A1F38;
   border-collapse: collapse;
 }
@@ -21338,6 +21340,20 @@ footer .duplicate-navigate .footer-item {
 #user-profile section aside .user-info-table td,
 #user-profile section aside .user-info-table th {
   border: 3px solid #0A1F38;
+}
+
+#user-profile section aside .admin-menu-btn {
+  border-radius: 0.25em;
+  background-color: #F4DF7D;
+  color: #0A1F38;
+  margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#user-profile section aside .admin-menu-btn button {
+  margin: 0.5em;
 }
 
 #edit-profile {
@@ -21378,6 +21394,12 @@ footer .duplicate-navigate .footer-item {
 
 #edit-profile #settings-profile a button {
   margin-bottom: 0.5em;
+}
+
+.admin-panel {
+  margin: 1em;
+  display: flex;
+  justify-content: space-between;
 }
 
 body {
