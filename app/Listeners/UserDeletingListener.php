@@ -17,29 +17,42 @@ class UserDeletingListener
      */
     public function handle(UserDeleting $event)
     {
-        $user = $event->model;
-        $user->status = USER::STATUS_DELETED;
-        $user->save();
+        DB::beginTransaction();
 
-        $names = ['gallery','blog','attitudes','news','comments'];
+        try {
+            $user = $event->model;
+            $user->status = USER::STATUS_DELETED;
+            $user->save();
 
-        foreach($names as $name){
-            if (method_exists($user, $name)) {
-                $contentModel = $user->$name()->getRelated();
-                if (method_exists($contentModel, 'comments')) {
-                    $contents = $contentModel->where('user_id', $user->id)->get();
-                    foreach($contents as $content){
-                        $id = $content->comments()->get()->modelKeys();
-                        DB::table('attitudes')->where('attitudeable_type', 'App\Models\Comment')
-                                                    ->whereIn('attitudeable_id', $id)
-                                                    ->update(['deleted_at' => Carbon::now()]);
+            $names = ['gallery','blog','attitudes','news','comments'];
 
-                        $content->comments()->delete();
-                        $content->attitude()->delete();
+            foreach($names as $name){
+                if (method_exists($user, $name)) {
+                    $contentModel = $user->$name()->getRelated();
+                    if (method_exists($contentModel, 'comments')) {
+                        $contents = $contentModel->where('user_id', $user->id)->get();
+                        foreach($contents as $content){
+                            $id = $content->comments()->get()->modelKeys();
+                            DB::table('attitudes')->where('attitudeable_type', 'App\Models\Comment')
+                                ->whereIn('attitudeable_id', $id)
+                                ->update(['deleted_at' => Carbon::now()]);
+
+                            $content->comments()->delete();
+                            $content->attitude()->delete();
+                        }
                     }
+                    $user->$name()->delete();
                 }
-                $user->$name()->delete();
             }
+            DB::table('social_accounts')->where('user_id', $user->id)
+                ->update(['deleted_at' => Carbon::now()]);
+
+            DB::commit();
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            abort(520);
         }
+
     }
 }

@@ -16,30 +16,42 @@ class UserRestoredListener
      */
     public function handle(UserRestored $event)
     {
-        $user = $event->model;
-        $user->status = USER::STATUS_WAIT;
-        $user->save();
+        DB::beginTransaction();
 
-        $names = ['gallery','blog','attitudes','news','comments'];
+        try {
+            $user = $event->model;
+            $user->status = USER::STATUS_WAIT;
+            $user->save();
 
-        foreach($names as $name){
-            if (method_exists($user, $name)) {
-                $contentModel = $user->$name()->getRelated();
-                if (method_exists($contentModel, 'comments')) {
-                    $contents = $contentModel->withTrashed()->where('user_id', $user->id)->get();
-                    foreach($contents as $content){
-                        $content->comments()->restore();
-                        $content->attitude()->restore();
+            $names = ['gallery','blog','attitudes','news','comments'];
 
-                        $id = $content->comments()->get()->modelKeys();
-                        DB::table('attitudes')->where('attitudeable_type', 'App\Models\Comment')
-                                                    ->whereIn('attitudeable_id', $id)
-                                                    ->whereNotNull ('deleted_at')
-                                                    ->update(['deleted_at' => null]);
+            foreach($names as $name){
+                if (method_exists($user, $name)) {
+                    $contentModel = $user->$name()->getRelated();
+                    if (method_exists($contentModel, 'comments')) {
+                        $contents = $contentModel->withTrashed()->where('user_id', $user->id)->get();
+                        foreach($contents as $content){
+                            $content->comments()->restore();
+                            $content->attitude()->restore();
+
+                            $id = $content->comments()->get()->modelKeys();
+                            DB::table('attitudes')->where('attitudeable_type', 'App\Models\Comment')
+                                ->whereIn('attitudeable_id', $id)
+                                ->whereNotNull ('deleted_at')
+                                ->update(['deleted_at' => null]);
+                        }
                     }
+                    $user->$name()->restore();
                 }
-                $user->$name()->restore();
             }
+            DB::table('social_accounts')->where('user_id', $user->id)
+                ->update(['deleted_at' => null]);
+
+            DB::commit();
+            // all good
+        } catch (\Exception $e) {
+            DB::rollback();
+            abort(520);
         }
     }
 }
