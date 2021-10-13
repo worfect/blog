@@ -14,7 +14,7 @@
         </div>
         <div class="form-row">
             <div class="form-group mb-2">
-                <label for="formGroupExampleInput2">Phone</label>
+                <label for="formGroupExampleInput2">Phone</label>@if($item->phoneConfirmed())<i class="fas fa-check-circle"></i>@else() <i class="far fa-times-circle"></i>@endif
                 <input id="change-user-phone-input" type="text" class="form-control @error('phone') is-invalid @enderror" name ="phone" value="{{ $item->phone }}">
                 @error('phone')
                 <span class="invalid-feedback" role="alert">
@@ -26,7 +26,7 @@
         </div>
         <div class="form-row">
             <div class="form-group">
-                <label for="formGroupExampleInput2">Email</label>
+                <label for="formGroupExampleInput2">Email</label>@if($item->emailConfirmed())<i class="fas fa-check-circle"></i>@else() <i class="far fa-times-circle"></i>@endif
                 <input id="change-user-email-input" type="text" class="form-control @error('email') is-invalid @enderror" name ="email" value="{{ $item->email }}">
                 @error('email')
                 <span class="invalid-feedback" role="alert">
@@ -39,13 +39,13 @@
     </form>
 
     <div class="settings-profile px-4 py-3" id="settings-profile" >
-        @if($item->status !=  \App\Models\User::STATUS_DELETED)
-            @if($item->status == \App\Models\User::STATUS_WAIT)
+        @if(!$item->isDeleted())
+            @if($item->isWait())
                 <a href="{{ route('admin.user.activate', ['id' => $item->id]) }}"><button class="btn btn-primary">Activate</button></a>
-            @elseif($item->status ==  \App\Models\User::STATUS_ACTIVE)
+            @elseif($item->isActive())
                 <a href="{{ route('admin.user.deactivate', ['id' => $item->id]) }}"><button class="btn btn-primary">Deactivate</button></a>
             @endif
-            @if($item->status !=  \App\Models\User::STATUS_BANNED)
+            @if(!$item->isBanned())
                 <a href="{{ route('admin.user.block', ['id' => $item->id]) }}"><button class="btn btn-primary">Block</button></a>
             @else
                 <a href="{{ route('admin.user.unblock', ['id' => $item->id]) }}"><button class="btn btn-primary">Unblock</button></a>
@@ -55,6 +55,5 @@
         @else
             <a href="{{ route('admin.user.restore', ['id' => $item->id]) }}"><button class="btn btn-primary">Restore</button></a>
         @endif
-        <a href="{{ url()->previous() }}"><button class="btn btn-primary">Back</button></a>
     </div>
 @endforeach

@@ -18,10 +18,4 @@ interface HasVerifySource
     public function getVerifyExpired();
 
     public function delVerifyExpired();
-
-    public function isVerified();
-
-    public function verify();
-
-    public function unverified();
 }

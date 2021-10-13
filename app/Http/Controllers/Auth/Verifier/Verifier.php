@@ -8,7 +8,6 @@ use App\Contracts\HasVerifySource;
 use App\Http\Controllers\Controller;
 use App\Mail\Auth\VerifyMail;
 use App\Models\User;
-use Carbon\Carbon;
 
 class Verifier extends Controller
 {
@@ -17,18 +16,6 @@ class Verifier extends Controller
     public function __construct(User $user)
     {
         $this->user = $user;
-    }
-
-    /**
-     * Return instance of the verified user from the verifier field, if present
-     *
-     * @return HasVerifySource|null
-     */
-    public function getVerifiedUser()
-    {
-        return $this->user->isVerified()
-                ? $this->user
-                : null;
     }
 
     /**
@@ -101,9 +88,8 @@ class Verifier extends Controller
      */
     protected function markUserAsVerify(string $source)
     {
-        if($this->user instanceof HasVerifySource){
-            $this->user->verify();
-        }
+        $this->user->setActive();
+
         if($source === 'phone' and $this->user instanceof HasPhone){
             $this->user->confirmPhone();
         }

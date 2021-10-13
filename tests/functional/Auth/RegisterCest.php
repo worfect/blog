@@ -1,6 +1,7 @@
 <?php
 namespace Tests\functional\Auth;
 
+use App\Models\Status;
 use App\Models\User;
 use Carbon\Carbon;
 use Codeception\Example;
@@ -102,13 +103,14 @@ class RegisterCest
             $uniqueness[0] => $uniqueness[1],
             'phone_confirmed' => 0,
             'email_confirmed' => 0,
-            'status' => User::STATUS_WAIT,
             'role' => User::ROLE_USER
         ];
-
         $I->seeRecord('App\Models\User', $userData);
 
         $user = User::where('login', $userData['login'])->first();
+
+        $I->seeRecord('status_user', ['status_id' => Status::WAIT, 'user_id' => $user->id]);
+
         if(isset($user->phone)){
             $I->assertTrue((bool) preg_match("/^P-[0-9]{5}$/", $user->verify_code));
         }
@@ -134,7 +136,7 @@ class RegisterCest
 
         $user = Auth::user();
 
-        $I->submitForm('#verify-form', ['code' => $user->getVerifyCode()], 'verifySubmitButton');
+        $I->submitForm('#verify-form', ['code' => $user->verify_code], 'verifySubmitButton');
 
         $I->seeInCurrentUrl('');
         $I->see(trans('verify.success'));
@@ -142,37 +144,38 @@ class RegisterCest
 
         $user = Auth::user();
 
-        $I->assertNull($user->getVerifyCode());
-        $I->assertNull($user->getVerifyExpired());
-        $I->assertEquals($user->status, User::STATUS_ACTIVE);
+        $I->assertNull($user->verify_code);
+        $I->assertNull($user->expired_token);
+        $I->dontSeeRecord('status_user', ['status_id' => Status::WAIT, 'user_id' => $user->id]);
+        $I->seeRecord('status_user', ['status_id' => Status::ACTIVE, 'user_id' => $user->id]);
 
         if($example[0] == 'email'){
-            $I->assertTrue((bool) $user->emailConfirmed());
+            $I->assertTrue((bool) $user->email_confirmed);
         }
         if($example[0] == 'phone'){
-            $I->assertTrue((bool) $user->phoneConfirmed());
+            $I->assertTrue((bool) $user->phone_confirmed);
         }
     }
 
     protected function verifyResend(FunctionalTester $I, Example $example)
     {
         $user = Auth::user();
-        $oldExp = $user->getVerifyExpired();
-        $oldCode = $user->getVerifyCode();
+        $oldExp = $user->expired_token;
+        $oldCode = $user->verify_code;
 
         $I->submitForm('#resend-form', [], 'resendSubmitButton');
 
         $user = Auth::user();
 
         if($example[0] == 'phone'){
-            $I->assertTrue((bool) preg_match("/^P-[0-9]{5}$/", $user->getVerifyCode()));
+            $I->assertTrue((bool) preg_match("/^P-[0-9]{5}$/", $user->verify_code));
         }
         if($example[0] == 'email'){
-            $I->assertTrue((bool) preg_match("/^E-[0-9]{5}$/", $user->getVerifyCode()));
+            $I->assertTrue((bool) preg_match("/^E-[0-9]{5}$/", $user->verify_code));
         }
-        $I->assertNotEquals($oldCode, $user->getVerifyCode());
+        $I->assertNotEquals($oldCode, $user->verify_code);
 
-        $I->assertNotEquals($user->getVerifyExpired(), $oldExp);
+        $I->assertNotEquals($user->expired_token, $oldExp);
     }
 
     protected function verifyErrors(FunctionalTester $I)

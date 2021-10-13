@@ -22,6 +22,11 @@ class RelationSeeder extends Seeder
                 'categoryable_id' => rand(1, 20),
                 'categoryable_type' => $categoriesSections[array_rand($categoriesSections)]
             ]);
+
+            DB::table('status_user')->insert([
+                'status_id' => rand(1, 4),
+                'user_id' => rand(1, 100),
+            ]);
         }
     }
 }

@@ -16,6 +16,8 @@ class ProfileCest
             'email' => env('USER_EMAIL'),
             'phone' =>  env('USER_PHONE'),
         ]);
+
+        User::where('login', env('USER_LOGIN'))->first()->isWait();
     }
 
     public function testInfo(FunctionalTester $I)
@@ -26,7 +28,9 @@ class ProfileCest
 
         $I->see($user->screen_name);
         $I->see($user->role);
-        $I->see($user->status);
+        foreach ($user->getStatuses() as $name => $ex){
+            $I->see($name);
+        }
     }
 
     public function testDontSeeEditBtn(FunctionalTester $I)

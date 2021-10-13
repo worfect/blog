@@ -25,7 +25,8 @@ class DatabaseSeeder extends Seeder
 
         factory(\App\Models\Layouts\Banner::class, 2)->create();
 
-
         $this->call(RelationSeeder::class);
+        $this->call(StatusSeeder::class);
+        $this->call(AdminSeeder::class);
     }
 }

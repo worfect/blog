@@ -14,9 +14,7 @@ class ProfileController extends Controller
     public function index($id)
     {
         User::findOrFail($id);
-        return view('profile.profile', ['user' =>  User::with('blog', 'gallery', 'comments', 'attitude')
-                                                            ->where('id', $id)
-                                                            ->get()]);
+        return view('profile.profile', ['user' =>  User::where('id', $id)->get()]);
     }
 
     public function edit($id)
@@ -56,7 +54,7 @@ class ProfileController extends Controller
         }
 
         if(!$user->emailConfirmed() and !$user->phoneConfirmed()){
-            $user->unverified();
+            $user->setWait();
         }
 
         notice("User data update", 'success');

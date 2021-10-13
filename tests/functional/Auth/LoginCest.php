@@ -92,7 +92,7 @@ class LoginCest
         $I->dontSeeAuthentication();
 
         $user = User::where('login', env('USER_LOGIN'))->first();
-        $I->submitForm('#verify-form', ['code' => $user->getVerifyCode()], 'verifySubmitButton');
+        $I->submitForm('#verify-form', ['code' => $user->verify_code], 'verifySubmitButton');
 
         $I->seeInCurrentUrl('');
         $I->see(trans('verify.success'));

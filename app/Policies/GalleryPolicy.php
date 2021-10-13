@@ -53,7 +53,7 @@ class GalleryPolicy
      */
     public function create(User $user)
     {
-        return $user->isVerified();
+        return $user->isActive();
     }
 
     /**

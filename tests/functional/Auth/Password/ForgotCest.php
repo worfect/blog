@@ -3,6 +3,7 @@
 
 namespace Tests\functional\Auth\Password;
 
+use App\Models\Status;
 use App\Models\User;
 use Codeception\Example;
 use FunctionalTester;
@@ -31,7 +32,6 @@ class ForgotCest
             'password' =>  'fake',
             'email' => $email,
             'phone' =>  $phone,
-            'status' => User::STATUS_WAIT,
             'role' => User::ROLE_USER,
             'phone_confirmed' => 0,
             'email_confirmed' => 0,
@@ -108,7 +108,7 @@ class ForgotCest
         $I->assertTrue((bool) preg_match($codePattern, $user->verify_code));
         $I->assertTrue(isset($user->expired_token));
         $I->assertNotTrue($user->phone_confirmed);
-        $I->assertEquals($user->status, User::STATUS_WAIT);
+        $I->dontSeeRecord('status_user', ['status_id' => Status::ACTIVE, 'user_id' => $user->id]);
 
         $I->seeInCurrentUrl('/password/reset');
         $I->assertStringContainsString($user->id, Crypt::decryptString($I->grabCookie('id')));
@@ -124,7 +124,7 @@ class ForgotCest
         $I->assertTrue((bool)$user->$confirmed);
         $I->assertNull($user->verify_code);
         $I->assertNull($user->expired_token);
-        $I->assertEquals($user->status, User::STATUS_ACTIVE);
+        $I->seeRecord('status_user', ['status_id' => Status::ACTIVE, 'user_id' => $user->id]);
 
         $I->seeInCurrentUrl('login');
         $I->see(trans('passwords.reset'));

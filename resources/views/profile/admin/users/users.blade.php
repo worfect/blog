@@ -10,7 +10,6 @@
 
     @include('profile.admin.panel')
 
-
     <div class="users-table">
         <table class="table table-striped table-bordered" id="admin-users-table">
             <thead>
@@ -20,7 +19,7 @@
                 <th scope="col">Name</th>
                 <th scope="col">Email</th>
                 <th scope="col">Phone</th>
-                <th scope="col">Status</th>
+                <th scope="col">Statuses</th>
                 <th scope="col">Phone confirmed</th>
                 <th scope="col">Email confirmed</th>
                 <th scope="col">Activate</th>
@@ -30,23 +29,25 @@
             </thead>
             <tbody>
             @foreach($users as $user)
-
-                <tr @if($user->status ==  \App\Models\User::STATUS_DELETED)class="deleted"@endif>
+                <tr>
                     <td>{{ $user->id }}</td>
                     <td>{{ $user->role }}</td>
                     <td><a href="{{ route('profile' , [ 'id' => $user->id ]) }}">{{ $user->screen_name }}</a></td>
-                    <td>{{ $user->email }}</td>
-                    <td>{{ $user->phone }}</td>
-                    <td>{{ $user->status }}</td>
-                    <td>{{ $user->phone_confirmed }}</td>
-                    <td>{{ $user->email_confirmed }}</td>
-                    <td> @if($user->status !=  \App\Models\User::STATUS_DELETED)
-                            @if($user->status == \App\Models\User::STATUS_WAIT)
+                    <td>{{ $user->getEmail() }}</td>
+                    <td>{{ $user->getPhone() }}</td>
+                    <td>@foreach ($user->getStatuses() as $status => $expires)
+                            {{is_null($expires) ? $status : $status . ' - ' . $expires}}<br>
+                        @endforeach</td>
+                    <td>{{ $user->phoneConfirmed() ? 'yes' : 'no'}}</td>
+                    <td>{{ $user->emailConfirmed() ? 'yes' : 'no' }}</td>
+                    <td> @if(!$user->isDeleted())
+                            @if($user->isWait())
                                 <a href="{{ route('admin.user.activate', ['id' => $user->id]) }}"><button class="btn btn-primary">Activate</button></a>
-                            @elseif($user->status ==  \App\Models\User::STATUS_ACTIVE)
+                            @elseif($user->isActive())
                                 <a href="{{ route('admin.user.deactivate', ['id' => $user->id]) }}"><button class="btn btn-primary">Deactivate</button></a>
                             @endif</td>
-                            <td>@if($user->status !=  \App\Models\User::STATUS_BANNED)
+
+                            <td>@if(!$user->isBanned())
                                     <a href="{{ route('admin.user.block', ['id' => $user->id]) }}"><button class="btn btn-primary">Block</button></a>
                                 @else
                                     <a href="{{ route('admin.user.unblock', ['id' => $user->id]) }}"><button class="btn btn-primary">Unblock</button></a>

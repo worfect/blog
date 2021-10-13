@@ -3,7 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\UserRestored;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class UserRestoredListener
@@ -20,8 +19,7 @@ class UserRestoredListener
 
         try {
             $user = $event->model;
-            $user->status = USER::STATUS_WAIT;
-            $user->save();
+            $user->removeDeleted();
 
             $names = ['gallery','blog','attitudes','news','comments'];
 

@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\SerializesModels;
 
@@ -12,17 +13,16 @@ class UserRestored
     /**
      * The authenticated user.
      *
-     * @var Model
+     * @var User
      */
     public $model;
 
     /**
      * Create a new event instance.
      *
-     * @param Model $model
-     * @return void
+     * @param User $model
      */
-    public function __construct(Model $model)
+    public function __construct(User $model)
     {
         $this->model = $model;
     }

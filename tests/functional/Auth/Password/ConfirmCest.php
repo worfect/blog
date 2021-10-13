@@ -17,7 +17,6 @@ class ConfirmCest
             'password' =>  env('USER_PASS_CRYPT'),
             'email' => env('USER_EMAIL'),
             'phone' =>  env('USER_PHONE'),
-            'status' => User::STATUS_ACTIVE,
             'role' => User::ROLE_USER,
             'phone_confirmed' => 0,
             'email_confirmed' => 0,

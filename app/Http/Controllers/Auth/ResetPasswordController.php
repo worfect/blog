@@ -41,7 +41,7 @@ class ResetPasswordController extends Controller
         if($user = User::find(Cookie::get('id'))){
             $verifier = new Verifier($user);
             if($verifier->verifyUser($request->get('code'))){
-                $this->resetPassword($verifier->getVerifiedUser(), $password);
+                $this->resetPassword($user, $password);
                 return $this->sendResetResponse();
             }
         }

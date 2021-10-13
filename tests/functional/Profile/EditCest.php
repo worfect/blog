@@ -22,7 +22,6 @@ class EditCest
             'password' =>  env('USER_PASS_CRYPT'),
             'email' => env('USER_EMAIL'),
             'phone' =>  null,
-            'status' => User::STATUS_WAIT,
             'role' => User::ROLE_USER,
             'phone_confirmed' => 0,
             'email_confirmed' => 0,

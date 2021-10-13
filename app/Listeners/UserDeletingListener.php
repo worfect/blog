@@ -3,7 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\UserDeleting;
-use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -21,8 +20,7 @@ class UserDeletingListener
 
         try {
             $user = $event->model;
-            $user->status = USER::STATUS_DELETED;
-            $user->save();
+            $user->setDeleted();
 
             $names = ['gallery','blog','attitudes','news','comments'];
 

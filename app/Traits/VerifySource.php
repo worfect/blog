@@ -46,18 +46,18 @@ trait VerifySource
         $this->save();
     }
 
-    public function verify()
-    {
-        $this->status = self::STATUS_ACTIVE;
-    }
-
-    public function isVerified()
-    {
-        return $this->status == self::STATUS_ACTIVE;
-    }
-
-    public function unverified()
-    {
-        $this->status = self::STATUS_WAIT;
-    }
+//    public function verify()
+//    {
+//        $this->status = self::STATUS_ACTIVE;
+//    }
+//
+//    public function isVerified()
+//    {
+//        return $this->status == self::STATUS_ACTIVE;
+//    }
+//
+//    public function unverified()
+//    {
+//        $this->status = self::STATUS_WAIT;
+//    }
 }

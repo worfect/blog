@@ -11,8 +11,10 @@
             <td>{{ $item->role }}</td>
         </tr>
         <tr>
-            <td>Status</td>
-            <td>{{ $item->status }}</td>
+            <td>Statuses</td>
+            <td>@foreach ($item->getStatuses() as $status => $expires)
+                    {{ $status }}<br>
+                @endforeach</td>
         </tr>
         <tr>
             <td>Rating</td>
