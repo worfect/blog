@@ -33,3 +33,15 @@ m-r-s:
 
 m-r:
 	docker exec -it cli php artisan migrate:refresh
+
+psalm:
+	docker exec -it cli ./vendor/bin/psalm
+
+lint:
+	docker exec -it cli ./vendor/bin/phplint
+
+csfix:
+	docker exec -it cli ./vendor/bin/php-cs-fixer --config=.php-cs-fixer.php --allow-risky=yes fix -- --dry-run --diff
+
+test:
+	docker exec -it cli php vendor/bin/codecept run
