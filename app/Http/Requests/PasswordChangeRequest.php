@@ -24,7 +24,7 @@ class PasswordChangeRequest extends FormRequest
     public function rules()
     {
         return [
-            'password' => 'required|password',
+            'password' => 'required|current_password',
             'new_password' => 'required|min:6|confirmed',
         ];
     }
@@ -34,7 +34,7 @@ class PasswordChangeRequest extends FormRequest
         return [
             'new_password.required'  => trans('passwords.password'),
             'new_password.min'  => trans('passwords.min'),
-            'new_password.confirmed'  =>  trans('passwords.confirmed'),
+            'new_password.confirmed'  =>  trans('passwords.confirmed')
         ];
     }
 }

@@ -1,21 +1,33 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
+
+/** @var Factory $factory */
 
 use App\Models\User;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(User::class, function (Faker $faker) {
+class UserFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = User::class;
 
-   $login = $faker->unique()->name;
-   $active = $faker->boolean;
+    public function definition()
+    {
+        $login = $this->faker->unique()->name;
+        $active = $this->faker->boolean;
 
-    return [
-        'login' => $login,
-        'screen_name' => $login,
-        'email' => $faker->unique()->safeEmail,
-        'phone' => $faker->unique()->phoneNumber,
-        'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
-        'role' => $active ? $faker->randomElement([User::ROLE_USER, User::ROLE_ADMIN, User::ROLE_MODERATOR]) : User::ROLE_USER,
-    ];
-});
+        return [
+            'login' => $login,
+            'screen_name' => $login,
+            'email' => $this->faker->unique()->safeEmail,
+            'phone' => $this->faker->unique()->phoneNumber,
+            'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
+            'role' => $active ? $this->faker->randomElement([User::ROLE_USER, User::ROLE_ADMIN, User::ROLE_MODERATOR]) : User::ROLE_USER,
+        ];
+    }
+}

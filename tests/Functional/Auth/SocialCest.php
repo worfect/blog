@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\functional\Auth;
+namespace Tests\Functional\Auth;
 
 use App\Models\User;
 use Codeception\Example;
-use FunctionalTester;
+use Tests\Support\FunctionalTester;
 
 class SocialCest
 {
@@ -38,7 +38,7 @@ class SocialCest
 //
     protected function createTestUser()
     {
-        factory(User::class)->create([
+        User::factory()->create([
             'login' => env('USER_LOGIN'),
             'screen_name' => env('USER_LOGIN'),
             'password' =>  env('USER_PASS_CRYPT'),

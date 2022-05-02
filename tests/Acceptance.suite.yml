@@ -8,9 +8,8 @@ modules:
         port: 4444
         capabilities:
           window_size: 1920x1080
-    - Laravel5:
+    - Laravel:
         part: ORM
-    - \Helper\Acceptance
     - Asserts
 
 #docker run --net=host selenium/standalone-chrome

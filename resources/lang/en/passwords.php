@@ -13,5 +13,5 @@ return [
     'user' => "We can't find a user with that email address.",
     'password'  => 'Enter password',
     'min' => 'Min password length - 6 characters',
-    'confirmed'  => 'Confirmed password',
+    'confirmed'  => 'Confirm password'
 ];

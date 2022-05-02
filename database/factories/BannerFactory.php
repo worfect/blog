@@ -1,21 +1,32 @@
 <?php
 
+namespace Database\Factories;
+
 /** @var Factory $factory */
 
 use App\Models\Layouts\Banner;
-use Faker\Generator as Faker;
-use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Banner::class, function (Faker $faker) {
+class BannerFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Banner::class;
 
-    $title = $faker->text(rand(10, 20));
-    $desc = $faker->realText(10);
-    $img =  $faker->imageUrl($width = 800, $height = 600);
+    public function definition()
+    {
+        $title = $this->faker->text(rand(10, 20));
+        $desc = $this->faker->realText(10);
+        $img =  $this->faker->imageUrl(800, 600);
 
-    return [
-        'title' => $title,
-        'img' => $img,
-        'desc' => $desc,
-    ];
+        return [
+            'title' => $title,
+            'img' => $img,
+            'desc' => $desc,
+        ];
 
-});
+    }
+}

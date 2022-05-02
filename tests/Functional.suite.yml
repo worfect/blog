@@ -1,0 +1,13 @@
+actor: FunctionalTester
+modules:
+  enabled:
+    - Asserts
+    - Laravel:
+        environment_file: .env.testing
+        cleanup: true
+    - Db:
+        dsn: 'mysql:host=db;dbname=test;port=3306'
+        user: 'root'
+        password: 'root'
+        cleanup: true
+        reconnect: true

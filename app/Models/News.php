@@ -6,12 +6,13 @@ namespace App\Models;
 
 use App\Events\ContentDeleted;
 use App\Events\ContentRestored;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class News extends Model
 {
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     public $relations = ['user', 'comments', 'categories', 'attitude'];
     public $name = 'news';

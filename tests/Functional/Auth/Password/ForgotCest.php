@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Tests\functional\Auth\Password;
+namespace Tests\Functional\Auth\Password;
 
 use App\Models\Status;
 use App\Models\User;
 use Codeception\Example;
-use FunctionalTester;
+use Tests\Support\FunctionalTester;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 
@@ -26,7 +26,7 @@ class ForgotCest
 
     protected function createTestUser($login, $email, $phone)
     {
-        factory(User::class)->create([
+        User::factory()->create([
             'login' => $login,
             'screen_name' => env('USER_LOGIN'),
             'password' =>  'fake',

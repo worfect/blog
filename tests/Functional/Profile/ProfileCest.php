@@ -1,15 +1,15 @@
 <?php
 
-namespace Tests\functional\Profile;
+namespace Tests\Functional\Profile;
 
 use App\Models\User;
-use FunctionalTester;
+use Tests\Support\FunctionalTester;
 
 class ProfileCest
 {
     protected function createTestUser()
     {
-        factory(User::class)->create([
+        User::factory()->create([
             'login' => env('USER_LOGIN'),
             'screen_name' => env('USER_LOGIN'),
             'password' =>  env('USER_PASS_CRYPT'),

@@ -11,6 +11,7 @@ use App\Traits\Email;
 use App\Traits\Status;
 use App\Traits\Phone;
 use App\Traits\VerifySource;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -18,7 +19,7 @@ use Illuminate\Support\Str;
 
 class User extends Authenticatable implements HasVerifySource, HasEmail, HasPhone
 {
-    use Notifiable, SoftDeletes, VerifySource, Email, Phone, Status;
+    use HasFactory, Notifiable, SoftDeletes, VerifySource, Email, Phone, Status;
 
     protected $dispatchesEvents = [
         'restoring' => UserRestored::class,
@@ -105,5 +106,4 @@ class User extends Authenticatable implements HasVerifySource, HasEmail, HasPhon
     {
         return $this->belongsToMany(\App\Models\Status::class)->withPivot('expires');
     }
-
 }

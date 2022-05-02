@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Tests\functional\Auth;
+namespace Tests\Functional\Auth;
 
 use App\Models\User;
-use FunctionalTester;
+use Tests\Support\FunctionalTester;
 
 
 class VerifyCest
@@ -13,7 +13,7 @@ class VerifyCest
 
     protected function createTestUser($code, $expired)
     {
-        factory(User::class)->create([
+        User::factory()->create([
             'login' => env('USER_LOGIN'),
             'screen_name' => env('USER_LOGIN'),
             'password' =>  env('USER_PASS_CRYPT'),

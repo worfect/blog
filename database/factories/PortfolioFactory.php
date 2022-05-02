@@ -1,24 +1,26 @@
 <?php
 
+namespace Database\Factories;
+
 /** @var Factory $factory */
 
-use \App\Models\Portfolio;
-use Faker\Generator as Faker;
-use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
+class PortfolioFactory extends Factory
+{
+    public function definition()
+    {
+        $title = $this->faker->text(rand(20, 50));
+        $customer = $this->faker->company;
+        $link = $this->faker->url;
+        $text = $this->faker->realText(rand(500, 700));
 
-$factory->define(Portfolio::class, function (Faker $faker) {
-
-    $title = $faker->text(rand(20, 50));
-    $customer = $faker->company;
-    $link = $faker->url;
-    $text = $faker->realText(rand(500, 700));
-
-    return [
-        'title' => $title,
-        'text' => $text,
-        'customer' => $customer,
-        'link' => $link,
-        'image' => $faker->imageUrl($width = 800, $height = 600),
-    ];
-});
+        return [
+            'title' => $title,
+            'text' => $text,
+            'customer' => $customer,
+            'link' => $link,
+            'image' => $this->faker->imageUrl(800, 600),
+        ];
+    }
+}

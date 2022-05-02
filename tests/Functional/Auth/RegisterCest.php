@@ -1,11 +1,10 @@
 <?php
-namespace Tests\functional\Auth;
+namespace Tests\Functional\Auth;
 
 use App\Models\Status;
 use App\Models\User;
-use Carbon\Carbon;
 use Codeception\Example;
-use FunctionalTester;
+use Tests\Support\FunctionalTester;
 use Illuminate\Support\Facades\Auth;
 
 class RegisterCest
@@ -23,7 +22,7 @@ class RegisterCest
 
     protected function createTestUser()
     {
-        factory(User::class)->create([
+        User::factory()->create([
             'login' => env('USER_LOGIN'),
             'screen_name' => env('USER_LOGIN'),
             'password' =>  env('USER_PASS_CRYPT'),

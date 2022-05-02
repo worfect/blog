@@ -1,5 +1,14 @@
 <?php
 
+use App\Models\Attitude;
+use App\Models\Blog;
+use App\Models\Category;
+use App\Models\Comment;
+use App\Models\Gallery;
+use App\Models\Layouts\Banner;
+use App\Models\News;
+use App\Models\Portfolio;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 
@@ -10,20 +19,20 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        factory(\App\Models\User::class, 100)->create();
+        User::factory()->count(100)->create();
 
-        factory(\App\Models\Blog::class, 100)->create();
-        factory(\App\Models\Gallery::class, 100)->create();
-        factory(\App\Models\News::class, 100)->create();
-        factory(\App\Models\Portfolio::class, 8)->create();
+        Portfolio::factory()->count(8)->create();
+        Blog::factory()->count(100)->create();
+        Gallery::factory()->count(100)->create();
+        News::factory()->count(100)->create();
 
-        factory(\App\Models\Category::class, 20)->create();
-        factory(\App\Models\Comment::class, 100)->create();
-        factory(\App\Models\Attitude::class, 100)->create();
+        Category::factory()->count(20)->create();
+        Comment::factory()->count(100)->create();
+        Attitude::factory()->count(100)->create();
 
-        factory(\App\Models\Layouts\Banner::class, 2)->create();
+        Banner::factory()->count(3)->create();
 
         $this->call(RelationSeeder::class);
         $this->call(StatusSeeder::class);

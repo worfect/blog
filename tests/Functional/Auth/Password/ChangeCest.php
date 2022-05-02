@@ -1,16 +1,16 @@
 <?php
 
-namespace Tests\functional\Auth\Password;
+namespace Tests\Functional\Auth\Password;
 
 use App\Models\User;
-use FunctionalTester;
+use Tests\Support\FunctionalTester;
 use Illuminate\Support\Facades\Hash;
 
 class ChangeCest
 {
     protected function createTestUser()
     {
-        factory(User::class)->create([
+        User::factory()->create([
             'login' => env('USER_LOGIN'),
             'screen_name' => env('USER_LOGIN'),
             'password' =>  env('USER_PASS_CRYPT'),

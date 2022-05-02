@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Tests\functional\Auth;
+namespace Tests\Functional\Auth;
 
 use App\Models\User;
 use Codeception\Example;
-use FunctionalTester;
+use Tests\Support\FunctionalTester;
 
 class LoginCest
 {
@@ -23,7 +23,7 @@ class LoginCest
 
     protected function createTestUser()
     {
-        factory(User::class)->create([
+        User::factory()->create([
             'login' => env('USER_LOGIN'),
             'screen_name' => env('USER_LOGIN'),
             'password' =>  env('USER_PASS_CRYPT'),
@@ -50,7 +50,7 @@ class LoginCest
 
         $I->seeAuthentication();
 
-        $this->testRemember($I, $example[1]);
+        $this->testRemember($I, $example);
         $this->testRedirect($I);
         $this->testLogout($I);
     }
@@ -117,10 +117,10 @@ class LoginCest
             $I->seeFormErrorMessage('login','Too many login attempts.');
     }
 
-    protected function testRemember(FunctionalTester $I, bool $val)
+    protected function testRemember(FunctionalTester $I, Example $example)
     {
-        if($val){
-            $I->dontSeeRecord('users', ['remember_token' => null]);
+        if($example[1]){
+            $I->dontSeeRecord('users', ['remember_token' => null, 'phone' => $example[0]]);
         }else{
             $I->seeRecord('users', ['remember_token' => null]);
         }

@@ -1,17 +1,20 @@
 <?php
 
+namespace Database\Factories;
+
 /** @var Factory $factory */
 
-use App\Models\Category;
-use Faker\Generator as Faker;
-use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Category::class, function (Faker $faker) {
 
-    $name = $faker->unique()->word;
+class CategoryFactory extends Factory
+{
+    public function definition()
+    {
+        $name = $this->faker->unique()->word;
 
-    return [
-        'name' => $name,
-    ];
-
-});
+        return [
+            'name' => $name,
+        ];
+    }
+}
