@@ -1,43 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Http\Request;
 
-class RequirePassword
+final class RequirePassword
 {
-    /**
-     * The response factory instance.
-     *
-     * @var \Illuminate\Contracts\Routing\ResponseFactory
-     */
-    protected $responseFactory;
+    protected ResponseFactory $responseFactory;
 
-    /**
-     * The URL generator instance.
-     *
-     * @var \Illuminate\Contracts\Routing\UrlGenerator
-     */
-    protected $urlGenerator;
+    protected UrlGenerator $urlGenerator;
 
-    /**
-     * The password timeout.
-     *
-     * @var int
-     */
-    protected $passwordTimeout;
+    protected int $passwordTimeout;
 
-    /**
-     * Create a new middleware instance.
-     *
-     * @param  \Illuminate\Contracts\Routing\ResponseFactory  $responseFactory
-     * @param  \Illuminate\Contracts\Routing\UrlGenerator  $urlGenerator
-     * @param  int|null  $passwordTimeout
-     * @return void
-     */
-    public function __construct(ResponseFactory $responseFactory, UrlGenerator $urlGenerator, $passwordTimeout = null)
+    public function __construct(ResponseFactory $responseFactory, UrlGenerator $urlGenerator, int $passwordTimeout = null)
     {
         $this->responseFactory = $responseFactory;
         $this->urlGenerator = $urlGenerator;
@@ -45,14 +25,9 @@ class RequirePassword
     }
 
     /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  string|null  $redirectToRoute
-     * @return mixed
+     * @param  Request  $request
      */
-    public function handle($request, Closure $next, $redirectToRoute = null)
+    public function handle($request, Closure $next, string $redirectToRoute = null): mixed
     {
         if ($this->shouldConfirmPassword($request)) {
             if ($request->ajax()) {
@@ -71,14 +46,12 @@ class RequirePassword
     /**
      * Determine if the confirmation timeout has expired.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return bool
+     * @param  Request  $request
      */
-    protected function shouldConfirmPassword($request)
+    protected function shouldConfirmPassword($request): bool
     {
         $confirmedAt = time() - $request->session()->get('auth.password_confirmed_at', 0);
 
         return $confirmedAt > $this->passwordTimeout;
     }
 }
-

@@ -1,19 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBannerTable extends Migration
+final class CreateBannerTable extends Migration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('banner_home', function (Blueprint $table) {
+        Schema::create('banner_home', function (Blueprint $table): void {
             $table->id();
 
             $table->string('img');
@@ -29,7 +31,7 @@ class CreateBannerTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('banner_home');
     }

@@ -1,19 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Listeners;
 
 use App\Events\UserRestored;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
-class UserRestoredListener
+final class UserRestoredListener
 {
-    /**
-     * Handle the event.
-     *
-     * @param UserRestored $event
-     * @return void
-     */
-    public function handle(UserRestored $event)
+    public function handle(UserRestored $event): void
     {
         DB::beginTransaction();
 
@@ -23,19 +20,19 @@ class UserRestoredListener
 
             $names = ['gallery','blog','attitudes','news','comments'];
 
-            foreach($names as $name){
+            foreach ($names as $name) {
                 if (method_exists($user, $name)) {
                     $contentModel = $user->$name()->getRelated();
                     if (method_exists($contentModel, 'comments')) {
                         $contents = $contentModel->withTrashed()->where('user_id', $user->id)->get();
-                        foreach($contents as $content){
+                        foreach ($contents as $content) {
                             $content->comments()->restore();
                             $content->attitude()->restore();
 
                             $id = $content->comments()->get()->modelKeys();
                             DB::table('attitudes')->where('attitudeable_type', 'App\Models\Comment')
                                 ->whereIn('attitudeable_id', $id)
-                                ->whereNotNull ('deleted_at')
+                                ->whereNotNull('deleted_at')
                                 ->update(['deleted_at' => null]);
                         }
                     }
@@ -47,7 +44,7 @@ class UserRestoredListener
 
             DB::commit();
             // all good
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollback();
             abort(520);
         }

@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Events;
 
 use App\Contracts\HasVerifySource;
 use Illuminate\Queue\SerializesModels;
 
-class RequestVerification
+final class RequestVerification
 {
     use SerializesModels;
 

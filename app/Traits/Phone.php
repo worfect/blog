@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Traits;
 
 use App\Http\Controllers\Services\Sms\SmsSender;
@@ -30,7 +32,7 @@ trait Phone
 
     public function phoneConfirmed(): bool
     {
-        return $this->phone_confirmed;
+        return (bool)$this->phone_confirmed;
     }
 
     public function confirmPhone(): bool
@@ -66,6 +68,6 @@ trait Phone
 
     public function isMultiFactor(): bool
     {
-        return $this->multi_factor;
+        return (bool) $this->multi_factor;
     }
 }

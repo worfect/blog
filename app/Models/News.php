@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Models;
-
 
 use App\Events\ContentDeleted;
 use App\Events\ContentRestored;
@@ -10,9 +10,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class News extends Model
+final class News extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+    use SoftDeletes;
 
     public $relations = ['user', 'comments', 'categories', 'attitude'];
     public $name = 'news';

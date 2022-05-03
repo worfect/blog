@@ -1,21 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Gallery;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class GalleryPolicy
+final class GalleryPolicy
 {
     use HandlesAuthorization;
 
     /**
      * Perform pre-authorization checks.
      *
-     * @param User $user
      * @param  string  $ability
-     * @return void|bool
+     * @return bool|void
      */
     public function before(User $user, $ability)
     {
@@ -25,31 +26,24 @@ class GalleryPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param User $user
-     * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): void
     {
-            //
+        //
     }
 
     /**
      * Determine whether the user can view the model.
      *
-     * @param User $user
-     * @param Gallery $gallery
-     * @return mixed
      */
-    public function view(User $user, Gallery $gallery)
+    public function view(User $user, Gallery $gallery): void
     {
-            //
+        //
     }
 
     /**
      * Determine whether the user can create models.
      *
-     * @param User $user
-     * @return mixed
      */
     public function create(User $user)
     {
@@ -59,47 +53,37 @@ class GalleryPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param User $user
-     * @param Gallery $gallery
      * @return mixed
      */
     public function update(User $user, Gallery $gallery): bool
     {
-        return $user->id == $gallery->user_id;
+        return $user->id === $gallery->user_id;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
-     * @param User $user
-     * @param  Gallery  $gallery
      * @return mixed
      */
     public function delete(User $user, Gallery $gallery): bool
     {
-        return $user->id == $gallery->user_id;
+        return $user->id === $gallery->user_id;
     }
 
     /**
      * Determine whether the user can restore the model.
      *
-     * @param User $user
-     * @param  Gallery  $gallery
-     * @return mixed
      */
     public function restore(User $user, Gallery $gallery)
     {
-        return $user->id == $gallery->user_id;
+        return $user->id === $gallery->user_id;
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param User $user
-     * @param  Gallery  $gallery
-     * @return mixed
      */
-    public function forceDelete(User $user, Gallery $gallery)
+    public function forceDelete(User $user, Gallery $gallery): void
     {
         //
     }

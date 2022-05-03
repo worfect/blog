@@ -1,26 +1,26 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CommentAddRequest extends FormRequest
+final class CommentAddRequest extends FormRequest
 {
-
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'text' => 'required|string|max:500',
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'text.required'  => 'Add a comment text',

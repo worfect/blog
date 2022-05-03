@@ -1,22 +1,20 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-
-class ImageAddRequest extends FormRequest
+final class ImageAddRequest extends FormRequest
 {
-
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
-    public function rules()
+    public function rules(): array
     {
-
         return [
             'title' => 'nullable|bail|string|max:50',
             'text' => 'nullable|bail|string',
@@ -25,7 +23,7 @@ class ImageAddRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'image.required'  => 'Image not added',

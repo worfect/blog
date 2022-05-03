@@ -1,19 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 /** @var Factory $factory */
 
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
-class NewsFactory extends Factory
+final class NewsFactory extends Factory
 {
     public function definition()
     {
-        $title = $this->faker->text(rand(20, 50));
-        $text = $this->faker->realText(rand(500, 1000));
-        $userId = rand(1, 100);
+        $title = $this->faker->text(random_int(20, 50));
+        $text = $this->faker->realText(random_int(500, 1000));
+        $userId = random_int(1, 100);
 
         return [
             'title' => $title,
@@ -21,7 +23,7 @@ class NewsFactory extends Factory
             'text' => $text,
             'user_id' => $userId,
             'image' => $this->faker->imageUrl(800, 600),
-            'views' => rand(1, 1000)
+            'views' => random_int(1, 1000),
         ];
     }
 }

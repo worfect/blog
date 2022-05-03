@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Mail\Auth;
+declare(strict_types=1);
 
+namespace App\Mail\Auth;
 
 use Illuminate\Bus\Queueable;
 
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-
-class VerifyMail extends Mailable
+final class VerifyMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     public $code;
 

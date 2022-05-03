@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Contracts;
-
 
 interface HasPhone
 {
@@ -25,5 +25,4 @@ interface HasPhone
     public function disableMultiFactor(): bool;
 
     public function isMultiFactor(): bool;
-
 }

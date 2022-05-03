@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Events\ContentDeleted;
@@ -8,9 +10,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Comment extends Model
+final class Comment extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+    use SoftDeletes;
 
     public $relations = ['commentable', 'user', 'attitude'];
     public $name = 'comment';
@@ -34,5 +37,4 @@ class Comment extends Model
     {
         return $this->morphMany('App\Models\Attitude', 'attitudeable');
     }
-
 }

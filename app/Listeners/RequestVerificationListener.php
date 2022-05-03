@@ -1,20 +1,15 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Listeners;
 
 use App\Events\RequestVerification;
 use App\Http\Controllers\Auth\Verifier\Verifier;
 
-class RequestVerificationListener
+final class RequestVerificationListener
 {
-    /**
-     * Handle the event.
-     *
-     * @param RequestVerification $event
-     * @return void
-     */
-    public function handle(RequestVerification $event)
+    public function handle(RequestVerification $event): void
     {
         $verifier = new Verifier($event->user);
         $verifier->sendVerifyCode($event->source);

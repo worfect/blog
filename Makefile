@@ -41,7 +41,7 @@ lint:
 	docker exec -it cli ./vendor/bin/phplint
 
 csfix:
-	docker exec -it cli ./vendor/bin/php-cs-fixer --config=.php-cs-fixer.php --allow-risky=yes fix -- --dry-run --diff
+	docker exec -it cli ./vendor/bin/php-cs-fixer --config=.php-cs-fixer.php --allow-risky=yes fix --dry-run --diff
 
 test:
 	docker exec -it cli php vendor/bin/codecept run

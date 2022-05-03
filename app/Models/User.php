@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Contracts\HasEmail;
@@ -8,8 +10,8 @@ use App\Contracts\HasVerifySource;
 use App\Events\UserDeleting;
 use App\Events\UserRestored;
 use App\Traits\Email;
-use App\Traits\Status;
 use App\Traits\Phone;
+use App\Traits\Status;
 use App\Traits\VerifySource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,9 +19,15 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 
-class User extends Authenticatable implements HasVerifySource, HasEmail, HasPhone
+final class User extends Authenticatable implements HasVerifySource, HasEmail, HasPhone
 {
-    use HasFactory, Notifiable, SoftDeletes, VerifySource, Email, Phone, Status;
+    use HasFactory;
+    use Notifiable;
+    use SoftDeletes;
+    use VerifySource;
+    use Email;
+    use Phone;
+    use Status;
 
     protected $dispatchesEvents = [
         'restoring' => UserRestored::class,
@@ -34,12 +42,12 @@ class User extends Authenticatable implements HasVerifySource, HasEmail, HasPhon
 
     public function registerUser(array $data)
     {
-        $user = new User;
+        $user = new User();
 
         $user->login = ($data['login']);
         $user->screen_name = $user->login;
-        $user->email = isset($data['email']) ? $data['email'] : null;
-        $user->phone = isset($data['phone']) ? $data['phone'] : null;
+        $user->email = $data['email'] ?? null;
+        $user->phone = $data['phone'] ?? null;
         $user->password = bcrypt($data['password']);
         $user->role = self::ROLE_USER;
 
@@ -52,7 +60,7 @@ class User extends Authenticatable implements HasVerifySource, HasEmail, HasPhon
 
     public function socialRegisterUser(array $data)
     {
-        $user = new User;
+        $user = new User();
         $id = User::orderBy('id', 'desc')->first()->id;
         $user->login = 'id_' . ++$id;
         $user->screen_name = $user->login;

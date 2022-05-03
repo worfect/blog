@@ -1,28 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use App\Http\Controllers\Auth\ProcessingAuthRequests;
 use Illuminate\Foundation\Http\FormRequest;
 
-
-class UserRegistrationRequest extends FormRequest
+final class UserRegistrationRequest extends FormRequest
 {
-
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
-    public function validationData()
+    public function validationData(): array
     {
         $prepare = new ProcessingAuthRequests();
         return $prepare->registerRequestProcessing($this->all());
-
     }
 
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'uniqueness' => 'sometimes|accepted',
@@ -33,7 +32,7 @@ class UserRegistrationRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'uniqueness.accepted' => trans('auth.register.accepted'),

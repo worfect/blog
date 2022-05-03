@@ -1,13 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SocialAccount extends Model
+final class SocialAccount extends Model
 {
-
-    public function addSocialAccount($socialData, $user)
+    public function addSocialAccount($socialData, $user): void
     {
         SocialAccount::create([
             'user_id' => $user->id,
@@ -19,7 +20,7 @@ class SocialAccount extends Model
 
 
     protected $fillable = [
-        'user_id', 'provider', 'provider_id', 'token'
+        'user_id', 'provider', 'provider_id', 'token',
     ];
 
 

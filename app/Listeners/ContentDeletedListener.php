@@ -1,22 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Listeners;
 
 use App\Events\ContentDeleted;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
-class ContentDeletedListener
+final class ContentDeletedListener
 {
-    /**
-     * Handle the event.
-     *
-     * @param ContentDeleted $event
-     * @return void
-     */
-    public function handle(ContentDeleted $event)
+    public function handle(ContentDeleted $event): void
     {
-        if (method_exists($event->model, 'comments')){
+        if (method_exists($event->model, 'comments')) {
             $id = $event->model->comments()->get()->modelKeys();
             DB::table('attitudes')->where('attitudeable_type', 'App\Models\Comment')
                                         ->whereIn('attitudeable_id', $id)
@@ -24,7 +20,7 @@ class ContentDeletedListener
 
             $event->model->comments()->delete();
         }
-        if (method_exists($event->model, 'attitude')){
+        if (method_exists($event->model, 'attitude')) {
             $event->model->attitude()->delete();
         }
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 /** @var Factory $factory */
@@ -7,13 +9,13 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-class BlogFactory extends Factory
+final class BlogFactory extends Factory
 {
     public function definition()
     {
-        $title = $this->faker->text(rand(20, 50));
-        $text = $this->faker->realText(rand(500, 1000));
-        $userId = rand(1, 100);
+        $title = $this->faker->text(random_int(20, 50));
+        $text = $this->faker->realText(random_int(500, 1000));
+        $userId = random_int(1, 100);
 
         return [
             'title' => $title,
@@ -21,7 +23,7 @@ class BlogFactory extends Factory
             'text' => $text,
             'user_id' => $userId,
             'image' => $this->faker->imageUrl(640, 480),
-            'views' => rand(1, 1000)
+            'views' => random_int(1, 1000),
         ];
     }
 }

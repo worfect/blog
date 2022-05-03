@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware'=>'generate.menus'], function(){
+Route::group(['middleware'=>'generate.menus'], function (): void {
     /**
      * Register the typical authentication routes for an application.
      */
@@ -57,8 +59,8 @@ Route::group(['middleware'=>'generate.menus'], function(){
     Route::get('profile/{id}/update/refresh', 'ProfileController@refresh')->middleware('only.ajax');
     Route::post('profile/{id}/update', 'ProfileController@update')->name('profile.update')->middleware('password.confirm');
     Route::get('profile/{id}', 'ProfileController@index')->name('profile');
-    Route::get('profile', function (){
-        if($id = Auth::id()){
+    Route::get('profile', function () {
+        if ($id = Auth::id()) {
             return redirect("profile/$id");
         }
         return redirect(\route('home'));
@@ -107,7 +109,4 @@ Route::group(['middleware'=>'generate.menus'], function(){
     Route::resource('news', 'Site\NewsPage');
 
     Route::get('comment/show', 'Content\CommentController@show')->name('comment.show');
-
 });
-
-

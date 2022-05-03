@@ -1,27 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use App\Http\Controllers\Auth\ProcessingAuthRequests;
 use Illuminate\Foundation\Http\FormRequest;
 
-
-class UserLoginRequest extends FormRequest
+final class UserLoginRequest extends FormRequest
 {
-
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
-    public function validationData()
+    public function validationData(): array
     {
         $prepare = new ProcessingAuthRequests();
         return $prepare->loginRequestProcessing($this->all());
     }
 
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'email' => 'sometimes',
@@ -31,7 +31,7 @@ class UserLoginRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'login.required'  => trans('auth.login.no_input'),

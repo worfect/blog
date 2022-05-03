@@ -1,20 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Listeners;
 
 use App\Events\UserDeleting;
+use Exception;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
-class UserDeletingListener
+final class UserDeletingListener
 {
-    /**
-     * Handle the event.
-     *
-     * @param UserDeleting $event
-     * @return void
-     */
-    public function handle(UserDeleting $event)
+    public function handle(UserDeleting $event): void
     {
         DB::beginTransaction();
 
@@ -24,12 +21,12 @@ class UserDeletingListener
 
             $names = ['gallery','blog','attitudes','news','comments'];
 
-            foreach($names as $name){
+            foreach ($names as $name) {
                 if (method_exists($user, $name)) {
                     $contentModel = $user->$name()->getRelated();
                     if (method_exists($contentModel, 'comments')) {
                         $contents = $contentModel->where('user_id', $user->id)->get();
-                        foreach($contents as $content){
+                        foreach ($contents as $content) {
                             $id = $content->comments()->get()->modelKeys();
                             DB::table('attitudes')->where('attitudeable_type', 'App\Models\Comment')
                                 ->whereIn('attitudeable_id', $id)
@@ -46,11 +43,9 @@ class UserDeletingListener
                 ->update(['deleted_at' => Carbon::now()]);
 
             DB::commit();
-
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollback();
             abort(520);
         }
-
     }
 }

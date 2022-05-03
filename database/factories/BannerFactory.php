@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 /** @var Factory $factory */
@@ -7,18 +9,17 @@ namespace Database\Factories;
 use App\Models\Layouts\Banner;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class BannerFactory extends Factory
+final class BannerFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var string
      */
     protected $model = Banner::class;
 
     public function definition()
     {
-        $title = $this->faker->text(rand(10, 20));
+        $title = $this->faker->text(random_int(10, 20));
         $desc = $this->faker->realText(10);
         $img =  $this->faker->imageUrl(800, 600);
 
@@ -27,6 +28,5 @@ class BannerFactory extends Factory
             'img' => $img,
             'desc' => $desc,
         ];
-
     }
 }

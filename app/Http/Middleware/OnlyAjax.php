@@ -1,22 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
 
-class OnlyAjax
+final class OnlyAjax
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param Request $request
-     * @param Closure $next
-     * @return mixed
-     */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): mixed
     {
-        if(!$request->ajax()){
+        if (!$request->ajax()) {
             abort(404);
         }
 

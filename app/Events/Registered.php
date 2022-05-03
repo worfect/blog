@@ -1,27 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events;
 
+use App\Models\User;
 use Illuminate\Queue\SerializesModels;
 
-class Registered
+final class Registered
 {
     use SerializesModels;
 
     /**
      * The authenticated user.
      *
-     * @var \App\Models\User
      */
-    public $user;
+    public User $user;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param \App\Models\User $user
-     * @return void
-     */
-    public function __construct(\App\Models\User $user)
+    public function __construct(User $user)
     {
         $this->user = $user;
     }

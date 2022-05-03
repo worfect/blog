@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Traits;
 
@@ -31,7 +32,7 @@ trait Email
 
     public function emailConfirmed(): bool
     {
-        return $this->email_confirmed;
+        return (bool)$this->email_confirmed;
     }
 
     public function confirmEmail()

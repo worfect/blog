@@ -1,27 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\SerializesModels;
 
-class UserRestored
+final class UserRestored
 {
     use SerializesModels;
 
     /**
      * The authenticated user.
      *
-     * @var User
      */
-    public $model;
+    public User $model;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param User $model
-     */
     public function __construct(User $model)
     {
         $this->model = $model;

@@ -1,27 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\SerializesModels;
 
-class ContentDeleted
+final class ContentDeleted
 {
     use SerializesModels;
 
     /**
      * The authenticated user.
      *
-     * @var Model
      */
-    public $model;
+    public Model $model;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param Model $model
-     * @return void
-     */
     public function __construct(Model $model)
     {
         $this->model = $model;

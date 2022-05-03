@@ -1,19 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 /** @var Factory $factory */
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class PortfolioFactory extends Factory
+final class PortfolioFactory extends Factory
 {
     public function definition()
     {
-        $title = $this->faker->text(rand(20, 50));
+        $title = $this->faker->text(random_int(20, 50));
         $customer = $this->faker->company;
         $link = $this->faker->url;
-        $text = $this->faker->realText(rand(500, 700));
+        $text = $this->faker->realText(random_int(500, 700));
 
         return [
             'title' => $title,
