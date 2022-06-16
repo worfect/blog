@@ -1,6 +1,6 @@
 import $ from "jquery";
 
-const notice = require('./vendor/notice/messages')
+const notice = require("./vendor/notice/messages");
 
 export default class Form {
     form;
@@ -17,30 +17,28 @@ export default class Form {
     }
 
     _cleanInvalid() {
-        this.form.find('.invalid-feedback')
-            .remove()
+        this.form.find(".invalid-feedback").remove();
 
-        this.form.find('.is-invalid')
-            .removeClass('is-invalid')
+        this.form.find(".is-invalid").removeClass("is-invalid");
     }
 
     _ajaxSendForm() {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: this.url,
-                method: 'POST',
-                dataType: 'JSON',
+                method: "POST",
+                dataType: "JSON",
                 processData: false,
                 contentType: false,
-                data: this.formData
+                data: this.formData,
             })
-            .done(function (data) {
-                resolve(data);
-            })
-            .fail(function (data) {
-                reject(data);
-            })
-        })
+                .done(function (data) {
+                    resolve(data);
+                })
+                .fail(function (data) {
+                    reject(data);
+                });
+        });
     }
 
     _responseProcessing() {
@@ -52,7 +50,7 @@ export default class Form {
                         notice.showNoticeMessages(data, this.noticeSection);
                     }
                     if (this.refreshSection) {
-                        this._refreshContent()
+                        this._refreshContent();
                     }
                     resolve(true);
                 })
@@ -61,41 +59,39 @@ export default class Form {
                     let errors = data.responseJSON.errors;
 
                     $.each(errors, function (name, message) {
-                        let span = document.createElement('span');
-                        let strong = document.createElement('strong');
-                        let field = $('[name = ' + name + ']');
+                        let span = document.createElement("span");
+                        let strong = document.createElement("strong");
+                        let field = $("[name = " + name + "]");
 
                         strong.innerHTML = message;
 
-                        $(span).attr({"class": "invalid-feedback", "role": "alert"})
+                        $(span)
+                            .attr({ class: "invalid-feedback", role: "alert" })
                             .html(strong);
 
-                        field.addClass("is-invalid")
-                            .after(span);
+                        field.addClass("is-invalid").after(span);
                     });
 
                     reject(false);
-                })
-        })
+                });
+        });
     }
 
     _refreshContent() {
-        let refreshSection = this.refreshSection
+        let refreshSection = this.refreshSection;
         $.ajax({
             url: this.urlRefresh,
-            method: 'POST',
-            dataType: 'HTML',
+            method: "POST",
+            dataType: "HTML",
             processData: false,
             contentType: false,
-            data: this.formData
+            data: this.formData,
         })
             .done(function (data) {
                 $(refreshSection).empty();
                 $(refreshSection).append(data);
             })
-            .fail(function (data) {
-
-            })
+            .fail(function (data) {});
     }
 
     submitForm() {
@@ -105,17 +101,17 @@ export default class Form {
             })
             .catch((data) => {
                 return data;
-            })
+            });
     }
 
     withRefresh(urlRefresh, section) {
-        this.urlRefresh = urlRefresh
+        this.urlRefresh = urlRefresh;
         this.refreshSection = section;
-        return this
+        return this;
     }
 
     withNotice(section) {
         this.noticeSection = section;
-        return this
+        return this;
     }
 }

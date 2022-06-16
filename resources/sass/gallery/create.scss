@@ -1,5 +1,4 @@
-
-.gallery-create{
+.gallery-create {
     .modal-content {
         background-color: $secondary;
         .modal-header {
@@ -17,13 +16,12 @@
                     color: $hover;
                 }
             }
-
         }
-        .modal-body{
+        .modal-body {
             background-color: $primary;
-            .edit-gallery-item{
+            .edit-gallery-item {
                 padding: 0.5rem;
-                .form-file{
+                .form-file {
                     margin-top: 0.5rem;
                     input {
                         background-color: $secondary;
@@ -43,25 +41,19 @@
                         background-color: $secondary;
                     }
                 }
-                .down{
+                .down {
                     margin-top: 0.5rem;
                     display: flex;
                     justify-content: space-around;
-                    .dropdown-menu{
+                    .dropdown-menu {
                         background-color: $primary;
                         color: $secondary;
                     }
-                    .btn{
+                    .btn {
                         @extend %template-btn;
                     }
                 }
             }
         }
     }
-
 }
-
-
-
-
-

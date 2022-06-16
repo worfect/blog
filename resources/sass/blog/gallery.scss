@@ -1,4 +1,4 @@
-.gallery{
+.gallery {
     border: 0.15em solid $secondary;
     margin: 0.5em;
     padding: 0.5em;
@@ -8,44 +8,44 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    .gallery-item{
+    .gallery-item {
         color: $secondary;
-        a{
+        a {
             text-decoration: none;
             color: $secondary;
-            &:hover{
+            &:hover {
                 color: $hover;
             }
-            .title{
+            .title {
                 margin-top: 0.5em;
             }
-            .excerpt{
+            .excerpt {
                 margin-top: 0.15em;
             }
         }
 
-        .info{
+        .info {
             display: flex;
             flex-direction: row;
             align-items: center;
-            .views{
+            .views {
                 display: flex;
                 flex-direction: row;
                 align-items: center;
                 margin-right: 0.75em;
-                .icon{
+                .icon {
                     margin-right: 0.25em;
                 }
             }
-            .comments{
+            .comments {
                 align-items: center;
                 color: $secondary;
-                a{
-                    &:hover{
+                a {
+                    &:hover {
                         color: $hover;
                     }
                     color: $secondary;
-                    .icon{
+                    .icon {
                         margin-right: 0.25em;
                     }
                 }

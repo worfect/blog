@@ -1,22 +1,22 @@
-.notification{
+.notification {
     margin-top: 100px;
-    .card{
+    .card {
         background-color: $primary;
         color: $secondary;
-        .success{
+        .success {
             color: $success;
             background-color: $secondary;
             border: none;
         }
-        .fail{
+        .fail {
             color: $error;
             background-color: $secondary;
             border: none;
         }
-        .btn-link{
+        .btn-link {
             text-decoration: none;
             color: $secondary;
-            &:hover{
+            &:hover {
                 color: $success;
             }
         }

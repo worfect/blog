@@ -1,4 +1,4 @@
-.show-gallery-home{
+.show-gallery-home {
     border-radius: 0.25em;
     margin: 0.5em;
     border: 0.15em solid $secondary;
@@ -6,7 +6,7 @@
     flex-direction: column;
     justify-content: space-around;
     width: 100%;
-    .group-gallery{
+    .group-gallery {
         display: flex;
         justify-content: space-around;
         margin: 0.5em 0.25em 0.25em 0.25em;
@@ -39,14 +39,13 @@
             }
         }
     }
-    a{
+    a {
         margin-right: 0.5em;
         align-self: flex-end;
         text-decoration: none;
         color: $secondary;
-        &:hover{
+        &:hover {
             color: $hover;
         }
     }
 }
-

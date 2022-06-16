@@ -1,21 +1,21 @@
-.content-gallery{
-    section{
+.content-gallery {
+    section {
         margin-top: 0.5em;
     }
-    .main-gallery{
+    .main-gallery {
         margin-top: 1em;
         display: flex;
         flex-direction: column;
-        .pagination{
+        .pagination {
             justify-content: center;
         }
-        .main-gallery-items{
+        .main-gallery-items {
             margin-top: 1em;
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
             align-items: baseline;
-            .gallery-card-deleted{
+            .gallery-card-deleted {
                 border-radius: 0.25em;
                 background-color: $secondary;
                 color: $primary;
@@ -32,48 +32,48 @@
                         opacity: 0.9 !important;
                         cursor: pointer !important;
                     }
-                    .card-text{
+                    .card-text {
                         color: $primary;
                         text-align: center;
                     }
-                    .icon{
+                    .icon {
                         color: $primary;
                     }
-                    .card-text-deleted{
+                    .card-text-deleted {
                         display: none;
                     }
-                    .icon-deleted{
+                    .icon-deleted {
                         display: none;
                     }
                 }
             }
-            .gallery-card{
+            .gallery-card {
                 border-radius: 0.25em;
                 background-color: $secondary;
                 color: $primary;
                 margin-bottom: 1em;
                 max-width: 300px;
-                .card-img-overlay{
+                .card-img-overlay {
                     opacity: 0;
                     background-color: $secondary;
                     display: flex;
                     flex-direction: column;
                     justify-content: space-around;
                     align-items: center;
-                    .card-text{
+                    .card-text {
                         color: $primary;
                         text-align: center;
                     }
-                    .icon{
+                    .icon {
                         color: $primary;
                     }
-                    .card-text-deleted{
+                    .card-text-deleted {
                         display: none;
                     }
-                    .icon-deleted{
+                    .icon-deleted {
                         display: none;
                     }
-                    &:hover{
+                    &:hover {
                         opacity: 0.9;
                         cursor: pointer;
                     }

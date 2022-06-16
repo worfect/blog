@@ -8,67 +8,67 @@
         flex-direction: row;
         align-items: flex-start;
         align-content: flex-start;
-        article{
+        article {
             margin-right: 0.5em;
             border-radius: 0.25em;
             padding: 0;
-            .nav-tabs{
+            .nav-tabs {
                 background-color: transparent;
-                .nav-item{
+                .nav-item {
                     background-color: $secondary;
                     color: $primary;
-                    .active{
+                    .active {
                         background-color: $primary;
                         color: $secondary;
                     }
                 }
             }
-            .tab-content{
+            .tab-content {
                 background-color: $secondary;
                 color: $primary;
                 padding: 0.5em;
-                .user-comment{
-                    .user-comment-item{
+                .user-comment {
+                    .user-comment-item {
                         display: flex;
                         justify-content: space-between;
                         flex-direction: column;
-                        .header{
+                        .header {
                             display: flex;
                             justify-content: flex-end;
                             flex-direction: row;
                             padding: 0.5em;
-                            .header-item{
+                            .header-item {
                                 margin-right: 1.5em;
                             }
                         }
-                        .content{
+                        .content {
                             background-color: $primary;
                             color: $secondary;
                             padding: 0.5em;
                         }
                     }
                 }
-                .user-blog{
-                    .user-blog-items{
+                .user-blog {
+                    .user-blog-items {
                         display: flex;
                         justify-content: space-between;
                         flex-direction: column;
-                       .user-blog-item {
-                           display: flex;
-                           justify-content: flex-start;
-                           flex-direction: row;
+                        .user-blog-item {
+                            display: flex;
+                            justify-content: flex-start;
+                            flex-direction: row;
 
-                           .header-item {
-                               margin-right: 1.5em;
-                           }
+                            .header-item {
+                                margin-right: 1.5em;
+                            }
 
-                           .title {
-                               width: 20em;
-                           }
-                       }
-                   }
+                            .title {
+                                width: 20em;
+                            }
+                        }
+                    }
                 }
-                .user-gallery{
+                .user-gallery {
                     .group-gallery {
                         .main-gallery-items {
                             margin-top: 1em;
@@ -157,18 +157,18 @@
                         }
                     }
                 }
-                .user-liked{
-                    .group-liked{
-                        .user-liked-item{
+                .user-liked {
+                    .group-liked {
+                        .user-liked-item {
                             display: flex;
                             justify-content: space-between;
                             flex-direction: column;
-                            .header{
+                            .header {
                                 display: flex;
                                 justify-content: flex-start;
                                 flex-direction: row;
                                 padding: 0.5em;
-                                .header-item{
+                                .header-item {
                                     margin-right: 1.5em;
                                 }
                             }
@@ -176,24 +176,24 @@
                     }
                 }
             }
-
         }
-        aside{
+        aside {
             margin-left: 0.5em;
             padding: 0;
             display: flex;
             flex-direction: column;
-            .user-info-table{
+            .user-info-table {
                 border-radius: 0.25em;
                 background-color: $secondary;
                 color: $primary;
                 border: 3px solid $primary;
                 border-collapse: collapse;
-                td,th{
+                td,
+                th {
                     border: 3px solid $primary;
                 }
             }
-            .admin-menu-btn{
+            .admin-menu-btn {
                 border-radius: 0.25em;
                 background-color: $secondary;
                 color: $primary;
@@ -201,7 +201,7 @@
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                button{
+                button {
                     margin: 0.5em;
                 }
             }

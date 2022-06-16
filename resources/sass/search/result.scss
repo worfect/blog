@@ -8,99 +8,99 @@
         position: relative;
         padding: 0 50px;
         margin-bottom: 1em;
-        .active-slider{
+        .active-slider {
             border: 0.15em solid $secondary;
             border-radius: 0.25em;
         }
-        .gallery-card{
+        .gallery-card {
             margin: 0.25em;
             border-radius: 0.25em;
             background-color: $secondary;
             color: $primary;
             max-width: 250px;
-            .card-img-overlay{
+            .card-img-overlay {
                 opacity: 0;
                 background-color: $secondary;
                 display: flex;
                 flex-direction: column;
                 justify-content: space-around;
                 align-items: center;
-                .card-text{
+                .card-text {
                     color: $primary;
                     text-align: center;
                 }
-                .icon{
+                .icon {
                     color: $primary;
                 }
-                &:hover{
+                &:hover {
                     opacity: 0.9;
                     cursor: pointer;
                 }
             }
         }
     }
-    .search-blog-result{
+    .search-blog-result {
         background-color: $primary;
         border-radius: 0.25em;
         position: relative;
         padding: 0 50px;
         margin-bottom: 1em;
-        .blog-item{
+        .blog-item {
             margin: 0.25em;
             border-radius: 0.25em;
             background-color: $primary;
             color: $secondary;
             max-width: 350px;
-            a{
+            a {
                 text-decoration: none;
                 color: $secondary;
-                &:hover{
+                &:hover {
                     color: $hover;
                 }
-                .title{
+                .title {
                     margin-top: 0.5em;
                 }
-                .excerpt{
+                .excerpt {
                     margin-top: 0.15em;
                 }
             }
 
-            .info{
+            .info {
                 display: flex;
                 flex-direction: row;
                 align-items: center;
-                .views{
+                .views {
                     display: flex;
                     flex-direction: row;
                     align-items: center;
                     margin-right: 0.75em;
-                    .icon{
+                    .icon {
                         margin-right: 0.25em;
                     }
                 }
-                .comments{
+                .comments {
                     align-items: center;
                     color: $secondary;
                     margin-right: 0.75em;
-                    a{
-                        &:hover{
+                    a {
+                        &:hover {
                             color: $hover;
                         }
                         color: $secondary;
-                        .icon{
+                        .icon {
                             margin-right: 0.25em;
                         }
                     }
                 }
-                .user{
+                .user {
                     align-items: center;
                     color: $secondary;
-                    a{
-                        &:hover{
+                    a {
+                        &:hover {
                             color: $hover;
                         }
                         color: $secondary;
-                        .icon{
+                        .icon {
                             margin-right: 0.25em;
                         }
                     }
@@ -108,68 +108,68 @@
             }
         }
     }
-    .search-news-result{
+    .search-news-result {
         background-color: $primary;
         border-radius: 0.25em;
         position: relative;
         padding: 0 50px;
         margin-bottom: 1em;
-        .news-item{
+        .news-item {
             margin: 0.25em;
             border-radius: 0.25em;
             background-color: $primary;
             color: $secondary;
             max-width: 350px;
-            a{
+            a {
                 text-decoration: none;
                 color: $secondary;
-                &:hover{
+                &:hover {
                     color: $hover;
                 }
-                .title{
+                .title {
                     margin-top: 0.5em;
                 }
-                .excerpt{
+                .excerpt {
                     margin-top: 0.15em;
                 }
             }
 
-            .info{
+            .info {
                 display: flex;
                 flex-direction: row;
                 align-items: center;
-                .views{
+                .views {
                     display: flex;
                     flex-direction: row;
                     align-items: center;
                     margin-right: 0.75em;
-                    .icon{
+                    .icon {
                         margin-right: 0.25em;
                     }
                 }
-                .comments{
+                .comments {
                     align-items: center;
                     color: $secondary;
                     margin-right: 0.75em;
-                    a{
-                        &:hover{
+                    a {
+                        &:hover {
                             color: $hover;
                         }
                         color: $secondary;
-                        .icon{
+                        .icon {
                             margin-right: 0.25em;
                         }
                     }
                 }
-                .user{
+                .user {
                     align-items: center;
                     color: $secondary;
-                    a{
-                        &:hover{
+                    a {
+                        &:hover {
                             color: $hover;
                         }
                         color: $secondary;
-                        .icon{
+                        .icon {
                             margin-right: 0.25em;
                         }
                     }

@@ -14,7 +14,7 @@
         justify-content: space-between;
         flex-direction: row;
         max-height: 580px;
-        article{
+        article {
             margin-right: 0.5em;
             border-radius: 0.25em;
             padding: 0;
@@ -22,7 +22,7 @@
             display: flex;
             flex-direction: column;
         }
-        aside{
+        aside {
             border-radius: 0.25em;
             margin-left: 0.5em;
             padding: 0;
@@ -35,14 +35,14 @@
         display: flex;
         margin-top: 1em;
         max-height: 350px;
-        .left-side{
+        .left-side {
             background-color: $primary;
             border-radius: 0.25em;
             display: flex;
             margin-right: 0.5em;
             padding: 0;
         }
-        .right-side{
+        .right-side {
             background-color: $primary;
             border-radius: 0.25em;
             margin-left: 0.5em;

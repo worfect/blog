@@ -1,14 +1,14 @@
-.auth-group{
+.auth-group {
     margin-top: 100px;
- .card{
-     background-color: $primary;
-     color: $secondary;
-     .card-body{
-         form{
-             .btn{
-                 @extend %template-btn;
-             }
-         }
-     }
- }
+    .card {
+        background-color: $primary;
+        color: $secondary;
+        .card-body {
+            form {
+                .btn {
+                    @extend %template-btn;
+                }
+            }
+        }
+    }
 }

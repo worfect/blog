@@ -5,7 +5,8 @@
     color: $secondary;
     line-height: inherit;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
         color: $hover;
         text-decoration: none;
     }

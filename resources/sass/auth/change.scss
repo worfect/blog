@@ -1,11 +1,11 @@
-#change-password-form{
+#change-password-form {
     background-color: $primary;
     color: $secondary;
     border-radius: 0.5em;
-    .form-control{
+    .form-control {
         background-color: $secondary;
     }
-    .btn{
+    .btn {
         @extend %template-btn;
     }
 }

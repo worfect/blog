@@ -1,64 +1,64 @@
-.user-menu{
+.user-menu {
     align-self: center;
     background-color: $primary;
-    .btn{
+    .btn {
         @extend %template-btn;
     }
-    .menu-profile{
+    .menu-profile {
         width: auto;
         top: 130%;
         left: -40%;
-        form{
+        form {
             text-align: center;
         }
     }
-    .menu-auth{
+    .menu-auth {
         width: 300px;
         top: 130%;
         left: -180%;
     }
-    .dropdown-menu{
+    .dropdown-menu {
         border: thin $secondary solid;
         background-color: $primary;
         color: $secondary;
-        .switch-user-menu{
-            .dropdown-item{
+        .switch-user-menu {
+            .dropdown-item {
                 @extend %template-item;
             }
         }
-        .form-control{
+        .form-control {
             background-color: $secondary;
         }
-        .dropdown-divider{
+        .dropdown-divider {
             border-top: 1px solid $secondary;
         }
         #forms {
-            #signup{
+            #signup {
                 display: none;
             }
 
-            #request-pass{
+            #request-pass {
                 display: none;
             }
         }
-        #switch-menu-auth{
-            .dropdown-item{
+        #switch-menu-auth {
+            .dropdown-item {
                 @extend %template-item;
             }
-            #tosignin{
+            #tosignin {
                 display: none;
-                &:hover{
+                &:hover {
                     display: block;
                 }
             }
         }
-        #social{
+        #social {
             margin: 0.1em;
             display: flex;
             justify-content: space-around;
             align-items: center;
             align-content: center;
-            .dropdown-item{
+            .dropdown-item {
                 @extend %template-item;
             }
         }

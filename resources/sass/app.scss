@@ -1,23 +1,21 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url("https://fonts.googleapis.com/css?family=Nunito");
 
 // FontAwesome
-@import '../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome';
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
 
 // Variable
-@import 'variables';
+@import "variables";
 
 // Bootstrap
-@import '../../node_modules/bootstrap/scss/bootstrap';
+@import "../../node_modules/bootstrap/scss/bootstrap";
 
 // Jquery-ui
-@import '~jquery-ui/themes/base/all.css';
-
+@import "~jquery-ui/themes/base/all.css";
 
 @import "auth";
 @import "pagination";
 @import "slick";
-
 
 @import "templates";
 
@@ -63,18 +61,17 @@
 @import "profile/edit";
 @import "profile/admin/menu";
 
-
-body{
+body {
     background-color: $background;
     padding-right: 0 !important;
 }
 // тупенько против скролл-паддинга при фэйде
-footer{
+footer {
     padding-right: 0 !important;
 }
 
-.container{
-    position:relative;
+.container {
+    position: relative;
     max-width: 1400px;
     margin-bottom: 150px;
 }

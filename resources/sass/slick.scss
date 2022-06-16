@@ -1,5 +1,6 @@
 /* Слайдер */
-.slick-slider{}
+.slick-slider {
+}
 /* Ограничивающая оболочка */
 .slick-list {
     overflow: hidden;
@@ -9,15 +10,15 @@
     display: flex;
 }
 
-.slick-prev{
+.slick-prev {
     left: 0;
     //background: url("public/images/other/angle-left-solid.svg") center no-repeat;
 }
-.slick-next{
+.slick-next {
     right: 0;
     //background: url("public/images/other/angle-right-solid.svg") center no-repeat;
 }
-.slick-arrow{
+.slick-arrow {
     position: absolute;
     border: none;
     border-radius: 0.25em;
@@ -61,5 +62,3 @@
 //.slick-slider.slick-initialized{}
 ///* Слайдер с точками */
 //.slick-slider.slick-dotted{}
-
-

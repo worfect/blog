@@ -1,4 +1,4 @@
-.show-portfolio-home{
+.show-portfolio-home {
     border-radius: 0.25em;
     margin: 0.5em;
     border: 0.15em solid $secondary;
@@ -6,33 +6,33 @@
     flex-direction: column;
     justify-content: space-around;
     width: 100%;
-    .group-portfolio{
+    .group-portfolio {
         display: flex;
         justify-content: space-around;
         margin: 0.5em 0.25em 0.25em 0.25em;
-        .portfolio-item{
+        .portfolio-item {
             max-width: 225px;
             width: 100%;
-            a{
+            a {
                 text-decoration: none;
-                img{
+                img {
                     width: 100%;
                 }
-                .customer{
+                .customer {
                     color: $secondary;
-                    &:hover{
+                    &:hover {
                         color: $hover;
                     }
                 }
             }
         }
     }
-    a{
+    a {
         margin-right: 0.5em;
         align-self: flex-end;
         text-decoration: none;
         color: $secondary;
-        &:hover{
+        &:hover {
             color: $hover;
         }
     }

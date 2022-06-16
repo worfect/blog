@@ -1,21 +1,20 @@
-
-.gallery-show{
+.gallery-show {
     .modal-xl {
         max-width: 1600px;
     }
-    .modal-content{
+    .modal-content {
         max-height: 900px;
-        .modal-header{
+        .modal-header {
             background-color: $primary;
-            a{
+            a {
                 margin-right: 2em;
                 text-decoration: none;
                 color: $secondary;
-                &:hover{
+                &:hover {
                     color: $hover;
                 }
             }
-            .close{
+            .close {
                 color: $secondary;
                 float: right;
                 font-size: 1.5rem;
@@ -23,91 +22,80 @@
                 line-height: 1;
                 text-shadow: none;
                 opacity: 1;
-                &:hover{
+                &:hover {
                     color: $hover;
-
                 }
             }
-
         }
-        .modal-body{
+        .modal-body {
             overflow: hidden;
             display: flex;
             background-color: $secondary;
-            .image{
+            .image {
                 align-self: center;
             }
-            .data{
+            .data {
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
                 padding: 0 !important;
-                .info{
+                .info {
                     flex-shrink: 1;
-                    .card{
-                        .card-header{
+                    .card {
+                        .card-header {
                             display: flex;
                             justify-content: space-between;
-                            .author{
-
+                            .author {
                             }
-                            .gallery-rating-panel{
-                                .rating-panel{
+                            .gallery-rating-panel {
+                                .rating-panel {
                                     display: flex;
                                     justify-content: center;
-                                    .active{
+                                    .active {
                                         background-color: $secondary;
                                     }
                                 }
                             }
                         }
-                        .card-body{
-                            .card-title{
-
+                        .card-body {
+                            .card-title {
                             }
-                            .card-text{
-
+                            .card-text {
                             }
                         }
                     }
-
                 }
-                .show-gallery-comments{
+                .show-gallery-comments {
                     flex-grow: 1;
                     display: flex;
                     flex-direction: column;
-                    max-height:500px;
+                    max-height: 500px;
                     overflow-y: auto;
-                    .comment{
-
-                        .card{
-                            .card-header{
+                    .comment {
+                        .card {
+                            .card-header {
                                 display: flex;
                                 justify-content: space-between;
-                                .author{
-
+                                .author {
                                 }
-                                .comment-rating-panel{
-                                    .rating-panel{
+                                .comment-rating-panel {
+                                    .rating-panel {
                                         display: flex;
                                         justify-content: center;
-                                        .active{
+                                        .active {
                                             background-color: $secondary;
                                         }
                                     }
                                 }
                             }
-                            .card-body{
-                                .card-text{
-
+                            .card-body {
+                                .card-text {
                                 }
                             }
                         }
-
                     }
                 }
-                .add-gallery-comment{
-
+                .add-gallery-comment {
                 }
             }
         }

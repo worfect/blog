@@ -1,5 +1,4 @@
-
-.create{
+.create {
     margin: 0.5em;
     padding: 0.5em;
     height: 100%;
@@ -9,13 +8,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    .user{
-        .btn{
-            @extend %template-btn
+    .user {
+        .btn {
+            @extend %template-btn;
         }
     }
     .guest {
-        p{
+        p {
             margin: 0;
         }
         a {

@@ -15,10 +15,10 @@
     background-color: $secondary;
     border: none;
 
-    &.last{
+    &.last {
         background: none;
         color: $secondary;
-        &:hover{
+        &:hover {
             background: none;
             color: $hover;
             border: none;
@@ -67,15 +67,24 @@
     }
 }
 
-
 //
 // Sizing
 //
 
 .pagination-lg {
-    @include pagination-size($pagination-padding-y-lg, $pagination-padding-x-lg, $font-size-lg, $border-radius-lg);
+    @include pagination-size(
+        $pagination-padding-y-lg,
+        $pagination-padding-x-lg,
+        $font-size-lg,
+        $border-radius-lg
+    );
 }
 
 .pagination-sm {
-    @include pagination-size($pagination-padding-y-sm, $pagination-padding-x-sm, $font-size-sm, $border-radius-sm);
+    @include pagination-size(
+        $pagination-padding-y-sm,
+        $pagination-padding-x-sm,
+        $font-size-sm,
+        $border-radius-sm
+    );
 }

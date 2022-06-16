@@ -1,14 +1,14 @@
-.menu-gallery{
+.menu-gallery {
     margin-top: 0.5em;
     display: flex;
     justify-content: space-around;
     align-items: stretch;
-    .search-result{
+    .search-result {
         position: absolute;
         display: flex;
         flex-direction: column;
 
-        .search-result-item{
+        .search-result-item {
             z-index: 10;
             background-color: $secondary;
             text-decoration: none;
@@ -19,7 +19,7 @@
         }
     }
 
-    .search-section{
+    .search-section {
         display: flex;
         align-items: center;
         .search-query {
@@ -29,26 +29,26 @@
             border-radius: 0.25em;
         }
     }
-    .filter{
+    .filter {
         border-radius: 0.25em;
         background-color: $primary;
         color: $secondary;
-        .form-inline{
+        .form-inline {
             margin: 0.5em;
             justify-content: space-between;
             align-items: center;
-            .selector-group{
-                select{
+            .selector-group {
+                select {
                     margin-right: 1em;
                     background-color: $secondary;
                 }
             }
-            .btn{
+            .btn {
                 @extend %template-btn;
             }
         }
     }
-    .gallery-user-menu{
+    .gallery-user-menu {
         margin-left: 0.5em;
         padding: 0.5em;
         width: 100%;
@@ -58,13 +58,13 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        .user{
-            .btn{
+        .user {
+            .btn {
                 @extend %template-btn;
             }
         }
         .guest {
-            p{
+            p {
                 margin: 0;
             }
             a {
@@ -78,4 +78,3 @@
         }
     }
 }
-

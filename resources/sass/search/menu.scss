@@ -1,28 +1,28 @@
-.search-menu{
+.search-menu {
     border-radius: 0.25em;
     background-color: $primary;
     color: $secondary;
-    .search-form{
+    .search-form {
         margin: 0.5em;
         justify-content: space-between;
         align-items: center;
-        .filter-group{
-            .custom-select{
+        .filter-group {
+            .custom-select {
                 margin-right: 1em;
                 background-color: $secondary;
             }
         }
-        .search-select-section{
+        .search-select-section {
             margin-right: 1em;
             background-color: $secondary;
         }
-        .ui-widget{
-            .search-input{
+        .ui-widget {
+            .search-input {
                 margin-right: 1em;
                 background-color: $secondary;
             }
         }
-        button{
+        button {
             @extend %template-btn;
         }
     }
