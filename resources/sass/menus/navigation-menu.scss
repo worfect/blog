@@ -1,7 +1,7 @@
 .navbar {
     background-color: $primary;
-    height: 3.75rem;
-    align-items: stretch;
+    height: auto;
+    align-items: center;
     padding: 0 1rem;
 
     a {
@@ -9,6 +9,7 @@
     }
 
     .nav-item {
+        list-style-type: none;
         margin-top: 1rem;
         width: 100px;
         text-align: center;
@@ -30,8 +31,6 @@
     }
 
     .dropdown-menu {
-        position: relative;
-        top: 0.2rem;
         background-color: $primary;
         border-radius: 0 0 0.25rem 0.25rem;
         border: none;
@@ -41,5 +40,12 @@
             width: auto;
             text-align: justify;
         }
+    }
+}
+
+@include media-breakpoint-up(lg) {
+    .navbar {
+        height: 3.75rem;
+        align-items: stretch;
     }
 }

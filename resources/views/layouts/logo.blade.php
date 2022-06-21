@@ -1,1 +1,1 @@
-<a class="logo col-3" href="/">Best Blog</a>
+<a class="logo col-auto" href="/">Best Blog</a>

@@ -1,6 +1,8 @@
 header {
+    justify-content: center;
     position: relative;
-    margin-top: 1em;
+    margin-top: 1rem !important;
     background-color: $primary;
     border-radius: 0.25rem;
+    align-items: center;
 }

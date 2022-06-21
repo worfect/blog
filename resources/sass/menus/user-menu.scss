@@ -1,4 +1,5 @@
 .user-menu {
+    position: inherit;
     align-self: center;
     background-color: $primary;
     .btn {
@@ -6,16 +7,16 @@
     }
     .menu-profile {
         width: auto;
-        top: 130%;
-        left: -40%;
+        top: 140%;
+        left: -98%;
         form {
             text-align: center;
         }
     }
     .menu-auth {
         width: 300px;
-        top: 130%;
-        left: -180%;
+        top: 140%;
+        left: -108%;
     }
     .dropdown-menu {
         border: thin $secondary solid;
@@ -61,6 +62,34 @@
             .dropdown-item {
                 @extend %template-item;
             }
+        }
+    }
+}
+
+@include media-breakpoint-up(sm) {
+    .user-menu {
+        .menu-profile {
+            top: 140%;
+            left: -58%;
+        }
+
+        .menu-auth {
+            top: 140%;
+            left: -158%;
+        }
+    }
+}
+
+@include media-breakpoint-up(md) {
+    .user-menu {
+        .menu-profile {
+            top: 140%;
+            left: -98%;
+        }
+
+        .menu-auth {
+            top: 140%;
+            left: -218%;
         }
     }
 }

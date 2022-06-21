@@ -1,4 +1,4 @@
-<div class="user-menu col-sm-2">
+<div class="user-menu col-auto">
     @if(Auth::user())
         <button class="btn" id="user-menu-btn">
             User
