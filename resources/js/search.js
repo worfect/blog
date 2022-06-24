@@ -1,4 +1,5 @@
-//quick search
+import $ from "jquery";
+
 $(document).mousedown(function (e) {
     if (
         jQuery(e.target).closest(".quick-search-form").length ||

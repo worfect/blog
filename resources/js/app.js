@@ -7,8 +7,10 @@ $.ajaxSetup({
         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
     },
 });
-require("bootstrap/js/src/dropdown.js");
-require("bootstrap/js/src/modal.js");
+
+require("bootstrap/js/dist/dropdown.js");
+require("bootstrap/js/dist/collapse.js");
+require("bootstrap/js/dist/modal.js");
 require("@fortawesome/fontawesome-free/js/all");
 require("./Form");
 require("./rating");

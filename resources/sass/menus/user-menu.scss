@@ -2,6 +2,7 @@
     position: inherit;
     align-self: center;
     background-color: $primary;
+    margin: 0.75rem;
     .btn {
         @extend %template-btn;
     }

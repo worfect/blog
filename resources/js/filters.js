@@ -1,4 +1,5 @@
-//content-filter
+import $ from "jquery";
+
 $("#content-method").change(switchSelects).ready(switchSelects);
 
 function switchSelects() {

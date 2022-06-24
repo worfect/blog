@@ -3,7 +3,10 @@
         @foreach($NavBar->roots() as $item)
             <li class="nav-item">
                 @if($item->hasChildren())
-                    <a class="nav-link" href="{!! $item->url() !!}" role="button" id="dropdownNavMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link d-none d-md-block" href="{!! $item->url() !!}" role="button" id="dropdownNavMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {!! $item->title !!}
+                    </a>
+                    <a class="nav-link d-block d-md-none" href="{!! $item->url() !!}" >
                         {!! $item->title !!}
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownNavMenuLink">

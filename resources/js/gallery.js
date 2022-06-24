@@ -1,5 +1,4 @@
 import $ from "jquery";
-
 import Form from "./Form.js";
 
 const notice = require("./vendor/notice/messages");

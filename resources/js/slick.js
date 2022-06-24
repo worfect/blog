@@ -1,3 +1,4 @@
+import $ from "jquery";
 //home main
 $(document).ready(function () {
     $(".banner-home").slick({

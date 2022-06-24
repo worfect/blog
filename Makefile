@@ -45,3 +45,6 @@ csfix:
 
 test:
 	docker exec -it cli php vendor/bin/codecept run
+
+prett:
+	docker exec -it node npm run prettier

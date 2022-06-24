@@ -1,3 +1,5 @@
+import $ from "jquery";
+
 // header auth menu dropdown
 $(document).click(function (e) {
     if ($("#user-menu-btn").is(e.target)) {
@@ -31,12 +33,3 @@ $("#switch-menu-auth").click(function (e) {
         }
     }
 });
-
-$(".nav-item").hover(
-    function () {
-        $(this).find("ul").slideDown("fast");
-    },
-    function () {
-        $(this).find("ul").slideUp("fast");
-    }
-);
