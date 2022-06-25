@@ -1,14 +1,13 @@
 .user-menu {
-    position: inherit;
+    position: relative;
     align-self: center;
     background-color: $primary;
-    margin: 0.75rem;
     .btn {
         @extend %template-btn;
     }
     .menu-profile {
         width: auto;
-        top: 140%;
+        top: 110%;
         left: -98%;
         form {
             text-align: center;
@@ -16,7 +15,7 @@
     }
     .menu-auth {
         width: 300px;
-        top: 140%;
+        top: 110%;
         left: -108%;
     }
     .dropdown-menu {
@@ -70,12 +69,12 @@
 @include media-breakpoint-up(sm) {
     .user-menu {
         .menu-profile {
-            top: 140%;
+            top: 110%;
             left: -58%;
         }
 
         .menu-auth {
-            top: 140%;
+            top: 110%;
             left: -158%;
         }
     }
@@ -84,12 +83,12 @@
 @include media-breakpoint-up(md) {
     .user-menu {
         .menu-profile {
-            top: 140%;
+            top: 110%;
             left: -98%;
         }
 
         .menu-auth {
-            top: 140%;
+            top: 110%;
             left: -218%;
         }
     }

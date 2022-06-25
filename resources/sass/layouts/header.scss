@@ -5,4 +5,22 @@ header {
     background-color: $primary;
     border-radius: 0.25rem;
     align-items: center;
+    .btn-primary {
+        color: #f4df7d;
+    }
+    .btn-primary:focus {
+        color: #f4df7d;
+    }
+
+    .btn-header-collapse[aria-expanded="true"] .fa-caret-down {
+        display: none;
+    }
+    .btn-header-collapse[aria-expanded="false"] .fa-caret-up {
+        display: none;
+    }
+
+    .header-collapse {
+        width: auto;
+        justify-content: center;
+    }
 }
