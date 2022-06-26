@@ -1,81 +1,84 @@
-.content-gallery {
-    section {
-        margin-top: 0.5em;
-    }
-    .main-gallery {
-        margin-top: 1em;
-        display: flex;
-        flex-direction: column;
-        .pagination {
-            justify-content: center;
+.gallery {
+    margin-top: 0.5rem;
+    .content-gallery {
+        section {
+            margin-top: 0.5rem;
         }
-        .main-gallery-items {
+        .main-gallery {
             margin-top: 1em;
             display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            align-items: baseline;
-            .gallery-card-deleted {
-                border-radius: 0.25em;
-                background-color: $secondary;
-                color: $primary;
-                margin-bottom: 1em;
-                max-width: 300px;
-                .card-img-overlay {
-                    opacity: 0.5 !important;
-                    background-color: $error !important;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-around;
-                    align-items: center;
-                    &:hover {
-                        opacity: 0.9 !important;
-                        cursor: pointer !important;
-                    }
-                    .card-text {
-                        color: $primary;
-                        text-align: center;
-                    }
-                    .icon {
-                        color: $primary;
-                    }
-                    .card-text-deleted {
-                        display: none;
-                    }
-                    .icon-deleted {
-                        display: none;
+            flex-direction: column;
+            .pagination {
+                justify-content: center;
+            }
+            .main-gallery-items {
+                margin-top: 1em;
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                align-items: baseline;
+                .gallery-card-deleted {
+                    border-radius: 0.25rem;
+                    background-color: $secondary;
+                    color: $primary;
+                    margin-bottom: 1em;
+                    max-width: 300px;
+                    .card-img-overlay {
+                        opacity: 0.5 !important;
+                        background-color: $error !important;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-around;
+                        align-items: center;
+                        &:hover {
+                            opacity: 0.9 !important;
+                            cursor: pointer !important;
+                        }
+                        .card-text {
+                            color: $primary;
+                            text-align: center;
+                        }
+                        .icon {
+                            color: $primary;
+                        }
+                        .card-text-deleted {
+                            display: none;
+                        }
+                        .icon-deleted {
+                            display: none;
+                        }
                     }
                 }
-            }
-            .gallery-card {
-                border-radius: 0.25em;
-                background-color: $secondary;
-                color: $primary;
-                margin-bottom: 1em;
-                max-width: 300px;
-                .card-img-overlay {
-                    opacity: 0;
+                .gallery-card {
+                    border-radius: 0.25rem;
                     background-color: $secondary;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-around;
-                    align-items: center;
-                    .card-text {
-                        color: $primary;
-                        text-align: center;
-                    }
-                    .icon {
-                        color: $primary;
-                    }
-                    .card-text-deleted {
-                        display: none;
-                    }
-                    .icon-deleted {
-                        display: none;
-                    }
-                    &:hover {
-                        opacity: 0.9;
-                        cursor: pointer;
+                    color: $primary;
+                    margin-bottom: 1em;
+                    max-width: 300px;
+                    .card-img-overlay {
+                        opacity: 0;
+                        background-color: $secondary;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-around;
+                        align-items: center;
+                        .card-text {
+                            color: $primary;
+                            text-align: center;
+                        }
+                        .icon {
+                            color: $primary;
+                        }
+                        .card-text-deleted {
+                            display: none;
+                        }
+                        .icon-deleted {
+                            display: none;
+                        }
+                        &:hover {
+                            opacity: 0.9;
+                            cursor: pointer;
+                        }
                     }
                 }
             }

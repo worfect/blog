@@ -1,5 +1,23 @@
+.btn-gallery-menu-collapse {
+    .gallery-menu-down,
+    .gallery-menu-up {
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+        color: $secondary;
+        border-color: $secondary;
+        background-color: $primary;
+        &:hover {
+            background-color: $hover;
+        }
+    }
+}
+.btn-gallery-menu-collapse[aria-expanded="true"] .gallery-menu-down {
+    display: none;
+}
+.btn-gallery-menu-collapse[aria-expanded="false"] .gallery-menu-up {
+    display: none;
+}
 .menu-gallery {
-    margin-top: 0.5em;
     display: flex;
     justify-content: space-around;
     align-items: stretch;
@@ -20,28 +38,29 @@
     }
 
     .search-section {
+        margin-top: 0.5rem;
         display: flex;
         align-items: center;
         .search-query {
             color: $primary;
             background-color: $secondary;
             border: 1px solid $primary;
-            border-radius: 0.25em;
+            border-radius: 0.25rem;
         }
     }
     .filter {
-        border-radius: 0.25em;
+        margin-top: 0.5rem;
+        border-radius: 0.25rem;
         background-color: $primary;
         color: $secondary;
-        .form-inline {
-            margin: 0.5em;
+        .filter-form {
+            margin: 0.5rem;
             justify-content: space-between;
             align-items: center;
-            .selector-group {
-                select {
-                    margin-right: 1em;
-                    background-color: $secondary;
-                }
+            .form-select {
+                margin-left: 0.5rem;
+                color: $primary;
+                background-color: $secondary;
             }
             .btn {
                 @extend %template-btn;
@@ -49,10 +68,10 @@
         }
     }
     .gallery-user-menu {
-        margin-left: 0.5em;
-        padding: 0.5em;
-        width: 100%;
-        border-radius: 0.25em;
+        margin-top: 0.5rem;
+        margin-left: 0.5rem;
+        padding: 0.5rem;
+        border-radius: 0.25rem;
         background-color: $primary;
         color: $secondary;
         display: flex;

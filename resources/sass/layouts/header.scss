@@ -11,14 +11,15 @@ header {
     .btn-primary:focus {
         color: #f4df7d;
     }
-
+    .btn-header-collapse {
+        @extend %template-btn;
+    }
     .btn-header-collapse[aria-expanded="true"] .fa-caret-down {
         display: none;
     }
     .btn-header-collapse[aria-expanded="false"] .fa-caret-up {
         display: none;
     }
-
     .header-collapse {
         width: auto;
         justify-content: center;
