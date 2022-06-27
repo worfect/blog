@@ -3,15 +3,13 @@
 
 // FontAwesome
 @import "../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/solid";
 
 // Variable
 @import "variables";
 
 // Bootstrap
 @import "../../node_modules/bootstrap/scss/bootstrap";
-
-// Jquery-ui
-@import "~jquery-ui/themes/base/all.css";
 
 @import "auth";
 @import "pagination";

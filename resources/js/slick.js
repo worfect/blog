@@ -1,4 +1,7 @@
-import $ from "jquery";
+import $ from 'jquery';
+window.$ = window.jQuery = $;
+import 'slick-carousel'
+
 //home main
 $(document).ready(function () {
     $(".banner-home").slick({
@@ -19,6 +22,8 @@ $(document).ready(function () {
         asNavFor: ".nav-news",
     });
     $(".nav-news").slick({
+        nextArrow: '<button class="slick-next slick-arrow" aria-label="Next" type="button" style=""></button>',
+        prevArrow: '<button class="slick-prev slick-arrow" aria-label="Prev" type="button" style=""></button>',
         autoplay: true,
         autoplaySpeed: 4000,
         speed: 500,
@@ -33,18 +38,24 @@ $(document).ready(function () {
 //search page
 $(document).ready(function () {
     $(".search-gallery-result").slick({
+        nextArrow: '<button class="slick-next slick-arrow" aria-label="Next" type="button" style=""></button>',
+        prevArrow: '<button class="slick-prev slick-arrow" aria-label="Prev" type="button" style=""></button>',
         arrows: true,
         infinite: false,
         slidesToShow: 3,
         slidesToScroll: 3,
     });
     $(".search-blog-result").slick({
+        nextArrow: '<button class="slick-next slick-arrow" aria-label="Next" type="button" style=""></button>',
+        prevArrow: '<button class="slick-prev slick-arrow" aria-label="Prev" type="button" style=""></button>',
         arrows: true,
         infinite: false,
         slidesToShow: 3,
         slidesToScroll: 3,
     });
     $(".search-news-result").slick({
+        nextArrow: '<button class="slick-next slick-arrow" aria-label="Next" type="button" style=""></button>',
+        prevArrow: '<button class="slick-prev slick-arrow" aria-label="Prev" type="button" style=""></button>',
         arrows: true,
         infinite: false,
         slidesToShow: 3,

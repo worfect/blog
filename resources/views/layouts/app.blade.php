@@ -11,7 +11,6 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}" rel="stylesheet">
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -34,8 +33,6 @@
 
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}" defer></script>
-<script src="{{ asset('plugins/slickslider/slick.min.js') }}" defer></script>
-<script src="{{ asset('plugins/summernote/summernote.min.js') }}" defer></script>
 
 </body>
 </html>
