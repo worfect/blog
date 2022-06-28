@@ -1,13 +1,11 @@
 @extends('layouts.app')
 
-
 @section('header')
     @parent
 @endsection
 
 @section('content')
     @parent
-
     <div class="auth-group">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -43,7 +41,6 @@
         </div>
     </div>
 @endsection
-
 
 @section('footer')
     @parent

@@ -7,7 +7,7 @@
 
 @section('content')
     @parent
-    <div class="shell">
+    <div class="auth-shell">
         <form id="reset-form" class="px-4 py-3" method="POST" action="{{ route('password.reset') }}">
             @csrf
             <div class="form-group">

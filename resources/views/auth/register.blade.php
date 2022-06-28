@@ -7,7 +7,7 @@
 
 @section('content')
     @parent
-    <div class="shell">
+    <div class="auth-shell">
         <div class="register">
             @include('layouts.register')
             <div class="dropdown-divider"></div>

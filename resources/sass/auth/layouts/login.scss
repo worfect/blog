@@ -1,0 +1,14 @@
+.login {
+    background-color: $primary;
+    color: $secondary;
+    border-radius: 0.5em;
+    .form-control {
+        background-color: $secondary;
+    }
+    .btn {
+        @extend %template-btn;
+        display: block;
+        margin-left: auto;
+        margin-right: 0;
+    }
+}

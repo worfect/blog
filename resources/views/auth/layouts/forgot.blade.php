@@ -1,4 +1,3 @@
-
 <form id="forgot-password-form" class="px-4 py-3" method="POST" action="{{ route('password.forgot.form') }}">
     @csrf
     <div class="form-group">

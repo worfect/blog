@@ -1,13 +1,12 @@
 @extends('layouts.app')
 
-
 @section('header')
     @parent
 @endsection
 
 @section('content')
     @parent
-    <div class="shell">
+    <div class="auth-shell">
         <form id="change-password-form" class="px-4 py-3 col-6" method="POST" action="{{ route('password.change') }}">
             @csrf
 
@@ -37,7 +36,6 @@
         </form>
     <div>
 @endsection
-
 
 @section('footer')
     @parent

@@ -21,20 +21,19 @@
         </button>
         <div class="dropdown-menu menu-auth" id="user-menu-dropdown">
             <div id="forms">
-                <div  id='signin'>
-                    @include('layouts.login')
+                <div class="login" id='signin'>
+                    @include('auth.layouts.login')
                 </div>
 
-                <div  id='signup'>
-                    @include('layouts.register')
+                <div class="register" id='signup'>
+                    @include('auth.layouts.register')
                 </div>
 
-                <div id="request-pass">
-                    @include('layouts.forgot')
+                <div class="forgot" id="request-pass">
+                    @include('auth.layouts.forgot')
                 </div>
 
             </div>
-
             <div id="switch-menu-auth">
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" id="tosignin">Have an account? Sign in</a>
@@ -42,7 +41,7 @@
                 <a class="dropdown-item" id="toreqpass">Forgot password?</a>
                 <div class="dropdown-divider"></div>
             </div>
-            @include('layouts.social')
+            @include('auth.layouts.social')
         </div>
     @endif
 </div>

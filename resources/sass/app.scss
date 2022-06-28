@@ -20,17 +20,20 @@
 @import "layouts/header";
 @import "layouts/logo";
 @import "layouts/search";
-@import "menus/user-menu";
-@import "menus/navigation-menu";
 @import "layouts/notification";
 @import "layouts/footer";
 
-@import "auth/social";
-@import "auth/register";
-@import "auth/login";
-@import "auth/reset";
+@import "menus/user-menu";
+@import "menus/navigation-menu";
+
+@import "auth/auth";
 @import "auth/change";
 @import "auth/confirm";
+@import "auth/layouts/register";
+@import "auth/layouts/login";
+@import "auth/layouts/reset";
+@import "auth/layouts/social";
+@import "auth/layouts/forgot";
 
 @import "home/home";
 @import "home/banner";

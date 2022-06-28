@@ -1,29 +1,35 @@
 .search-menu {
-    border-radius: 0.25em;
-    background-color: $primary;
-    color: $secondary;
+    margin: 0.5rem;
+    display: flex;
+    justify-content: space-around;
+
     .search-form {
-        margin: 0.5em;
-        justify-content: space-between;
+        width: auto;
+        border-radius: 0.25rem;
+        background-color: $primary;
+        justify-content: center;
         align-items: center;
-        .filter-group {
-            .custom-select {
-                margin-right: 1em;
+        .filter-group,
+        .search-group {
+            margin: 0.5rem;
+            .form-select {
+                margin: 0.5rem;
                 background-color: $secondary;
             }
-        }
-        .search-select-section {
-            margin-right: 1em;
-            background-color: $secondary;
-        }
-        .ui-widget {
+            .form-select:disabled {
+                opacity: 0.5;
+            }
+            .search-select-section {
+                background-color: $secondary;
+            }
             .search-input {
-                margin-right: 1em;
+                width: auto;
+                margin: 0.5rem;
                 background-color: $secondary;
             }
-        }
-        button {
-            @extend %template-btn;
+            button {
+                @extend %template-btn;
+            }
         }
     }
 }

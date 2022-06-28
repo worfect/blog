@@ -62,6 +62,9 @@
                 color: $primary;
                 background-color: $secondary;
             }
+            .form-select:disabled {
+                opacity: 0.5;
+            }
             .btn {
                 @extend %template-btn;
             }

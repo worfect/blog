@@ -7,15 +7,13 @@
 
 @section('content')
     @parent
-    <div class="shell">
-        <div class="register">
-            @include('layouts.forgot')
+    <div class="auth-shell">
+        <div class="forgot">
+            @include('auth.layouts.forgot')
             <div class="dropdown-divider"></div>
-            @include('layouts.social')
+            @include('auth.layouts.social')
         </div>
     </div>
-
-
 @endsection
 
 

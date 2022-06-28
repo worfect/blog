@@ -7,9 +7,7 @@
 
 @section('content')
     <div class="content-search">
-        <div class="header">
-            @include('search.menu')
-        </div>
+        @include('search.menu')
 
         <section>
             <div class="search-result-page col-24">

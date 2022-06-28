@@ -7,6 +7,9 @@
     }
     .btn {
         @extend %template-btn;
+        display: block;
+        margin-left: auto;
+        margin-right: 0;
     }
 }
 #confirm-password-form {
@@ -18,6 +21,9 @@
     }
     .btn {
         @extend %template-btn;
+        display: block;
+        margin-left: auto;
+        margin-right: 0;
     }
 }
 .confirm-modal {

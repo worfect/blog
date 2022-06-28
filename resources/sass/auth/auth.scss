@@ -1,0 +1,11 @@
+.auth-shell {
+    height: 800px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    div {
+        .dropdown-divider {
+            border-top: 1px solid $secondary;
+        }
+    }
+}
