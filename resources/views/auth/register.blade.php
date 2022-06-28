@@ -9,9 +9,9 @@
     @parent
     <div class="auth-shell">
         <div class="register">
-            @include('layouts.register')
+            @include('auth.layouts.register')
             <div class="dropdown-divider"></div>
-            @include('layouts.social')
+            @include('auth.layouts.social')
         </div>
     </div>
 @endsection

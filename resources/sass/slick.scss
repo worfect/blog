@@ -27,7 +27,8 @@
     border-radius: 0 0.25rem;
     right: 0;
 }
-.slick-prev::before, .slick-next::before {
+.slick-prev::before,
+.slick-next::before {
     font: var(--fa-font-solid);
     color: $secondary;
     font-size: 50px;
